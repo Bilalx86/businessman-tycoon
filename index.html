@@ -275,6 +275,7 @@ const WEAR=[
    WO('topper','Silk top hat','Aurelio',35000,'#15191d','top'),WO('laurel','Gold laurel wreath','Aurelio',400000,'#e9b92f','laurel'),WO('crown','Gold crown','Aurelio',5000000,'#e9b92f','crown'),WO('pcrown','Platinum crown','Aurelio',12000000,'#e5e4e2','crown'),WO('jcrown','Jewelled crown','Aurelio',30000000,'#e9b92f','crown',{gem:1})].map(w=>({...w,slot:'head'}))];
 const ITEMS={};WEAR.forEach(w=>ITEMS[w.id]=w);Object.entries(LIFE).forEach(([k,a])=>a.forEach(([name,price,col],i)=>ITEMS[k+i]={id:k+i,name,price,col,cat:k}));
 const SKIN=['#f6d3b3','#e8b88f','#c68a5e','#8d5a3b','#5a3825'],HAIRC=['#1d1712','#5a3a22','#b07a3c','#d9c27a','#8a8f96'],HAIRS=['Short','Buzz','Curly','Long','Bald'];
+const offRate=()=>S.offlinePro?1:0.4;const offTxt=()=>S.offlinePro?'':' at the 40% offline rate';
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
 const PTYPES=['Studio','Granny flat','Unit','Townhouse','Terrace','Cottage','Family home','Duplex','Penthouse','Villa','Boutique hotel','Office tower','Shopping centre','Skyscraper','Harbour estate'];
 const SUBS=['Mount Druitt','Blacktown','Penrith','Campbelltown','Liverpool','Fairfield','Bankstown','Auburn','Granville','Parramatta','Merrylands','Lakemba','Hurstville','Rockdale','Kogarah','Strathfield','Burwood','Ashfield','Marrickville','Newtown','Redfern','Erskineville','Glebe','Leichhardt','Ryde','Epping','Castle Hill','Kellyville','Annandale','Balmain','Rozelle','Lane Cove','Chatswood','Randwick','Coogee','Dee Why','Cronulla','Manly','Paddington','Bondi Beach','Surry Hills','Potts Point','Darlinghurst','The Rocks','Pyrmont','North Sydney','Parramatta CBD','Darling Harbour','Bondi Junction','Macquarie Park','Rhodes','Miranda','Sydney CBD','Barangaroo','Circular Quay','Martin Place','Mosman','Vaucluse','Point Piper','Palm Beach'];
@@ -564,6 +565,7 @@ function vShop(){
   return `<div class="card"><div class="row"><div class="grow"><h3>Autoclicker</h3><p class="sub">${a?`${AUTO[a-1][0]} taps ${autoTps()} times a second — ${pm(autoRate())} at your current tap value`:'Hire a clicker to tap the coin for you, even while you’re away.'}</p></div></div>
   <div class="list" style="margin-top:6px">${AUTO.map(([n,t,c],k)=>`<div class="li"><div class="rt ${k<a?'r4':'r1'}">${t}</div><div class="grow"><b>${n}</b><small class="money">${t} tap${t>1?'s':''}/sec · ${fmt(c)}</small></div>${k<a?(k===a-1?'<span class="tag">Active</span>':'<span class="sub">Replaced</span>'):k===a?`<button class="btn" data-act="buyAuto" ${S.cash<c?'disabled':''}>Buy</button>`:'<span class="sub">Locked</span>'}</div>`).join('')}</div></div>
   <div class="card row"><div class="mono" style="background:var(--gold);color:#5a3b00">AD</div><div class="grow"><h3>Ad boost</h3><p class="sub" id="boostTxt">${boostText()}</p></div><button class="btn" data-act="watchAd">Watch ad</button></div>
+  <div class="card row"><div class="mono" style="background:var(--brand);color:var(--brandInk)">100%</div><div class="grow"><h3>Full offline earnings</h3><p class="sub">${S.offlinePro?'Owned: you earn 100% of your income while away (up to 12 hours).':'Earn 100% of your income while away instead of 40%. $49.99, free while you test the game.'}</p></div>${S.offlinePro?'<span class="tag">Owned</span>':'<button class="btn" data-act="offPro">$49.99</button>'}</div>
   <div class="card"><h3>Money packs</h3><p class="sub">Free while you test the game. Real in-app purchases would replace these in an App Store version.</p>
   <div class="pack">${PACKS.map(([n,v],i)=>`<div class="pk"><small class="sub">${n}</small><b>${fmt(v)}</b><button class="btn" data-act="pack" data-i="${i}">Claim</button></div>`).join('')}</div></div>
   <div class="card row"><div class="grow"><h3>Testing tools</h3><p class="sub">Wipe all progress and start again from $0.</p></div><button class="btn warn" data-act="askReset">Reset progress</button></div>`;
@@ -903,6 +905,7 @@ const A={
     if(f>0){const amt=S.cash*f;if(amt<0.01)return toast('Not enough cash');S.cash-=amt;C.own[i]+=amt/p;C.cost[i]+=amt;toast('Bought '+fmtU(amt/p)+' '+COINS[i].t)}
     else{const k=-f,u=f===-1?C.own[i]:C.own[i]*k,v=u*p;C.own[i]-=u;C.cost[i]-=C.cost[i]*(f===-1?1:k);if(f===-1){C.own[i]=0;C.cost[i]=0}S.cash+=v;toast('Sold for '+fmt(v))}render()},
   buyAuto:()=>{const a=S.auto;if(a<AUTO.length&&spend(AUTO[a][2])){S.auto++;toast(AUTO[a][0]+' hired');render()}},
+  offPro:()=>{if(S.offlinePro)return;S.offlinePro=true;toast('Full offline earnings unlocked');render()},
   pack:d=>{const[n,v]=PACKS[+d.i];S.cash+=v;toast(n+': +'+fmt(v));render()},
   askReset:()=>{ui.sheet={t:'reset'};renderSheet()},
   reset:()=>{S=fresh();ui.sheet=null;ui.view='home';ui.open=-1;ui.copen=-1;save();render();toast('Fresh start')},
@@ -935,15 +938,16 @@ document.addEventListener('click',e=>{if(eatClick){eatClick=false;return}const b
 
 /* ---------- loop ---------- */
 {const now=Date.now();
- if(S.nextPay<now){const n=Math.min(Math.floor((now-S.nextPay)/1000)+1,43200),g=income()/60*n;earn(g);S.nextPay=now+1000;if(g>0&&n>2)setTimeout(()=>toast('While you were away you earned '+fmt(g)),400)}
+ let offG=0;if(S.nextPay<now){const n=Math.min(Math.floor((now-S.nextPay)/1000)+1,43200),g=income()/60*n*offRate();earn(g);offG+=n>2?g:0;S.nextPay=now+1000}
  if(S.nextStock<now)S.nextStock=now+10000;if(S.nextCrypto<now)S.nextCrypto=now+5000;
- if(S.nextAuto<now){const s=Math.min(Math.floor((now-S.nextAuto)/1000),43200),bs=Math.max(0,Math.min(s,((S.boostUntil||0)-S.nextAuto)/1000)),g=((S.auto?AUTO[S.auto-1][1]:0)*s+BOOST_TPS*bs)*TAPV[S.tapLvl];earn(g);S.nextAuto=now+1000}
+ if(S.nextAuto<now){const s=Math.min(Math.floor((now-S.nextAuto)/1000),43200),bs=Math.max(0,Math.min(s,((S.boostUntil||0)-S.nextAuto)/1000)),g=((S.auto?AUTO[S.auto-1][1]:0)*s+BOOST_TPS*bs)*TAPV[S.tapLvl]*offRate();earn(g);offG+=s>2?g:0;S.nextAuto=now+1000}
+ if(offG>0)setTimeout(()=>toast('While you were away you earned '+fmt(offG)+offTxt()),400);
  processTour(now);}
 render();
 /* earnings accrue continuously: every 5 ms of game time pays income/12000, drawn every screen frame */
 let lastAcc=Date.now();
 function accrue(){const now=Date.now(),dt=Math.min(now-lastAcc,5000);if(dt>=5){const steps=Math.floor(dt/5);earn(income()/12000*steps);lastAcc+=steps*5;$('#cash').textContent=cashText()}mapTick(now);requestAnimationFrame(accrue)}
-document.addEventListener('visibilitychange',()=>{if(!document.hidden){const now=Date.now(),gap=now-lastAcc;if(gap>5000){earn(income()/60000*Math.min(gap,43200000));}lastAcc=now}});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden){const now=Date.now(),gap=now-lastAcc;if(gap>5000){const ms=Math.min(gap,43200000),g=(income()/60000*ms+(S.auto?AUTO[S.auto-1][1]:0)*TAPV[S.tapLvl]*ms/1000)*offRate();earn(g);S.nextAuto=now+1000;if(g>0)toast('While you were away you earned '+fmt(g)+offTxt())}lastAcc=now}});
 requestAnimationFrame(accrue);
 let tapSaves=0;
 const loop=setInterval(()=>{
@@ -961,7 +965,7 @@ const loop=setInterval(()=>{
 </script>
 <script>
 /* auto-update: when a newer version is on GitHub, reload into it (progress is kept) */
-(function(){const BUILD='1795661161';
+(function(){const BUILD='1795662151';
  async function check(){try{const t=await fetch(location.pathname+'?check='+Date.now(),{cache:'no-store'}).then(r=>r.text());const m=t.match(/const BUILD='(\d+)'/);if(m&&m[1]!==BUILD)location.replace(location.pathname+'?v='+m[1])}catch(e){}}
  addEventListener('load',()=>setTimeout(check,1500));document.addEventListener('visibilitychange',()=>{if(!document.hidden)check()});setInterval(check,300000);
 })();
