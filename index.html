@@ -959,5 +959,11 @@ const loop=setInterval(()=>{
 },250);
 }
 </script>
-</body>
+<script>
+/* auto-update: when a newer version is on GitHub, reload into it (progress is kept) */
+(function(){const BUILD='1795661161';
+ async function check(){try{const t=await fetch(location.pathname+'?check='+Date.now(),{cache:'no-store'}).then(r=>r.text());const m=t.match(/const BUILD='(\d+)'/);if(m&&m[1]!==BUILD)location.replace(location.pathname+'?v='+m[1])}catch(e){}}
+ addEventListener('load',()=>setTimeout(check,1500));document.addEventListener('visibilitychange',()=>{if(!document.hidden)check()});setInterval(check,300000);
+})();
+</script></body>
 </html>
