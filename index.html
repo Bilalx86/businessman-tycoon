@@ -117,7 +117,7 @@ td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}tr.me td{font-weigh
 .sheet{position:fixed;inset:0;z-index:10;display:grid;align-items:end}.sheet[hidden]{display:none}
 .sheet-bg{position:absolute;inset:0;background:#0007}
 .sheet-card{position:relative;background:var(--card);border-radius:22px 22px 0 0;max-height:85vh;overflow:auto;padding:18px 16px 28px;width:100%;max-width:620px;margin:0 auto;animation:sl .22s}
-@keyframes sl{from{transform:translateY(40px);opacity:0}}
+@keyframes sl{from{transform:translateY(40px)}}
 #toast{position:fixed;left:50%;bottom:84px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;font-weight:500;font-size:14px;z-index:20;max-width:90vw;opacity:0;transition:opacity .25s;pointer-events:none}
 #toast.show{opacity:1}
 .foot{text-align:center;padding:6px 0 10px}
@@ -199,10 +199,27 @@ tr.me td{color:var(--brand)}
 .shine{animation:sh 3s ease-in-out infinite alternate}@keyframes sh{from{transform:translateX(-50px)}to{transform:translateX(50px)}}
 .ctile .shine{animation:none}
 .pack3{width:58px;height:80px;flex:none;border-radius:8px;background:linear-gradient(150deg,var(--pc),#111 120%);display:grid;place-items:center;align-content:center;gap:2px;color:#fff;box-shadow:inset 0 0 0 2px #fff3}.pack3 span{font-size:7.5px;letter-spacing:.06em;opacity:.8}.pack3 b{font-size:12px}
-.packgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.packgrid div{text-align:center;animation:pop .45s both}.packgrid svg{width:100%;height:auto;border-radius:6px}.packgrid small{font-size:11px;color:var(--mute)}
-@keyframes pop{from{transform:scale(.7) rotateY(80deg)}to{transform:none}}
+.packgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.packgrid div{text-align:center;animation:pop .45s both}.packgrid svg{width:100%;height:auto;border-radius:6px}.packgrid small{display:block;font-size:11px;color:var(--mute);line-height:1.3}
+@keyframes pop{from{transform:scale(.82)}to{transform:none}}
 .chips.scroll{flex-wrap:nowrap;padding-bottom:2px}.chips.scroll button{flex:none;white-space:nowrap}
 @media(prefers-reduced-motion:reduce){.bigcard svg,.shine,.packgrid div{animation:none}}
+.setban{display:flex;gap:12px;align-items:center;background:linear-gradient(120deg,var(--c1),#0b0e11 85%);color:#fff}.setban small{opacity:.75;font-size:12px}.setban .sub{color:#fffc}
+.sealed{text-align:center;background:#0006;border-radius:10px;padding:8px 12px}.sealed b{display:block;font-size:24px;line-height:1}.sealed small{font-size:11px;opacity:.8}
+.ripbar{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.prod{display:flex;gap:14px;align-items:center}.prodart{width:100px;display:grid;place-items:center;flex:none}
+.ripwrap{display:grid;justify-items:center}.ripwrap>*{width:100%}
+.packbtn{border:0;background:none;padding:0;position:relative;display:grid;place-items:center;width:auto!important;margin:auto;filter:drop-shadow(0 14px 24px #0009);animation:wob 2.4s ease-in-out infinite}
+.packbtn.torn svg{animation:tear .45s forwards}@keyframes tear{to{transform:translateY(-40px) rotate(-8deg) scale(1.05);opacity:0}}
+@keyframes wob{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(2deg)}}
+.revcard{border:0;background:none;padding:0;width:auto!important;margin:auto;display:grid;place-items:center;animation:flip .45s both}.revcard svg{border-radius:12px;box-shadow:0 10px 26px #0009}
+.revcard.hit svg{box-shadow:0 0 0 3px var(--g),0 0 40px var(--g)}
+@keyframes flip{from{transform:rotateY(60deg) scale(.9)}to{transform:none}}
+.binder{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;margin-top:10px}
+.slotb{aspect-ratio:5/7;border-radius:6px;border:1px dashed var(--line);background:transparent;display:grid;align-content:center;justify-items:center;gap:2px;padding:2px;color:var(--mute)}
+.slotb span{font-size:12px;font-weight:700}.slotb small{font-size:9px;line-height:1.1;text-align:center;overflow:hidden;max-width:100%}
+.slotb.have{border:0;background:linear-gradient(160deg,var(--b),var(--a));color:#111;box-shadow:inset 0 0 0 1px #fff5}.slotb.xa{border-color:#f0b90b88}.slotb.have.xa{box-shadow:inset 0 0 0 2px #f0b90b}
+.trow{border:0;background:none;width:100%;text-align:left;border-radius:8px;padding:10px 6px}.trow.on{background:var(--soft)}
+@media(prefers-reduced-motion:reduce){.packbtn,.revcard,.packbtn.torn svg{animation:none}}
 </style>
 </head>
 <body>
@@ -933,93 +950,304 @@ function buildFigure(){
     if(k==='crown'){add(new T.CylinderGeometry(.112,.108,.05,24,1,true),M(hw.col,{m:.9,r:.22,ds:1}),[0,.13,0],[-.06,0,0],[1,1,1.05],hd);for(let j=0;j<8;j++){const a=Math.PI*2*j/8;add(new T.ConeGeometry(.018,.06,8),cm,[Math.sin(a)*.11,.185,Math.cos(a)*.115],[0,0,0],[1,1,1],hd);add(sph(.009,10,8),M(hw.gem?['#c0263b','#2f63c8','#1f9a5a','#ffffff'][j%4]:'#c0263b',{r:.1,m:.2,e:'#220000',ei:.1}),[Math.sin(a)*.113,.125,Math.cos(a)*.118],[0,0,0],[1,1,1],hd)}}}
 }
 
-/* ---------- Craydons trading cards ---------- */
-const ELS={Ember:['#ff6b35','#ffd23f','#ffb27a','#7a1f0f'],Tide:['#2f80ed','#7ad0ff','#a9dcff','#0b2f66'],Bloom:['#3fae5a','#b6e388','#d6f5b0','#123d1d'],Volt:['#f5c518','#fff3a0','#fff0a8','#5a4300'],Stone:['#8d6e53','#c9b28a','#e1d2b4','#3a2a1c'],Frost:['#6cc7ea','#e8f8ff','#dff4ff','#1a4d66'],Shade:['#6b4fa0','#c7a8ff','#8f78b8','#1a1030'],Gale:['#5fbfae','#e4fbf7','#c8f2ea','#164a42']};
+/* ================= Craydons TCG: art ================= */
+const ELS={Ember:['#ff6b35','#ffd23f','#ffc59a','#6e1a0c'],Tide:['#2f80ed','#7ad0ff','#bfe6ff','#0b2a5c'],Bloom:['#3fae5a','#c8ef7a','#d8f6c0','#0f3a1b'],Volt:['#f2b705','#fff27a','#fff3b8','#5a3f00'],Stone:['#9a7656','#d9c09a','#eadcc3','#3a2818'],Frost:['#59bde6','#e8fbff','#d9f3ff','#123e57'],Shade:['#6b4fa0','#d9a8ff','#a891d0','#170c2c'],Gale:['#3fbfa6','#e9fff9','#c6f3ea','#0f4238']};
 const CRAY={Ember:['Cindlet','Pyropup','Blazwing','Magmaw','Flarion'],Tide:['Puddlo','Ripplefin','Spraybill','Torrentusk','Abyssurge'],Bloom:['Sproutle','Thornip','Petalwing','Mossmaw','Verdragon'],Volt:['Zapkit','Joltpaw','Sparkbeak','Ohmhorn','Thundrake'],Stone:['Pebblet','Bouldog','Cragwing','Quarrox','Granitan'],Frost:['Flurrup','Icicub','Glaciowl','Frostusk','Blizzarde'],Shade:['Gloomit','Duskpaw','Murkmoth','Phantusk','Noctalon'],Gale:['Breezlet','Gustpup','Zephwing','Cyclonox','Skyraith']};
-const CRAYS=[];Object.entries(CRAY).forEach(([el,ns],e)=>ns.forEach((n,f)=>CRAYS.push({n,el,f,k:e*5+f})));
-const RAR={C:{n:'Common',c:'#9aa3ad',sup:null,vol:.03},U:{n:'Uncommon',c:'#3fae5a',sup:null,vol:.035},R:{n:'Rare',c:'#2f80ed',sup:500,vol:.04},H:{n:'Holo rare',c:'#a970ff',sup:100,vol:.045},X:{n:'Ultra full art',c:'#ff4fa3',sup:20,vol:.05},S:{n:'Secret gold',c:'#f0b90b',sup:5,vol:.05},F:{n:'Founder Edition 1/1',c:'#f0b90b',sup:1,vol:.03}};
-const CARDS=(()=>{const a=[],els=Object.keys(CRAY),cr=(el,f)=>CRAYS.find(c=>c.el===el&&c.f===f),rnd=(i,lo,hi)=>nice(lo*Math.pow(hi/lo,((i*37)%101)/100));
-  els.forEach((el,e)=>[0,1,2].forEach(f=>a.push({c:cr(el,f),r:'C',base:rnd(a.length,1,5)})));
-  els.forEach((el,e)=>[3,4].forEach(f=>a.push({c:cr(el,f),r:'U',base:rnd(a.length,8,25)})));
-  els.forEach((el,e)=>[2,3,4].forEach(f=>a.push({c:cr(el,f),r:'R',base:rnd(a.length,50,400)})));
-  els.forEach((el,e)=>[3,4].forEach(f=>a.push({c:cr(el,f),r:'H',base:rnd(a.length,1000,8000)})));
-  els.forEach(el=>a.push({c:cr(el,4),r:'X',base:rnd(a.length,40000,150000)}));['Ember','Tide','Shade','Gale'].forEach(el=>a.push({c:cr(el,3),r:'X',base:rnd(a.length,20000,60000)}));
-  els.filter(el=>el!=='Volt').forEach(el=>a.push({c:cr(el,4),r:'S',base:rnd(a.length,400000,2000000)}));
-  a.push({c:cr('Volt',4),r:'F',base:10000000});
-  return a.map((x,i)=>({...x,i,pwr:30+x.c.f*25+'CURHXSF'.indexOf(x.r)*15+((i*7)%10)}))})();
-const freshCards=()=>({own:CARDS.map(()=>0),p:CARDS.map(c=>c.base),h:CARDS.map(c=>[c.base]),left:CARDS.map(c=>RAR[c.r].sup)});
-function tickCards(){if(!S.cards)return;S.cards.p=S.cards.p.map((p,i)=>{const b=CARDS[i].base,v=RAR[CARDS[i].r].vol;let n=p*(1+(Math.random()-.5)*2*v+.05*Math.log(b/p));return Math.max(b*.3,Math.min(b*4,n))});S.cards.h.forEach((h,i)=>{h.push(S.cards.p[i]);if(h.length>30)h.shift()})}
-const cardsValue=()=>S.cards?S.cards.own.reduce((a,o,i)=>a+o*S.cards.p[i],0):0;
-/* original creature art: element palette + body form + element features */
-function craySvg(c){
-  const [a,b,l,d]=ELS[c.el],k=c.k,f=c.f,sd=(n)=>((k*9301+n*49297)%233280)/233280;
-  const eye=(x,y,r=5,glow)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="#fff"/><circle cx="${x+r*.2}" cy="${y+r*.1}" r="${r*.62}" fill="${glow||'#1b1b1b'}"/><circle cx="${x-r*.15}" cy="${y-r*.3}" r="${r*.25}" fill="#fff"/>`;
-  const glow=c.el==='Shade'?'#c7a8ff':null;let s='';
-  const top=[[50,33],[70,26],[50,30],[50,27],[71,17]][f],tail=[[30,62],[22,44],[34,62],[24,50],[16,60]][f];
-  const deco=(x,y,sc=1)=>({Ember:`<path d="M${x} ${y-14*sc}C${x+8*sc} ${y-6*sc} ${x+6*sc} ${y+2*sc} ${x} ${y+3*sc}C${x-6*sc} ${y+2*sc} ${x-8*sc} ${y-6*sc} ${x} ${y-14*sc}Z" fill="${b}"/><path d="M${x} ${y-7*sc}C${x+4*sc} ${y-2*sc} ${x+3*sc} ${y+2*sc} ${x} ${y+2*sc}C${x-3*sc} ${y+2*sc} ${x-4*sc} ${y-2*sc} ${x} ${y-7*sc}Z" fill="#fff6"/>`,
-    Tide:`<path d="M${x-6*sc} ${y+2*sc}Q${x} ${y-14*sc} ${x+9*sc} ${y-10*sc}Q${x+4*sc} ${y-2*sc} ${x+6*sc} ${y+2*sc}Z" fill="${b}"/>`,
-    Bloom:`<ellipse cx="${x-4*sc}" cy="${y-6*sc}" rx="${4*sc}" ry="${9*sc}" fill="${b}" transform="rotate(-30 ${x-4*sc} ${y-6*sc})"/><ellipse cx="${x+4*sc}" cy="${y-6*sc}" rx="${4*sc}" ry="${9*sc}" fill="${l}" transform="rotate(30 ${x+4*sc} ${y-6*sc})"/><circle cx="${x}" cy="${y}" r="${2.5*sc}" fill="#ff7aa8"/>`,
-    Volt:`<path d="M${x-2*sc} ${y-16*sc}L${x+6*sc} ${y-6*sc}L${x+1*sc} ${y-5*sc}L${x+5*sc} ${y+3*sc}L${x-6*sc} ${y-8*sc}L${x-1*sc} ${y-9*sc}Z" fill="${b}" stroke="${d}" stroke-width=".8"/>`,
-    Stone:`<path d="M${x-8*sc} ${y+2*sc}L${x-5*sc} ${y-8*sc}L${x+1*sc} ${y-11*sc}L${x+8*sc} ${y-4*sc}L${x+6*sc} ${y+2*sc}Z" fill="${l}" stroke="${d}" stroke-width=".8"/>`,
-    Frost:`<path d="M${x} ${y-15*sc}L${x+3*sc} ${y}L${x-3*sc} ${y}Z M${x-7*sc} ${y-9*sc}L${x+1*sc} ${y}L${x-3*sc} ${y+1*sc}Z M${x+7*sc} ${y-9*sc}L${x+3*sc} ${y+1*sc}L${x-1*sc} ${y}Z" fill="${b}" stroke="#fff" stroke-width=".6"/>`,
-    Shade:`<path d="M${x} ${y}C${x-10*sc} ${y-6*sc} ${x+2*sc} ${y-14*sc} ${x+8*sc} ${y-12*sc}C${x} ${y-10*sc} ${x+4*sc} ${y-4*sc} ${x} ${y}Z" fill="${b}" opacity=".85"/>`,
-    Gale:`<path d="M${x-8*sc} ${y}Q${x-6*sc} ${y-12*sc} ${x+4*sc} ${y-12*sc}Q${x+10*sc} ${y-10*sc} ${x+6*sc} ${y-5*sc}Q${x+2*sc} ${y-2*sc} ${x-1*sc} ${y-6*sc}" fill="none" stroke="${b}" stroke-width="${2.6*sc}" stroke-linecap="round"/>`})[c.el];
-  const pat=(cx,cy,rx,ry)=>k%3===0?[0,1,2].map(j=>`<circle cx="${cx-rx*.4+j*rx*.4}" cy="${cy-ry*.3+(j%2)*ry*.35}" r="${Math.max(1.5,rx*.12)}" fill="${d}" opacity=".35"/>`).join(''):k%3===1?[0,1].map(j=>`<path d="M${cx-rx*.6} ${cy-ry*.2+j*ry*.35}Q${cx} ${cy-ry*.45+j*ry*.35} ${cx+rx*.6} ${cy-ry*.2+j*ry*.35}" stroke="${d}" stroke-width="1.6" fill="none" opacity=".35"/>`).join(''):'';
-  const shadow=`<ellipse cx="50" cy="74" rx="${[18,26,16,28,30][f]}" ry="3.5" fill="#0004"/>`;
-  if(f===0){s=shadow+`<ellipse cx="42" cy="70" rx="6" ry="3.5" fill="${d}"/><ellipse cx="58" cy="70" rx="6" ry="3.5" fill="${d}"/><ellipse cx="50" cy="53" rx="20" ry="18" fill="${a}"/><ellipse cx="50" cy="59" rx="12" ry="9" fill="${l}"/>`+pat(50,50,20,18)+deco(top[0],top[1],.9)+eye(43,48,5.5,glow)+eye(57,48,5.5,glow)+`<path d="M47 57Q50 60 53 57" stroke="${d}" stroke-width="1.5" fill="none" stroke-linecap="round"/><ellipse cx="38" cy="55" rx="3" ry="1.8" fill="#ff8a8a" opacity=".5"/><ellipse cx="62" cy="55" rx="3" ry="1.8" fill="#ff8a8a" opacity=".5"/>`}
-  if(f===1){s=shadow+`<path d="M28 50Q14 46 ${tail[0]} ${tail[1]}" stroke="${a}" stroke-width="5" fill="none" stroke-linecap="round"/>`+deco(tail[0],tail[1]+2,.7)+[[32,0],[42,1],[56,0],[64,1]].map(([x,j])=>`<rect x="${x}" y="56" width="7" height="15" rx="3.5" fill="${j?a:tint(a,.85)}"/>`).join('')+`<ellipse cx="48" cy="54" rx="24" ry="13" fill="${a}"/><ellipse cx="48" cy="59" rx="15" ry="6" fill="${l}"/>`+pat(46,52,22,12)+`<path d="M62 32L66 16L72 30Z M74 30L80 15L82 32Z" fill="${tint(a,.85)}"/><circle cx="71" cy="40" r="13" fill="${a}"/><ellipse cx="76" cy="46" rx="7" ry="5" fill="${l}"/>`+deco(top[0],top[1]-4,.65)+eye(67,38,4,glow)+eye(77,38,4,glow)+`<circle cx="80" cy="45" r="1.6" fill="${d}"/>`}
-  if(f===2){s=shadow+`<path d="M36 48Q10 30 8 52Q22 50 36 60Z" fill="${tint(a,.85)}"/><path d="M64 48Q90 30 92 52Q78 50 64 60Z" fill="${tint(a,.85)}"/><path d="M14 46L28 50M12 52L28 55" stroke="${l}" stroke-width="1.4"/><path d="M86 46L72 50M88 52L72 55" stroke="${l}" stroke-width="1.4"/><ellipse cx="50" cy="52" rx="16" ry="19" fill="${a}"/><ellipse cx="50" cy="58" rx="10" ry="11" fill="${l}"/>`+pat(50,48,15,17)+deco(top[0],top[1],.8)+eye(44,44,4.5,glow)+eye(56,44,4.5,glow)+`<path d="M46 50L54 50L50 57Z" fill="${b}" stroke="${d}" stroke-width=".8"/><path d="M44 70V74M56 70V74" stroke="${d}" stroke-width="2.5" stroke-linecap="round"/>`}
-  if(f===3){s=shadow+`<ellipse cx="25" cy="54" rx="8" ry="13" fill="${tint(a,.85)}" transform="rotate(20 25 54)"/><ellipse cx="75" cy="54" rx="8" ry="13" fill="${tint(a,.85)}" transform="rotate(-20 75 54)"/><rect x="36" y="62" width="11" height="12" rx="4" fill="${d}"/><rect x="53" y="62" width="11" height="12" rx="4" fill="${d}"/><ellipse cx="50" cy="50" rx="25" ry="22" fill="${a}"/><ellipse cx="50" cy="57" rx="16" ry="12" fill="${l}"/>`+pat(50,46,24,20)+`<path d="M33 32L28 16L40 28Z M67 32L72 16L60 28Z" fill="${b}" stroke="${d}" stroke-width=".8"/>`+deco(top[0],top[1]+2,1.1)+eye(42,41,4.6,glow)+eye(58,41,4.6,glow)+`<path d="M36 35L46 38M64 35L54 38" stroke="${d}" stroke-width="2" stroke-linecap="round"/><path d="M42 52Q50 58 58 52" stroke="${d}" stroke-width="2" fill="none"/><path d="M45 53L46 57L48 54M55 53L54 57L52 54" fill="#fff"/>`}
-  if(f===4){s=shadow+`<path d="M40 44Q20 10 4 26Q18 30 22 46Z" fill="${tint(a,.8)}"/><path d="M54 42Q66 6 88 14Q76 24 66 44Z" fill="${tint(a,.75)}"/><path d="M10 24L24 40M80 14L66 38" stroke="${l}" stroke-width="1.4"/><path d="M30 60Q8 70 ${tail[0]} ${tail[1]}" stroke="${a}" stroke-width="7" fill="none" stroke-linecap="round"/>`+deco(tail[0]-2,tail[1]+1,.8)+`<rect x="34" y="60" width="9" height="13" rx="4" fill="${d}"/><rect x="50" y="60" width="9" height="13" rx="4" fill="${d}"/><ellipse cx="46" cy="55" rx="20" ry="14" fill="${a}"/><ellipse cx="46" cy="59" rx="13" ry="7" fill="${l}"/>`+pat(46,52,18,12)+`<path d="M56 50Q62 36 68 30" stroke="${a}" stroke-width="11" fill="none" stroke-linecap="round"/><ellipse cx="71" cy="26" rx="12" ry="9" fill="${a}"/><ellipse cx="79" cy="30" rx="6" ry="4" fill="${l}"/><path d="M64 20L60 8L68 18Z M72 18L74 6L78 18Z" fill="${b}" stroke="${d}" stroke-width=".8"/>`+deco(top[0]-6,top[1]-1,.55)+eye(73,24,3.8,glow)+`<circle cx="83" cy="29" r="1.3" fill="${d}"/>`}
-  return s;
+const MOVES={Ember:[['Ember Snap','Warm Up'],['Cinder Rush','Heat Haze'],['Flare Wing','Ash Gale'],['Magma Crash','Lava Slam'],['Inferno Crown','Solar Wrath']],Tide:[['Bubble Pop','Splash'],['Ripple Dash','Undertow'],['Spray Dive','Rain Dance'],['Torrent Tusk','Tidal Wall'],['Abyss Surge','Deep Maw']],Bloom:[['Seed Toss','Sunbathe'],['Thorn Lash','Vine Snare'],['Petal Storm','Pollen Drift'],['Moss Smash','Root Quake'],['Verdant Roar','Life Bloom']],Volt:[['Static Nip','Charge Up'],['Jolt Pounce','Arc Leap'],['Spark Dive','Shock Gust'],['Ohm Charge','Grid Breaker'],['Thunder Crown','Storm Rend']],Stone:[['Pebble Toss','Harden'],['Boulder Roll','Rockslide'],['Crag Dive','Grit Storm'],['Quarry Smash','Fault Line'],['Granite Fall','Titan Wall']],Frost:[['Snow Puff','Chill'],['Ice Fang','Frostbite'],['Glacier Glide','Hail Wing'],['Frost Tusk','Permafrost'],['Blizzard Crown','Whiteout']],Shade:[['Gloom Peek','Fade'],['Dusk Swipe','Shadow Step'],['Murk Flutter','Hex Dust'],['Phantom Tusk','Nightmare'],['Night Talon','Eclipse']],Gale:[['Breeze','Tailwind'],['Gust Bite','Updraft'],['Zephyr Dive','Air Slash'],['Cyclone Fist','Twister'],['Sky Rend','Tempest']]};
+const FLAV={Ember:['It naps in warm chimney ash and wakes with a sparkling sneeze.','Its tail flame flickers brighter whenever it hears its name.','It rides warm updrafts above volcanoes, singing in crackles.','It chews cooled lava like gum and spits out glowing pebbles.','Legends say its first roar lit the very first campfire.'],Tide:['It blows bubbles to say hello. Bigger bubbles mean bigger smiles.','It races river currents for fun and has never once lost.','Fishermen follow its spray to find the calmest waters.','One stomp of its tusks can turn back a storm tide.','It sleeps beneath the deepest trench, dreaming of the moon.'],Bloom:['It sunbathes all morning and blooms a new bud by noon.','The thorns on its back are soft until it feels afraid.','Its wingbeats scatter petals that sprout wherever they land.','Moss grows thicker on it each year. Old ones become hills.','Forests are said to grow in the footsteps it leaves behind.'],Volt:['It stores static by rolling in wool, then naps in a fizz.','It pounces so fast that only a crackle shows where it was.','It perches on power lines and hums along to the current.','Its horn can light a whole town for a week.','When it spreads its wings the sky answers with thunder.'],Stone:['It hides by curling up and pretending to be a pebble.','Loyal and stubborn, it will guard a door for years.','It nests in cliff faces and polishes its wings with sand.','It carves tunnels with its fists and hums while it digs.','Mountain ranges are the sleeping coils of its ancestors.'],Frost:['Each sneeze makes a tiny, perfect snowflake.','Its fangs are made of ice that never melts, even in summer.','It glides silently over glaciers on moonlit nights.','Its breath freezes waterfalls mid-fall into glass stairs.','When it sings, winter arrives early and stays a little longer.'],Shade:['It peeks from under beds, but only to make sure you sleep well.','It walks without a sound and leaves no footprints.','The dust from its wings shows people their happiest dreams.','It can step into any shadow and out of another miles away.','An eclipse is said to be the shape of its wings passing by.'],Gale:['It floats on the gentlest breeze, giggling as it tumbles.','Its zoomies leave little whirlwinds of leaves behind it.','It can hover in a hurricane without ruffling a feather.','Its spinning fists whip up twisters strong enough to move clouds.','It circles the world on the jet stream and never lands.']};
+const WEAK={Ember:'Tide',Tide:'Volt',Bloom:'Ember',Volt:'Stone',Stone:'Bloom',Frost:'Ember',Shade:'Gale',Gale:'Frost'};
+let TCID=0;
+const elIcon=(el,x,y,r)=>{const [a,b,,d]=ELS[el],s=r/10;const g={Ember:`<path d="M0 -6C3 -3 4 0 3 3C2 6 -2 6 -3 3C-4 0 -2 -2 0 -6Z" fill="#fff"/>`,Tide:`<path d="M0 -6C3 -2 4 1 4 2.5A4 4 0 0 1 -4 2.5C-4 1 -3 -2 0 -6Z" fill="#fff"/>`,Bloom:`<path d="M-4 4C-4 -2 0 -5 5 -5C5 1 1 4 -4 4Z" fill="#fff"/><path d="M-4 4L2 -2" stroke="${a}" stroke-width="1"/>`,Volt:`<path d="M1 -6L-3 1H0L-1 6L3 -1H0Z" fill="#fff"/>`,Stone:`<path d="M0 -5L4.5 -2.5V2.5L0 5L-4.5 2.5V-2.5Z" fill="#fff"/>`,Frost:`<path d="M0 -5.5V5.5M-4.8 -2.7L4.8 2.7M-4.8 2.7L4.8 -2.7" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>`,Shade:`<path d="M2 -5A5.5 5.5 0 1 0 2 5A4 4 0 1 1 2 -5Z" fill="#fff"/>`,Gale:`<path d="M-4 -1C-4 -5 3 -5 3 -1C3 2 -1 2 -1 0M-5 3H3" stroke="#fff" stroke-width="1.6" fill="none" stroke-linecap="round"/>`}[el];
+  return `<g transform="translate(${x} ${y})"><circle r="${r}" fill="${a}" stroke="${d}" stroke-width="${1*s}"/><circle r="${r*.8}" fill="none" stroke="#fff6" stroke-width="${.8*s}"/><g transform="scale(${s})">${g}</g></g>`};
+/* ---------- creature illustration (drawn in a 120 x 100 box, ground at y 92) ---------- */
+function craySvg2(c,v,id){
+  const [a,b,l,d]=ELS[c.el],o=tint(a,.42),f=c.f,el=c.el,sw=1.8;
+  const B=`url(#${id}B)`,L=`url(#${id}L)`,A=`url(#${id}A)`,glowEye=el==='Shade';
+  const defs=`<radialGradient id="${id}B" cx=".38" cy=".3" r=".85"><stop offset="0" stop-color="${tint(a,1.35)}"/><stop offset=".55" stop-color="${a}"/><stop offset="1" stop-color="${tint(a,.62)}"/></radialGradient>
+  <radialGradient id="${id}L" cx=".4" cy=".3" r=".9"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="${l}"/></radialGradient>
+  <linearGradient id="${id}A" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="${a}"/><stop offset=".55" stop-color="${b}"/><stop offset="1" stop-color="#fff"/></linearGradient>
+  <radialGradient id="${id}I" cx=".4" cy=".35" r=".7"><stop offset="0" stop-color="${glowEye?'#fff':tint(d,2.2)}"/><stop offset=".6" stop-color="${glowEye?b:tint(d,1.4)}"/><stop offset="1" stop-color="${glowEye?a:d}"/></radialGradient>`;
+  const P=(dd,fill=B,extra='')=>`<path d="${dd}" fill="${fill}" stroke="${o}" stroke-width="${sw}" stroke-linejoin="round" ${extra}/>`;
+  const E=(cx,cy,rx,ry,fill=B,extra='')=>`<ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}" fill="${fill}" stroke="${o}" stroke-width="${sw}" ${extra}/>`;
+  const mood=v%3; /* 0 happy, 1 fierce, 2 cheeky */
+  const eye=(x,y,r,look=0)=>`<ellipse cx="${x}" cy="${y}" rx="${r}" ry="${r*1.12}" fill="#fff" stroke="${o}" stroke-width="1.3"/><ellipse cx="${x+look+r*.12}" cy="${y+r*.12}" rx="${r*.68}" ry="${r*.78}" fill="url(#${id}I)"/><ellipse cx="${x+look+r*.18}" cy="${y+r*.2}" rx="${r*.32}" ry="${r*.4}" fill="#0b0b0b"/><circle cx="${x+look-r*.18}" cy="${y-r*.28}" r="${r*.3}" fill="#fff"/><circle cx="${x+look+r*.35}" cy="${y+r*.42}" r="${r*.13}" fill="#fff"/>${mood===1?`<path d="M${x-r*1.1} ${y-r*1.25}L${x+r*1.05} ${y-r*.75}" stroke="${o}" stroke-width="${r*.45}" stroke-linecap="round"/>`:''}${mood===2&&r>3?`<path d="M${x-r*1.05} ${y-r*.25}Q${x} ${y-r*1.3} ${x+r*1.05} ${y-r*.25}" fill="${a}" opacity=".0"/>`:''}`;
+  const mouth=(x,y,w)=>mood===1?`<path d="M${x-w} ${y}Q${x} ${y+w*.55} ${x+w} ${y}" fill="#5a1b1b" stroke="${o}" stroke-width="1.3"/><path d="M${x-w*.6} ${y+.6}L${x-w*.45} ${y+w*.35}L${x-w*.25} ${y+.9}M${x+w*.6} ${y+.6}L${x+w*.45} ${y+w*.35}L${x+w*.25} ${y+.9}" fill="#fff" stroke="none"/>`:mood===2?`<path d="M${x-w} ${y}Q${x} ${y+w*.5} ${x+w} ${y-w*.3}" fill="none" stroke="${o}" stroke-width="1.5" stroke-linecap="round"/><path d="M${x+w*.2} ${y+w*.18}Q${x+w*.45} ${y+w*.7} ${x+w*.65} ${y+w*.08}" fill="#ff7d8a" stroke="${o}" stroke-width="1"/>`:`<path d="M${x-w} ${y}Q${x} ${y+w*.75} ${x+w} ${y}Z" fill="#7a2730" stroke="${o}" stroke-width="1.3" stroke-linejoin="round"/><path d="M${x-w*.45} ${y+w*.32}Q${x} ${y+w*.6} ${x+w*.45} ${y+w*.32}" fill="#ff8a96"/>`;
+  const blush=(x,y,r)=>`<ellipse cx="${x}" cy="${y}" rx="${r}" ry="${r*.55}" fill="#ff6f7d" opacity=".38"/>`;
+  const rim=(dd)=>`<path d="${dd}" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" opacity=".55"/>`;
+  /* element ornaments */
+  const orn=(x,y,s,rot=0)=>`<g transform="translate(${x} ${y}) rotate(${rot}) scale(${s})">${({
+    Ember:`<path d="M0 -22C9 -12 12 -4 9 4C6 11 -6 11 -9 4C-12 -4 -6 -10 -3 -16C-2 -10 0 -8 2 -8C2 -13 0 -17 0 -22Z" fill="${A}" stroke="${o}" stroke-width="1.4" stroke-linejoin="round"/><path d="M0 -6C4 -1 4 4 0 6C-4 4 -4 -1 0 -6Z" fill="#fff" opacity=".8"/>`,
+    Tide:`<path d="M-10 6C-10 -6 -2 -16 12 -18C6 -12 6 -4 10 2C4 0 0 4 -10 6Z" fill="${L}" stroke="${o}" stroke-width="1.4" stroke-linejoin="round"/><path d="M-4 0C-2 -6 2 -10 7 -12" stroke="#fff" stroke-width="1.4" fill="none" opacity=".8"/>`,
+    Bloom:`<path d="M0 4C-12 -2 -14 -14 -6 -22C2 -16 4 -6 0 4Z" fill="url(#${id}L)" stroke="${o}" stroke-width="1.3"/><path d="M0 4C12 -2 14 -14 6 -22C-2 -16 -4 -6 0 4Z" fill="${B}" stroke="${o}" stroke-width="1.3"/><circle cx="0" cy="-6" r="4.5" fill="#ff8fb8" stroke="${o}" stroke-width="1.2"/><circle cx="0" cy="-6" r="1.8" fill="#ffe27a"/>`,
+    Volt:`<path d="M2 -24L-9 -4H-1L-6 12L10 -10H1Z" fill="${A}" stroke="${o}" stroke-width="1.4" stroke-linejoin="round"/>`,
+    Stone:`<path d="M-11 6L-9 -8L-2 -15L8 -11L11 2L4 8Z" fill="url(#${id}L)" stroke="${o}" stroke-width="1.4" stroke-linejoin="round"/><path d="M-2 -15L0 -2L11 2M0 -2L-9 -8" stroke="${o}" stroke-width="1" fill="none" opacity=".6"/>`,
+    Frost:`<path d="M0 -24L4 0L-4 0Z" fill="url(#${id}L)" stroke="${o}" stroke-width="1.2"/><path d="M-10 -15L2 0L-3 2Z" fill="url(#${id}L)" stroke="${o}" stroke-width="1.2"/><path d="M10 -15L-2 0L3 2Z" fill="url(#${id}L)" stroke="${o}" stroke-width="1.2"/><path d="M0 -20V-4" stroke="#fff" stroke-width="1.2"/>`,
+    Shade:`<path d="M0 6C-12 -2 -6 -16 4 -20C-1 -14 2 -8 8 -8C6 -2 4 2 0 6Z" fill="${B}" stroke="${o}" stroke-width="1.3" opacity=".95"/><circle cx="6" cy="-16" r="2.2" fill="${b}"/>`,
+    Gale:`<path d="M-12 4C-14 -8 -2 -18 10 -14C4 -12 2 -8 4 -4C-2 -6 -6 -2 -12 4Z" fill="url(#${id}L)" stroke="${o}" stroke-width="1.3"/><path d="M-8 -2C-6 -8 0 -12 6 -12" stroke="${a}" stroke-width="1.3" fill="none"/>`})[el]}</g>`;
+  let s='';
+  const sh=(rx)=>`<ellipse cx="60" cy="93" rx="${rx}" ry="4.5" fill="#000" opacity=".28"/>`;
+  if(f===0){/* hatchling: round, chubby */
+    s=sh(26)+E(48,88,8,4.5,B)+E(72,88,8,4.5,B)+orn(60,32,.95)+P('M60 34C84 34 92 52 90 66C88 82 76 90 60 90C44 90 32 82 30 66C28 52 36 34 60 34Z')
+      +E(60,72,17,13,L,'stroke-width="0"')+E(36,70,6,9,B,'transform="rotate(25 36 70)"')+E(84,70,6,9,B,'transform="rotate(-25 84 70)"')
+      +rim('M42 44C48 39 56 37 62 37')+eye(50,58,6.5,.5)+eye(70,58,6.5,.5)+blush(43,68,4.5)+blush(77,68,4.5)+mouth(60,67,4.2)}
+  if(f===1){/* scout: fox-like quadruped */
+    s=sh(38)+`<path d="M32 66C18 62 10 50 14 38C22 46 28 50 36 54" fill="${B}" stroke="${o}" stroke-width="${sw}" stroke-linejoin="round"/>`+orn(14,40,.6,-30)
+      +P('M38 76L36 90H44L46 76Z')+P('M64 76L64 90H72L72 76Z')+P('M28 62C28 50 40 46 58 47C74 48 80 54 80 64C80 74 70 79 54 79C38 79 28 74 28 62Z')
+      +E(54,70,14,6,L,'stroke-width="0"')+P('M46 79L45 90H53L54 79Z',`${tint(a,.85)}`)+P('M70 78L72 90H80L78 74Z',`${tint(a,.85)}`)
+      +P('M74 34L70 14L84 28Z')+P('M88 30L94 12L98 32Z')+`<path d="M76 30L73 20L80 27Z M90 28L93 18L95 29Z" fill="#ff9aa8"/>`
+      +P('M70 46C68 34 76 26 88 27C98 28 104 36 103 46C102 54 96 58 88 58C78 58 71 54 70 46Z')+E(96,50,9,6.5,L,'stroke-width="1.2"')+`<ellipse cx="103" cy="48" rx="2.4" ry="1.8" fill="${o}"/>`
+      +rim('M76 32C80 29 86 28 92 29')+eye(83,42,5,.6)+eye(95,41,4.2,.6)+blush(80,51,3.5)+mouth(96,55,3)}
+  if(f===2){/* flyer: winged bird-bat */
+    s=sh(24)+P('M44 54C28 34 10 30 4 44C12 44 14 50 10 56C18 54 22 58 20 64C30 60 38 62 44 66Z',`${tint(a,.88)}`)
+      +P('M76 54C92 34 110 30 116 44C108 44 106 50 110 56C102 54 98 58 100 64C90 60 82 62 76 66Z',`${tint(a,.88)}`)
+      +`<path d="M14 46C24 46 32 52 40 58M108 46C96 46 88 52 80 58M22 58C30 58 36 62 42 64M98 58C90 58 84 62 78 64" stroke="${l}" stroke-width="1.4" fill="none" opacity=".8"/>`
+      +P('M54 84L50 92H56ZM66 84L70 92H64Z')+P('M60 34C78 34 84 50 82 64C80 80 72 88 60 88C48 88 40 80 38 64C36 50 42 34 60 34Z')+E(60,70,12,13,L,'stroke-width="0"')
+      +orn(60,34,.75)+rim('M46 44C50 39 56 37 62 37')+eye(52,54,5.5,0)+eye(68,54,5.5,0)+P('M55 61H65L60 70Z',`${b}`)+blush(46,62,3.5)+blush(74,62,3.5)}
+  if(f===3){/* brute: bulky biped */
+    s=sh(36)+P('M42 78L38 92H54L54 78Z',`${tint(a,.8)}`)+P('M78 78L82 92H66L66 78Z',`${tint(a,.8)}`)
+      +P('M26 52C18 54 14 66 18 76C22 82 30 82 32 76C30 70 32 62 36 58Z',`${tint(a,.9)}`)+P('M94 52C102 54 106 66 102 76C98 82 90 82 88 76C90 70 88 62 84 58Z',`${tint(a,.9)}`)
+      +P('M60 30C86 30 96 46 94 64C92 80 80 86 60 86C40 86 28 80 26 64C24 46 34 30 60 30Z')+E(60,68,20,14,L,'stroke-width="0"')
+      +`<path d="M46 62H74M44 70H76" stroke="${tint(l,.8)}" stroke-width="1.6"/>`+P('M38 36L28 14L46 30Z',`url(#${id}L)`)+P('M82 36L92 14L74 30Z',`url(#${id}L)`)
+      +orn(60,28,.8)+rim('M38 40C44 34 52 32 60 32')+eye(50,48,5.2,0)+eye(70,48,5.2,0)+mouth(60,58,6)+blush(42,56,3.6)+blush(78,56,3.6)}
+  if(f===4){/* legend: dragon */
+    s=sh(42)+P('M48 52C30 20 8 14 2 24C10 26 12 32 8 38C16 36 20 40 18 48C26 44 32 48 34 56Z',`${tint(a,.82)}`)
+      +P('M70 46C80 14 100 6 112 12C104 16 104 22 108 28C100 26 96 30 98 38C90 34 84 38 82 46Z',`${tint(a,.75)}`)
+      +`<path d="M8 26C18 30 26 40 30 50M108 14C98 20 90 30 86 42" stroke="${l}" stroke-width="1.4" fill="none" opacity=".8"/>`
+      +`<path d="M36 76C20 82 8 78 6 66" stroke="${o}" stroke-width="10.5" fill="none" stroke-linecap="round"/><path d="M36 76C20 82 8 78 6 66" stroke="${a}" stroke-width="7.5" fill="none" stroke-linecap="round"/>`+orn(6,62,.55,-20)
+      +P('M44 78L42 92H52L54 80Z',`${tint(a,.8)}`)+P('M64 80L66 92H76L72 78Z',`${tint(a,.8)}`)
+      +P('M30 66C30 54 42 48 56 48C70 48 80 56 80 66C80 78 70 84 55 84C40 84 30 78 30 66Z')+E(55,70,14,9,L,'stroke-width="0"')+`<path d="M44 66H66M44 72H66" stroke="${tint(l,.8)}" stroke-width="1.4"/>`
+      +`<path d="M66 54C72 42 76 34 84 28" stroke="${o}" stroke-width="15.5" fill="none" stroke-linecap="round"/><path d="M66 54C72 42 76 34 84 28" stroke="${a}" stroke-width="12.5" fill="none" stroke-linecap="round"/>`
+      +P('M80 26L76 10L86 22Z',`url(#${id}L)`)+P('M90 22L94 6L98 22Z',`url(#${id}L)`)
+      +P('M78 30C76 22 82 16 92 16C102 16 110 22 110 30C110 38 102 42 92 42C84 42 79 38 78 30Z')+E(104,33,7,5,L,'stroke-width="1.2"')+`<circle cx="108" cy="31" r="1.5" fill="${o}"/>`
+      +orn(88,14,.5,10)+rim('M82 22C86 18 92 17 98 18')+eye(92,27,4.6,1)+mouth(101,38,3)}
+  return {defs,body:s};
 }
-function cardSvg(i,w=126){
-  const cd=CARDS[i],c=cd.c,R=RAR[cd.r],[a,b,l,d]=ELS[c.el],id='cg'+i+'_'+Math.floor(Math.random()*1e6),full=cd.r==='X'||cd.r==='S'||cd.r==='F';
-  const frame=cd.r==='F'?'#111':cd.r==='S'?'url(#'+id+'g)':R.c,inner=cd.r==='F'?'#0b0b0b':'#1c1f26';
-  const stars='★'.repeat('CURHXSF'.indexOf(cd.r)+1);
-  return `<svg viewBox="0 0 126 176" width="${w}" height="${w*176/126}" role="img" aria-label="${c.n} ${R.n} card"><defs><linearGradient id="${id}b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${l}"/><stop offset="1" stop-color="${a}"/></linearGradient><linearGradient id="${id}g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff3b8"/><stop offset=".5" stop-color="#f0b90b"/><stop offset="1" stop-color="#a87412"/></linearGradient><linearGradient id="${id}h" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff7ad9" stop-opacity=".0"/><stop offset=".3" stop-color="#7ad0ff" stop-opacity=".45"/><stop offset=".5" stop-color="#b6ff7a" stop-opacity=".35"/><stop offset=".7" stop-color="#ffd23f" stop-opacity=".45"/><stop offset="1" stop-color="#ff7ad9" stop-opacity="0"/></linearGradient><clipPath id="${id}c"><rect x="${full?6:11}" y="${full?6:24}" width="${full?114:104}" height="${full?164:80}" rx="${full?6:3}"/></clipPath></defs>
-  <rect width="126" height="176" rx="9" fill="${frame}"/>${cd.r==='F'?`<rect x="2" y="2" width="122" height="172" rx="8" fill="none" stroke="url(#${id}g)" stroke-width="2"/>`:''}<rect x="6" y="6" width="114" height="164" rx="6" fill="${inner}"/>
-  <g clip-path="url(#${id}c)"><rect x="0" y="0" width="126" height="176" fill="url(#${id}b)"/>${cd.r==='S'||cd.r==='F'?`<rect width="126" height="176" fill="url(#${id}g)" opacity=".35"/>`:''}<circle cx="${30+sdOf(i)*60}" cy="40" r="40" fill="#fff" opacity=".12"/>
-  <g transform="${full?'translate(3 40) scale(1.2)':'translate(13 24)'}">${craySvg(c)}</g>${'HXSF'.includes(cd.r)?`<rect class="shine" width="126" height="176" fill="url(#${id}h)"/>`:''}</g>
-  <rect x="${full?10:11}" y="${full?10:9}" width="${full?106:104}" height="13" rx="3" fill="${full?'#000a':'transparent'}"/>
-  <text x="14" y="19" font-size="9.5" font-weight="700" fill="#fff" font-family="IBM Plex Sans,sans-serif">${c.n}</text><text x="112" y="19" font-size="7.5" font-weight="600" text-anchor="end" fill="${b}" font-family="IBM Plex Sans,sans-serif">PWR ${cd.pwr}</text>
-  ${full?'':`<rect x="11" y="108" width="104" height="40" rx="3" fill="#0003"/><text x="15" y="120" font-size="7" fill="#c9ced6" font-family="IBM Plex Sans,sans-serif">${c.el} Craydon · Form ${c.f+1}</text><text x="15" y="131" font-size="6.5" fill="#8a92a0" font-family="IBM Plex Sans,sans-serif">${['Hatchling','Scout','Flyer','Brute','Legend'][c.f]} of the ${c.el} clan</text><text x="15" y="142" font-size="7" fill="${R.c}" font-family="IBM Plex Sans,sans-serif">${stars}</text>`}
-  ${cd.r==='F'?`<rect x="10" y="134" width="106" height="20" rx="3" fill="#000c"/><text x="63" y="147" font-size="8.5" font-weight="700" text-anchor="middle" fill="url(#${id}g)" font-family="IBM Plex Sans,sans-serif">FOUNDER EDITION · 1/1</text>`:full?`<rect x="10" y="146" width="106" height="12" rx="3" fill="#000a"/><text x="14" y="155" font-size="7" fill="${R.c}" font-family="IBM Plex Sans,sans-serif">${stars} ${R.n}</text>`:''}
-  <text x="14" y="${full?166:162}" font-size="6.5" fill="${full?'#fffc':'#8a92a0'}" font-family="IBM Plex Sans,sans-serif">${R.n}</text><text x="112" y="${full?166:162}" font-size="6.5" text-anchor="end" fill="${full?'#fffc':'#8a92a0'}" font-family="IBM Plex Sans,sans-serif">#${String(i+1).padStart(3,'0')}/100</text></svg>`;
+/* ---------- set scenes ---------- */
+const SETS=[{id:0,name:'Origins',code:'ORG',m:1,c:['#3fae5a','#f0b90b'],theme:'meadow'},{id:1,name:'Tidal Depths',code:'TDL',m:1.5,c:['#2f80ed','#7ad0ff'],theme:'deep'},{id:2,name:'Ember Peaks',code:'EMP',m:2.2,c:['#ff6b35','#ffd23f'],theme:'volcano'},{id:3,name:'Storm Front',code:'STF',m:3.3,c:['#6b4fa0','#f2b705'],theme:'storm'},{id:4,name:'Crystal Caverns',code:'CRC',m:5,c:['#59bde6','#d9a8ff'],theme:'cave'},{id:5,name:'Midnight Bloom',code:'MNB',m:7.5,c:['#1a1030','#ff8fb8'],theme:'night'}];
+function scene(theme,el,w,h,id,v){
+  const [a,b,l,d]=ELS[el],R=(n)=>((v*7919+n*104729)%1000)/1000;let s='',defs='';
+  const grad=(gid,stops,vert=true)=>`<linearGradient id="${id}${gid}" x1="0" y1="0" x2="${vert?0:1}" y2="${vert?1:0}">${stops.map(([o,c,op])=>`<stop offset="${o}" stop-color="${c}" ${op!=null?`stop-opacity="${op}"`:''}/>`).join('')}</linearGradient>`;
+  if(theme==='meadow'){defs+=grad('s',[[0,tint(l,1.05)],[.6,'#fff6dc'],[1,'#ffe7b0']])+grad('h1',[[0,'#9fd77a'],[1,'#5aa44a']])+grad('h2',[[0,'#7cc35e'],[1,'#3a8a3c']]);
+    s+=`<rect width="${w}" height="${h}" fill="url(#${id}s)"/><circle cx="${w*.78}" cy="${h*.22}" r="${h*.16}" fill="#fff8d6"/><circle cx="${w*.78}" cy="${h*.22}" r="${h*.28}" fill="#fff8d6" opacity=".35"/>`
+    +[0,1,2].map(k=>{const x=w*(.1+R(k)*.6),y=h*(.12+R(k+5)*.18);return `<g fill="#fff" opacity=".9"><ellipse cx="${x}" cy="${y}" rx="${w*.09}" ry="${h*.045}"/><ellipse cx="${x+w*.06}" cy="${y-h*.03}" rx="${w*.06}" ry="${h*.05}"/><ellipse cx="${x-w*.05}" cy="${y+h*.01}" rx="${w*.05}" ry="${h*.035}"/></g>`}).join('')
+    +`<path d="M0 ${h*.62}C${w*.25} ${h*.5} ${w*.45} ${h*.58} ${w*.65} ${h*.52}S${w} ${h*.5} ${w} ${h*.56}V${h}H0Z" fill="url(#${id}h1)"/><path d="M0 ${h*.76}C${w*.3} ${h*.66} ${w*.6} ${h*.8} ${w} ${h*.7}V${h}H0Z" fill="url(#${id}h2)"/>`
+    +Array.from({length:14},(_,k)=>{const x=w*R(k+20),y=h*(.82+R(k+40)*.16);return `<path d="M${x} ${y}l-2 -7M${x} ${y}l2 -8M${x} ${y}l4 -6" stroke="#2f7a2f" stroke-width="1.4" stroke-linecap="round"/>`}).join('')
+    +Array.from({length:6},(_,k)=>`<circle cx="${w*R(k+60)}" cy="${h*(.8+R(k+70)*.15)}" r="2.2" fill="${['#ff8fb8','#fff','#ffd23f'][k%3]}"/>`).join('')}
+  if(theme==='deep'){defs+=grad('s',[[0,tint(l,1.1)],[.45,'#3a8fd8'],[1,'#0a2350']]);
+    s+=`<rect width="${w}" height="${h}" fill="url(#${id}s)"/>`+[0,1,2,3].map(k=>`<path d="M${w*(.1+k*.25)} 0L${w*(.2+k*.25)} 0L${w*(.05+k*.3)} ${h}L${w*(-.05+k*.3)} ${h}Z" fill="#fff" opacity=".08"/>`).join('')
+    +`<path d="M0 ${h*.82}C${w*.2} ${h*.76} ${w*.4} ${h*.86} ${w*.6} ${h*.8}S${w*.9} ${h*.78} ${w} ${h*.84}V${h}H0Z" fill="#0c2c52"/>`
+    +[0,1,2,3,4].map(k=>{const x=w*(.05+k*.22),hh=h*(.15+R(k)*.15);return `<path d="M${x} ${h}C${x-6} ${h-hh*.4} ${x+6} ${h-hh*.7} ${x} ${h-hh}" stroke="${k%2?'#2fa07a':'#e06a8a'}" stroke-width="4" fill="none" stroke-linecap="round" opacity=".85"/>`}).join('')
+    +Array.from({length:12},(_,k)=>{const r=1.5+R(k)*4;return `<circle cx="${w*R(k+11)}" cy="${h*R(k+31)*.8}" r="${r}" fill="none" stroke="#fff" stroke-width="1" opacity=".55"/><circle cx="${w*R(k+11)-r*.3}" cy="${h*R(k+31)*.8-r*.3}" r="${r*.25}" fill="#fff" opacity=".7"/>`}).join('')}
+  if(theme==='volcano'){defs+=grad('s',[[0,'#3a0d0a'],[.5,'#b8321a'],[1,'#ffb04a']]);
+    s+=`<rect width="${w}" height="${h}" fill="url(#${id}s)"/><circle cx="${w*.5}" cy="${h*.62}" r="${h*.45}" fill="#ffcf6a" opacity=".25"/>`
+    +`<path d="M0 ${h*.7}L${w*.18} ${h*.38}L${w*.28} ${h*.46}L${w*.42} ${h*.3}L${w*.5} ${h*.34}L${w*.62} ${h*.22}L${w*.8} ${h*.48}L${w} ${h*.4}V${h}H0Z" fill="#2a0c08"/><path d="M${w*.58} ${h*.26}L${w*.62} ${h*.22}L${w*.66} ${h*.27}L${w*.63} ${h*.4}Z" fill="#ff7a1a"/>`
+    +`<path d="M0 ${h*.86}C${w*.3} ${h*.8} ${w*.6} ${h*.9} ${w} ${h*.82}V${h}H0Z" fill="#1a0705"/><path d="M${w*.1} ${h*.9}C${w*.3} ${h*.86} ${w*.5} ${h*.93} ${w*.8} ${h*.88}" stroke="#ff7a1a" stroke-width="2" fill="none" opacity=".8"/>`
+    +Array.from({length:16},(_,k)=>`<circle cx="${w*R(k)}" cy="${h*R(k+50)*.85}" r="${.8+R(k+9)*1.6}" fill="${k%2?'#ffd23f':'#ff7a1a'}" opacity=".9"/>`).join('')}
+  if(theme==='storm'){defs+=grad('s',[[0,'#1c1830'],[.6,'#4a3f6e'],[1,'#6f6a8a']]);
+    s+=`<rect width="${w}" height="${h}" fill="url(#${id}s)"/>`+[0,1,2].map(k=>`<path d="M${-w*.1} ${h*(.1+k*.14)}C${w*.2} ${h*(.04+k*.14)} ${w*.4} ${h*(.16+k*.14)} ${w*.6} ${h*(.08+k*.14)}S${w} ${h*(.14+k*.14)} ${w*1.1} ${h*(.06+k*.14)}V${h*(.16+k*.14)}H${-w*.1}Z" fill="#2a2545" opacity="${.7-k*.15}"/>`).join('')
+    +`<path d="M${w*(.15+R(1)*.2)} 0L${w*.22} ${h*.25}L${w*.18} ${h*.26}L${w*.26} ${h*.5}" stroke="#fff27a" stroke-width="2.2" fill="none"/><path d="M${w*(.15+R(1)*.2)} 0L${w*.22} ${h*.25}L${w*.18} ${h*.26}L${w*.26} ${h*.5}" stroke="#fff27a" stroke-width="7" fill="none" opacity=".25"/>`
+    +Array.from({length:30},(_,k)=>{const x=w*R(k),y=h*R(k+40);return `<path d="M${x} ${y}l-3 9" stroke="#cfd8ff" stroke-width="1" opacity=".45"/>`}).join('')
+    +`<path d="M0 ${h*.84}C${w*.3} ${h*.78} ${w*.7} ${h*.9} ${w} ${h*.82}V${h}H0Z" fill="#26223a"/>`}
+  if(theme==='cave'){defs+=grad('s',[[0,'#071a24'],[.6,'#123a4a'],[1,'#0a2530']]);
+    s+=`<rect width="${w}" height="${h}" fill="url(#${id}s)"/><ellipse cx="${w*.5}" cy="${h*.55}" rx="${w*.42}" ry="${h*.42}" fill="${l}" opacity=".18"/>`
+    +`<path d="M0 0H${w}V${h*.25}C${w*.85} ${h*.15} ${w*.75} ${h*.3} ${w*.62} ${h*.18}C${w*.5} ${h*.08} ${w*.35} ${h*.25} ${w*.2} ${h*.14}C${w*.1} ${h*.08} ${w*.05} ${h*.22} 0 ${h*.2}Z" fill="#04121a"/>`
+    +[[.08,.86,1.2],[.2,.9,.8],[.82,.88,1.3],[.92,.84,.9],[.5,.95,.6]].map(([x,y,sc],k)=>{const cx=w*x,cy=h*y,c=k%2?b:'#d9a8ff';return `<path d="M${cx} ${cy}L${cx-6*sc} ${cy-10*sc}L${cx-2*sc} ${cy-26*sc}L${cx+4*sc} ${cy-12*sc}Z" fill="${c}" opacity=".9"/><path d="M${cx} ${cy}L${cx-2*sc} ${cy-26*sc}L${cx+4*sc} ${cy-12*sc}Z" fill="#fff" opacity=".35"/><circle cx="${cx}" cy="${cy-12*sc}" r="${14*sc}" fill="${c}" opacity=".15"/>`}).join('')
+    +`<path d="M0 ${h*.9}C${w*.3} ${h*.86} ${w*.7} ${h*.94} ${w} ${h*.88}V${h}H0Z" fill="#06161e"/>`}
+  if(theme==='night'){defs+=grad('s',[[0,'#0b0820'],[.6,'#2a1450'],[1,'#5a2a6e']]);
+    s+=`<rect width="${w}" height="${h}" fill="url(#${id}s)"/>`+Array.from({length:30},(_,k)=>`<circle cx="${w*R(k)}" cy="${h*R(k+30)*.6}" r="${.5+R(k+60)*1.1}" fill="#fff" opacity="${.5+R(k+90)*.5}"/>`).join('')
+    +`<circle cx="${w*.8}" cy="${h*.2}" r="${h*.1}" fill="#fff6d8"/><circle cx="${w*.83}" cy="${h*.18}" r="${h*.09}" fill="#1a0f3a"/><circle cx="${w*.8}" cy="${h*.2}" r="${h*.2}" fill="#fff6d8" opacity=".1"/>`
+    +`<path d="M0 ${h*.78}C${w*.25} ${h*.7} ${w*.55} ${h*.82} ${w} ${h*.74}V${h}H0Z" fill="#160b2e"/>`
+    +Array.from({length:7},(_,k)=>{const x=w*(.06+k*.15),y=h*(.84+R(k)*.1);return `<path d="M${x} ${h}V${y}" stroke="#3a7a5a" stroke-width="1.5"/><g transform="translate(${x} ${y})">${[0,72,144,216,288].map(r=>`<ellipse rx="2.4" ry="5" cy="-4" fill="${k%2?'#ff8fb8':'#d9a8ff'}" transform="rotate(${r})"/>`).join('')}<circle r="2" fill="#fff6d8"/><circle r="9" fill="#ff8fb8" opacity=".18"/></g>`}).join('')}
+  /* element aura behind the creature */
+  s+=`<ellipse cx="${w*.5}" cy="${h*.58}" rx="${w*.36}" ry="${h*.36}" fill="url(#${id}au)"/>`;
+  defs+=`<radialGradient id="${id}au"><stop offset="0" stop-color="${b}" stop-opacity=".55"/><stop offset="1" stop-color="${b}" stop-opacity="0"/></radialGradient>`;
+  return {defs,s};
 }
-function sdOf(i){return((i*7919)%97)/97}
-
-const ensureCards=()=>{if(!S.cards)S.cards=freshCards();return S.cards};
-const PACKS2=[{id:'basic',name:'Starter booster',price:250,col:'#2f80ed',w:{C:70,U:22,R:6.5,H:1.3,X:.2}},{id:'premium',name:'Premium booster',price:250000,col:'#a970ff',w:{U:30,R:40,H:20,X:8.5,S:1.5}},{id:'elite',name:'Elite booster',price:25000000,col:'#f0b90b',w:{R:20,H:45,X:27,S:8}}];
+/* element particles in front of the art */
+function fx(el,w,h,v,n=10){const [a,b,l]=ELS[el],R=(k)=>((v*3571+k*7919)%1000)/1000;return Array.from({length:n},(_,k)=>{const x=w*R(k),y=h*R(k+20),s=.6+R(k+40);return ({
+  Ember:`<circle cx="${x}" cy="${y}" r="${1.6*s}" fill="${b}"/><circle cx="${x}" cy="${y}" r="${4*s}" fill="${a}" opacity=".25"/>`,
+  Tide:`<circle cx="${x}" cy="${y}" r="${3*s}" fill="none" stroke="#fff" stroke-width=".9" opacity=".7"/>`,
+  Bloom:`<ellipse cx="${x}" cy="${y}" rx="${3*s}" ry="${1.6*s}" fill="${k%2?'#ff9cc2':l}" transform="rotate(${R(k+60)*180} ${x} ${y})"/>`,
+  Volt:`<path d="M${x} ${y}l${3*s} ${-5*s}l${-1*s} ${4*s}l${3*s} ${-1*s}" stroke="${b}" stroke-width="1.2" fill="none"/>`,
+  Stone:`<path d="M${x} ${y}l${2.5*s} ${-1.5*s}l${1.5*s} ${2.5*s}l${-3*s} ${1.5*s}Z" fill="${l}" opacity=".85"/>`,
+  Frost:`<path d="M${x-3*s} ${y}H${x+3*s}M${x} ${y-3*s}V${y+3*s}M${x-2*s} ${y-2*s}L${x+2*s} ${y+2*s}M${x-2*s} ${y+2*s}L${x+2*s} ${y-2*s}" stroke="#fff" stroke-width=".9" opacity=".85"/>`,
+  Shade:`<circle cx="${x}" cy="${y}" r="${2*s}" fill="${b}" opacity=".8"/><circle cx="${x}" cy="${y}" r="${5*s}" fill="${b}" opacity=".15"/>`,
+  Gale:`<path d="M${x-6*s} ${y}Q${x} ${y-3*s} ${x+6*s} ${y}" stroke="#fff" stroke-width="1" fill="none" opacity=".6"/>`})[el]}).join('')}
+/* ================= Craydons TCG: card frames ================= */
+const RAR2={C:{n:'Common',sym:'●',c:'#c9ced6',sup:null,vol:.03},U:{n:'Uncommon',sym:'◆',c:'#7ad08a',sup:null,vol:.035},R:{n:'Rare',sym:'★',c:'#7ab6ff',sup:1000,vol:.04},H:{n:'Holo rare',sym:'★',c:'#c79bff',sup:200,vol:.045},X:{n:'Ultra full art',sym:'★★',c:'#ff7ac0',sup:40,vol:.05},S:{n:'Secret gold',sym:'★★★',c:'#f0b90b',sup:10,vol:.05},I:{n:'Special illustration',sym:'✦',c:'#ffd27a',sup:3,vol:.05},K:{n:'Classic 1/1',sym:'♛',c:'#e7c36a',sup:1,vol:.02}};
+const STAGE=['Hatchling','Scout','Flyer','Brute','Legend'],SIZE=[[.3,2],[.8,14],[1.1,9],[1.9,180],[3.4,420]];
+const wrap2=(t,n=46)=>{const ws=t.split(' ');let a='',b2='';ws.forEach(x=>{if(!b2&&(a+' '+x).trim().length<=n)a=(a+' '+x).trim();else b2=(b2+' '+x).trim()});return[a,b2]};
+function tcSvg(cd,w=250){
+  const c=cd.cr,el=c.el,[a,b,l,d]=ELS[el],id='t'+(++TCID),r=cd.r,set=SETS[cd.set]||null,v=cd.v,W=250,H=350;
+  const full='XSI'.includes(r),classic=r==='K',theme=classic?['meadow','deep','volcano','storm','cave','night'][cd.k%6]:set.theme;
+  const art=craySvg2(c,v,id+'c'),flip=v%2===1;
+  const mv=MOVES[el][c.f],dmg1=10+c.f*25+(v%3)*10,dmg2=40+c.f*35+(v%2)*10,pwr=40+c.f*30+'CURHXSIK'.indexOf(r)*10+(v%4)*10;
+  const font='font-family="IBM Plex Sans,Helvetica,Arial,sans-serif"',serif='font-family="Georgia,Times New Roman,serif"';
+  const orb=(x,y,n)=>Array.from({length:n},(_,k)=>elIcon(el,x+k*13,y,5.5)).join('');
+  const T=(x,y,s,fill,txt,extra='')=>`<text x="${x}" y="${y}" font-size="${s}" fill="${fill}" ${font} ${extra}>${txt}</text>`;
+  const foil=`<linearGradient id="${id}f" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff7ad9" stop-opacity="0"/><stop offset=".25" stop-color="#7ad0ff" stop-opacity=".55"/><stop offset=".45" stop-color="#b6ff7a" stop-opacity=".45"/><stop offset=".65" stop-color="#ffd23f" stop-opacity=".55"/><stop offset=".85" stop-color="#ff7ad9" stop-opacity=".45"/><stop offset="1" stop-color="#7ad0ff" stop-opacity="0"/></linearGradient>
+  <pattern id="${id}e" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><rect width="6" height="6" fill="none"/><path d="M0 0V6" stroke="#fff" stroke-width="1" opacity=".18"/></pattern>
+  <linearGradient id="${id}g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff3c2"/><stop offset=".3" stop-color="#e9b92f"/><stop offset=".55" stop-color="#fff0a8"/><stop offset=".8" stop-color="#c8921a"/><stop offset="1" stop-color="#7a5200"/></linearGradient>
+  <linearGradient id="${id}fr" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${tint(a,1.35)}"/><stop offset=".5" stop-color="${a}"/><stop offset="1" stop-color="${tint(a,.55)}"/></linearGradient>`;
+  const cr=(sx,sy,sc,ex='')=>`<g transform="translate(${sx} ${sy}) scale(${flip?-sc:sc} ${sc}) translate(${flip?-120:0} 0)" ${ex}>${art.body}</g>`;
+  let out='';
+  if(classic){
+    const sc=scene(theme,el,214,150,id,v);
+    out=`<defs>${foil}${art.defs}${sc.defs}<radialGradient id="${id}sb" cx=".5" cy=".5" r=".7"><stop offset="0" stop-color="#fff8dc"/><stop offset="1" stop-color="#e9c46a"/></radialGradient><clipPath id="${id}w"><rect x="18" y="50" width="214" height="150" rx="3"/></clipPath></defs>
+    <rect width="250" height="350" rx="16" fill="url(#${id}g)"/><rect x="8" y="8" width="234" height="334" rx="10" fill="#151515"/><rect x="12" y="12" width="226" height="326" rx="8" fill="url(#${id}sb)"/>
+    ${Array.from({length:36},(_,k)=>`<path d="M125 175L${125+260*Math.cos(k/36*Math.PI*2)} ${175+260*Math.sin(k/36*Math.PI*2)}L${125+260*Math.cos((k+.5)/36*Math.PI*2)} ${175+260*Math.sin((k+.5)/36*Math.PI*2)}Z" fill="#c8921a" opacity=".12"/>`).join('')}
+    <text x="20" y="38" font-size="20" font-weight="700" fill="#1a1a1a" ${serif}>${c.n}</text><text x="212" y="38" font-size="12" font-weight="700" text-anchor="end" fill="#7a1f0f" ${serif}>${pwr} PWR</text>${elIcon(el,226,33,8)}
+    <rect x="16" y="48" width="218" height="154" rx="4" fill="url(#${id}g)"/><g clip-path="url(#${id}w)"><g transform="translate(18 50)">${sc.s}</g>${cr(23,52,1.7)}<rect x="18" y="50" width="214" height="150" fill="url(#${id}f)" class="shine"/></g>
+    <text x="125" y="216" font-size="9.5" text-anchor="middle" font-style="italic" fill="#3a2a10" ${serif}>${STAGE[c.f]} Craydon · Length ${SIZE[c.f][0]}m · Weight ${SIZE[c.f][1]}kg</text>
+    ${orb(26,236,1)}<text x="42" y="240" font-size="13" font-weight="700" fill="#1a1a1a" ${serif}>${mv[0]}</text><text x="226" y="240" font-size="14" font-weight="700" text-anchor="end" fill="#1a1a1a" ${serif}>${dmg1}</text>
+    <path d="M24 252H226" stroke="#8a6a20" stroke-width=".8"/>${orb(26,270,2)}<text x="56" y="274" font-size="13" font-weight="700" fill="#1a1a1a" ${serif}>${mv[1]}</text><text x="226" y="274" font-size="14" font-weight="700" text-anchor="end" fill="#1a1a1a" ${serif}>${dmg2}</text>
+    ${wrap2(FLAV[el][c.f],44).map((ln,k)=>`<text x="112" y="${292+k*10}" font-size="8.5" text-anchor="middle" font-style="italic" fill="#4a3a1a" ${serif}>${ln}</text>`).join('')}
+    <g transform="translate(206 300) rotate(-12)"><circle r="17" fill="#7a1f0f"/><circle r="14" fill="none" stroke="#e9c46a" stroke-width="1"/><text y="-2" font-size="6.5" text-anchor="middle" fill="#fff3c2" ${serif}>1st</text><text y="7" font-size="6.5" text-anchor="middle" fill="#fff3c2" ${serif}>EDITION</text></g>
+    <rect x="16" y="314" width="150" height="18" rx="3" fill="#151515"/><text x="22" y="327" font-size="9" font-weight="700" fill="#e9c46a" ${font}>♛ CLASSIC · C${String(cd.k+1).padStart(2,'0')}/30 · 1 OF 1</text>`;
+  } else if(full){
+    const sc=scene(theme,el,250,350,id,v),gold=r==='S',ill=r==='I';
+    out=`<defs>${foil}${art.defs}${sc.defs}<clipPath id="${id}w"><rect x="7" y="7" width="236" height="336" rx="11"/></clipPath><linearGradient id="${id}gl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".75"/></linearGradient></defs>
+    <rect width="250" height="350" rx="16" fill="${gold?`url(#${id}g)`:ill?'#1a1a1a':`url(#${id}fr)`}"/>
+    <g clip-path="url(#${id}w)">${sc.s}${gold?`<rect width="250" height="350" fill="url(#${id}g)" opacity=".42" style="mix-blend-mode:overlay"/>`:''}
+    ${ill?`${Array.from({length:9},(_,k)=>`<path d="M125 150L${125+400*Math.cos(-2.6+k*.15)} ${150+400*Math.sin(-2.6+k*.15)}L${125+400*Math.cos(-2.55+k*.15)} ${150+400*Math.sin(-2.55+k*.15)}Z" fill="#fff" opacity=".1"/>`).join('')}`:''}
+    ${cr(ill?-10:2,ill?58:70,ill?2.15:1.95)}${fx(el,250,350,v,ill?22:14)}
+    <rect width="250" height="350" fill="url(#${id}e)"/>${gold?'':`<rect width="250" height="350" fill="url(#${id}f)" class="shine" opacity="${ill?.6:.9}"/>`}
+    <rect x="0" y="230" width="250" height="120" fill="url(#${id}gl)"/></g>
+    <rect x="7" y="7" width="236" height="336" rx="11" fill="none" stroke="${gold?'#fff3c2':'#fff'}" stroke-opacity=".5" stroke-width="1.2"/>
+    <rect x="14" y="14" width="222" height="30" rx="15" fill="#000" fill-opacity=".45"/>${elIcon(el,30,29,9)}${T(44,35,17,'#fff',c.n,'font-weight="700"')}${T(226,35,12,gold?'#ffe9a0':'#fff','PWR '+pwr,'font-weight="700" text-anchor="end"')}
+    <rect x="14" y="258" width="222" height="56" rx="10" fill="#000" fill-opacity=".45"/>
+    ${orb(26,274,1)}${T(40,278,12.5,'#fff',mv[0],'font-weight="700"')}${T(226,278,13,'#fff',dmg1,'font-weight="700" text-anchor="end"')}
+    ${orb(26,298,2)}${T(53,302,12.5,'#fff',mv[1],'font-weight="700"')}${T(226,302,13,'#fff',dmg2,'font-weight="700" text-anchor="end"')}
+    ${ill?T(125,250,8,'#ffe9a0','SPECIAL ILLUSTRATION','text-anchor="middle" letter-spacing="2" font-weight="700"'):''}
+    ${T(16,334,9,gold?'#ffe9a0':'#fff',RAR2[r].sym+' '+RAR2[r].n,'font-weight="700"')}${T(234,334,9,'#fffc',set.code+' '+String(cd.num).padStart(3,'0')+'/080','text-anchor="end"')}`;
+  } else {
+    const sc=scene(theme,el,218,150,id,v),holo=r==='H';
+    out=`<defs>${foil}${art.defs}${sc.defs}<clipPath id="${id}w"><rect x="16" y="50" width="218" height="150" rx="4"/></clipPath><linearGradient id="${id}pn" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1d2028"/><stop offset="1" stop-color="#121419"/></linearGradient><pattern id="${id}tx" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="4" height="4" fill="none"/><circle cx="1" cy="1" r=".5" fill="#fff" opacity=".05"/></pattern></defs>
+    <rect width="250" height="350" rx="16" fill="url(#${id}fr)"/><rect x="3" y="3" width="244" height="344" rx="14" fill="none" stroke="#fff" stroke-opacity=".35"/>
+    <rect x="9" y="9" width="232" height="332" rx="10" fill="url(#${id}pn)"/><rect x="9" y="9" width="232" height="332" rx="10" fill="url(#${id}tx)"/>
+    <text x="18" y="37" ${font}><tspan font-size="9" font-weight="700" letter-spacing="1" fill="${b}">${STAGE[c.f].toUpperCase()}</tspan><tspan dx="6" font-size="18" font-weight="700" fill="#fff">${c.n}</tspan></text>
+    ${T(207,37,11.5,'#fff','PWR '+pwr,'font-weight="700" text-anchor="end"')}${elIcon(el,224,32,9)}
+    <rect x="14" y="48" width="222" height="154" rx="6" fill="url(#${id}g)"/>
+    <g clip-path="url(#${id}w)"><g transform="translate(16 50)">${sc.s}</g>${cr(37,58,1.47)}<g transform="translate(16 50)">${fx(el,218,150,v,8)}</g>${holo?`<rect x="16" y="50" width="218" height="150" fill="url(#${id}e)"/><rect x="16" y="50" width="218" height="150" fill="url(#${id}f)" class="shine"/>`:''}</g>
+    <rect x="30" y="204" width="190" height="14" rx="7" fill="url(#${id}g)" opacity=".9"/>${T(125,214.5,8.5,'#3a2a10',STAGE[c.f]+' Craydon · Length '+SIZE[c.f][0]+'m · Weight '+SIZE[c.f][1]+'kg','text-anchor="middle" font-style="italic"')}
+    ${orb(24,236,1)}${T(38,240,13.5,'#fff',mv[0],'font-weight="700"')}${T(228,241,15,'#fff',dmg1,'font-weight="700" text-anchor="end"')}
+    ${T(38,252,8.5,'#aab1bd','Deal '+dmg1+' damage. '+(c.f>1?'Flip a coin: if heads, +20.':'A quick opening move.'))}
+    <path d="M22 262H228" stroke="#fff" stroke-opacity=".12"/>${orb(24,278,c.f>2?3:2)}${T(c.f>2?62:50,282,13.5,'#fff',mv[1],'font-weight="700"')}${T(228,283,15,'#fff',dmg2,'font-weight="700" text-anchor="end"')}
+    <path d="M22 294H228" stroke="#fff" stroke-opacity=".12"/>
+    ${T(22,307,8.5,'#aab1bd','Weak: '+WEAK[el]+' ×2')}${T(228,307,8.5,'#aab1bd','Retreat ●'+('●'.repeat(Math.min(3,c.f>>1))),'text-anchor="end"')}
+    ${wrap2(FLAV[el][c.f],52).map((ln,k)=>T(125,318+k*9.5,7.8,'#c9ced6',ln,'text-anchor="middle" font-style="italic"')).join('')}
+    ${T(20,337,9,RAR2[r].c,RAR2[r].sym+' '+RAR2[r].n,'font-weight="700"')}${T(230,337,8.5,'#8a92a0',set.code+' '+String(cd.num).padStart(3,'0')+'/080 · Illus. Craydon Studio','text-anchor="end"')}`;
+  }
+  return `<svg viewBox="0 0 250 350" width="${w}" height="${Math.round(w*1.4)}" role="img" aria-label="${c.n} ${RAR2[r].n} card">${out}</svg>`;
+}
+/* ================= Craydons TCG: catalogue, economy, views ================= */
+const TC_ELS=Object.keys(CRAY);
+const CRAYS=[];TC_ELS.forEach((el,e)=>CRAY[el].forEach((n,f)=>CRAYS.push({n,el,f,k:e*5+f})));
+const crOf=(el,f)=>CRAYS[TC_ELS.indexOf(el)*5+f];
+const FEAT=[['Volt','Ember'],['Tide','Frost'],['Ember','Stone'],['Volt','Gale'],['Stone','Frost'],['Shade','Bloom']];
+const PR={C:[1,5],U:[8,30],R:[60,500],H:[1500,12000],X:[25000,200000],S:[500000,5000000],I:[10000000,50000000]};
+const TC=(()=>{const a=[],rnd=(i,lo,hi)=>nice(lo*Math.pow(hi/lo,((i*37+11)%101)/100));
+  SETS.forEach((st,s)=>{
+    const els=TC_ELS.map((_,j)=>TC_ELS[(j+s)%8]);let num=0;
+    els.forEach((el,ei)=>{const extraR=(ei+s)%2===0;[0,1,2,3,4].forEach(f=>[0,1].forEach(vv=>{
+      const r=f<2?'C':f===2?(vv?'U':'C'):f===3?(vv&&extraR?'R':'U'):(vv?'H':'R');
+      num++;a.push({set:s,num,cr:crOf(el,f),r,v:s*2+vv+f})}))});
+    const [h1,h2]=FEAT[s];
+    TC_ELS.forEach(el=>{num++;a.push({set:s,num,cr:crOf(el,4),r:'X',v:s*3+1})});
+    TC_ELS.filter((_,j)=>(j+s)%2===0).forEach(el=>{num++;a.push({set:s,num,cr:crOf(el,3),r:'X',v:s*3+2})});
+    TC_ELS.filter(el=>el!==h1&&el!==h2).forEach(el=>{num++;a.push({set:s,num,cr:crOf(el,4),r:'S',v:s*5+3})});
+    [h1,h2].forEach((el,j)=>{num++;a.push({set:s,num,cr:crOf(el,4),r:'I',v:s*7+j})});
+  });
+  const cls=[...TC_ELS.map(el=>crOf(el,3)),...TC_ELS.filter((_,j)=>j%2).map(el=>crOf(el,2)),...TC_ELS.map(el=>crOf(el,4)),...TC_ELS.filter((_,j)=>j%2===0).map(el=>crOf(el,1)),crOf('Shade',4),crOf('Gale',4),crOf('Bloom',4),crOf('Ember',4),crOf('Frost',4),crOf('Tide',4)];
+  const clsSorted=cls.slice(0,29).concat([crOf('Volt',4)]);
+  clsSorted.forEach((cr,k)=>a.push({set:-1,num:k+1,k,cr,r:'K',v:k+3,base:nice(1e9*Math.pow(2,k/29))}));
+  return a.map((x,i)=>({...x,i,base:x.base||nice(rnd(i,...PR[x.r])*SETS[x.set].m)}));
+})();
+const TCN=TC.length;
+const setCards=s=>TC.filter(c=>c.set===s);
+const PACK_PRICE=s=>nice(100000*SETS[s].m),BUNDLE_PRICE=s=>nice(560000*SETS[s].m),BOX_PRICE=s=>nice(3200000*SETS[s].m);
+const ensureTC=()=>{if(!S.tc){S.tc={own:{},p:TC.map(c=>c.base),q:TC.map(c=>c.base),left:{},sealed:SETS.map(()=>0)};TC.forEach(c=>{if(RAR2[c.r].sup)S.tc.left[c.i]=RAR2[c.r].sup});
+    if(S.cards&&S.cards.own){let v=0;S.cards.own.forEach((o,i)=>v+=o*(S.cards.p[i]||0));delete S.cards;if(v>0){S.cash+=v;setTimeout(()=>toast('Cards upgraded to the new 630-card game. Old cards cashed out for '+fmt(v)),600)}}}return S.tc};
+function tickCards(){if(!S.tc)return;const K=S.tc;K.q=K.p.slice();K.p=K.p.map((p,i)=>{const b=TC[i].base,v=RAR2[TC[i].r].vol;let n=p*(1+(Math.random()-.5)*2*v+.05*Math.log(b/p));return +Math.max(b*.3,Math.min(b*4,n)).toPrecision(4)})}
+const cardsValue=()=>{if(!S.tc)return 0;let v=0;for(const k in S.tc.own)v+=S.tc.own[k]*S.tc.p[k];return v};
+const ownedN=i=>S.tc&&S.tc.own[i]||0;
+const leftN=i=>S.tc&&S.tc.left[i]!=null?S.tc.left[i]:null;
+function addCard(i,q=1){const K=S.tc;K.own[i]=(K.own[i]||0)+q;if(K.left[i]!=null)K.left[i]-=q}
+function removeCard(i,q=1){const K=S.tc;K.own[i]-=q;if(K.own[i]<=0)delete K.own[i];if(K.left[i]!=null)K.left[i]+=q}
+/* pack contents: 5 common, 3 uncommon, 1 reverse slot, 1 rare slot */
+function rollPack(s){
+  const pool=r=>setCards(s).filter(c=>c.r===r&&(leftN(c.i)===null||leftN(c.i)>0)),pick=r=>{const order='CURHXSI';for(let t=order.indexOf(r);t>=0;t--){const p=pool(order[t]);if(p.length)return p[Math.floor(Math.random()*p.length)]}return null};
+  const roll=w=>{let x=Math.random()*100;for(const[k,v]of Object.entries(w)){if((x-=v)<=0)return k}return Object.keys(w)[0]};
+  const slots=['C','C','C','C','C','U','U','U',roll({C:50,U:35,R:15}),roll({R:72,H:22,X:4.5,S:1.2,I:.3})];
+  return slots.map(r=>{const c=pick(r);if(c)addCard(c.i);return c?c.i:null}).filter(x=>x!==null);
+}
+/* ---------- product art ---------- */
+function packArt(s,w=120,kind='pack'){
+  const st=SETS[s],[c1,c2]=st.c,feat=crOf(FEAT[s][0],4),id='pk'+(++TCID),art=craySvg2(feat,s,id+'c');
+  const crimp=(y,up)=>Array.from({length:13},(_,k)=>`${k*10} ${y+(k%2?(up?-4:4):0)}`).join(' L');
+  const front=`<defs>${art.defs}<linearGradient id="${id}g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${tint(c1,1.3)}"/><stop offset=".5" stop-color="${c1}"/><stop offset="1" stop-color="${tint(c1,.5)}"/></linearGradient><linearGradient id="${id}f" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".35"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient></defs>`;
+  if(kind==='pack')return `<svg viewBox="0 0 120 200" width="${w}" height="${w*200/120}" aria-hidden="true">${front}<path d="M0 10 L${crimp(10,true)} L120 190 L${crimp(190,false).split(' L').reverse().join(' L')} Z" fill="url(#${id}g)"/>
+    <rect x="0" y="4" width="120" height="14" fill="${tint(c1,.7)}"/><rect x="0" y="182" width="120" height="14" fill="${tint(c1,.7)}"/>
+    <circle cx="60" cy="100" r="46" fill="${c2}" opacity=".3"/><g transform="translate(-4 52) scale(1.07)">${art.body}</g>
+    <rect x="8" y="24" width="104" height="22" rx="4" fill="#000" fill-opacity=".45"/><text x="60" y="35" font-size="9" font-weight="800" text-anchor="middle" fill="${c2}" letter-spacing="2" font-family="IBM Plex Sans,sans-serif">CRAYDONS</text><text x="60" y="43" font-size="6.5" text-anchor="middle" fill="#fff" font-family="IBM Plex Sans,sans-serif">TRADING CARD GAME</text>
+    <rect x="8" y="152" width="104" height="24" rx="4" fill="#000" fill-opacity=".5"/><text x="60" y="164" font-size="9.5" font-weight="700" text-anchor="middle" fill="#fff" font-family="IBM Plex Sans,sans-serif">${st.name}</text><text x="60" y="172" font-size="6" text-anchor="middle" fill="${c2}" font-family="IBM Plex Sans,sans-serif">10 CARDS PER PACK</text>
+    <rect x="0" y="0" width="120" height="200" fill="url(#${id}f)" class="shine"/></svg>`;
+  if(kind==='bundle')return `<svg viewBox="0 0 160 160" width="${w}" height="${w}" aria-hidden="true">${front}<path d="M20 40L80 20L140 40V130L80 150L20 130Z" fill="${tint(c1,.55)}"/><path d="M20 40L80 60V150L20 130Z" fill="url(#${id}g)"/><path d="M80 60L140 40V130L80 150Z" fill="${tint(c1,.75)}"/><path d="M20 40L80 20L140 40L80 60Z" fill="${tint(c1,1.2)}"/>
+    <g transform="translate(26 58) scale(.42) skewY(18)">${art.body}</g><text x="50" y="120" font-size="8" font-weight="800" fill="#fff" transform="skewY(18) translate(0 -16)" font-family="IBM Plex Sans,sans-serif">BUNDLE</text>
+    <g transform="translate(88 62) skewY(-18)"><rect width="44" height="66" rx="3" fill="#000" fill-opacity=".35"/>${[0,1,2].map(k=>`<rect x="${4+k*13}" y="8" width="11" height="52" rx="2" fill="${k%2?c2:tint(c1,1.3)}" stroke="#fff6"/>`).join('')}</g>
+    <text x="110" y="142" font-size="7" font-weight="700" fill="#fff" text-anchor="middle" transform="skewY(-18) translate(0 36)" font-family="IBM Plex Sans,sans-serif">6 PACKS</text></svg>`;
+  return `<svg viewBox="0 0 180 140" width="${w}" height="${w*140/180}" aria-hidden="true">${front}<path d="M10 40L90 20L170 40V120L90 140L10 120Z" fill="${tint(c1,.5)}"/><path d="M10 40L90 60V140L10 120Z" fill="url(#${id}g)"/><path d="M90 60L170 40V120L90 140Z" fill="${tint(c1,.7)}"/><path d="M10 40L90 20L170 40L90 60Z" fill="${tint(c1,1.15)}"/>
+    ${Array.from({length:9},(_,k)=>`<path d="M${16+k*8} ${44+k*2}L${22+k*8} ${45.5+k*2}V${36+k*2}L${16+k*8} ${34.5+k*2}Z" fill="${k%2?c2:'#fff'}" opacity=".9"/>`).join('')}
+    <g transform="translate(18 66) scale(.5) skewY(14)">${art.body}</g><text x="96" y="94" font-size="10" font-weight="800" fill="#fff" transform="skewY(-14) translate(0 24)" font-family="IBM Plex Sans,sans-serif">BOOSTER BOX</text><text x="96" y="106" font-size="7" fill="${c2}" transform="skewY(-14) translate(0 24)" font-family="IBM Plex Sans,sans-serif">36 PACKS · ${st.name}</text></svg>`;
+}
+/* ---------- views ---------- */
+function tileHTML(c){const K=S.tc,p=K.p[c.i],ch=(p/K.q[c.i]-1)*100,o=ownedN(c.i),l=leftN(c.i);
+  return `<button class="ctile" data-act="tcard" data-i="${c.i}">${tcSvg(c,240)}<span class="cname">${c.cr.n}${o?`<em>×${o}</em>`:''}</span><span class="cmeta"><b class="money">${fmt(p)}</b><small class="${ch>=0?'upc':'dnc'}">${ch>=0?'▲':'▼'}${Math.abs(ch).toFixed(1)}%</small></span><span class="csup">${RAR2[c.r].n}${l!==null?` · ${l} left`:''}</span></button>`}
 function vCards(){
-  const K=ensureCards(),uniq=K.own.filter(o=>o>0).length,tot=K.own.reduce((a,b)=>a+b,0),cv=ui.cv||'market',cr=ui.cr||'all';
-  const tabs=[['market','Market'],['coll','My collection'],['packs','Boosters']];
-  const chips=['all','C','U','R','H','X','S','F'];
-  const head=`<div class="card"><div class="row"><div class="grow"><h3>Craydons trading cards</h3><p class="sub">40 Craydons · 100 cards · prices move every 10 seconds</p></div></div>
-  <div class="stats"><div class="stat"><small>Collection value</small><b>${fmt(cardsValue())}</b></div><div class="stat"><small>Unique cards</small><b>${uniq}/100</b></div><div class="stat"><small>Cards owned</small><b>${tot}</b></div></div></div>
-  <div class="seg">${tabs.map(([k,n])=>`<button class="${cv===k?'on':''}" data-act="cview" data-v="${k}">${n}</button>`).join('')}</div>`;
-  if(cv==='packs')return head+PACKS2.map(pk=>`<div class="card row"><div class="pack3" style="--pc:${pk.col}"><span>CRAYDONS</span><b>${pk.name.split(' ')[0]}</b></div><div class="grow"><h3>${pk.name}</h3><p class="sub">5 cards. Odds: ${Object.entries(pk.w).map(([k,v])=>`${RAR[k].n} ${v}%`).join(' · ')}</p></div><button class="btn btn2" data-act="cpack" data-id="${pk.id}" ${S.cash<pk.price?'disabled':''}><span>Open</span>${fmt(pk.price)}</button></div>`).join('');
-  const list=CARDS.filter((c,i)=>(cr==='all'||c.r===cr)&&(cv==='market'||K.own[i]>0));
-  return head+`<div class="chips scroll" style="overflow-x:auto">${chips.map(k=>`<button class="${cr===k?'on':''}" data-act="crar" data-v="${k}">${k==='all'?'All':RAR[k].n}</button>`).join('')}</div>
-  ${list.length?`<div class="cgrid">${list.map(cd=>{const i=cd.i,p=K.p[i],hh=K.h[i],prev=hh.length>1?hh[hh.length-2]:p,ch=(p/prev-1)*100,left=K.left[i];
-    return `<button class="ctile" data-act="card" data-i="${i}">${cardSvg(i)}<span class="cname">${cd.c.n}${K.own[i]?`<em>×${K.own[i]}</em>`:''}</span><span class="cmeta"><b class="money">${fmt(p)}</b><small class="${ch>=0?'upc':'dnc'}">${ch>=0?'▲':'▼'}${Math.abs(ch).toFixed(1)}%</small></span><span class="csup">${RAR[cd.r].n}${left!==null?` · ${left} left`:''}</span></button>`}).join('')}</div>`:`<div class="card"><p class="sub">${cv==='coll'?'No cards here yet. Buy from the market or open a booster.':'No cards match.'}</p></div>`}`;
+  const K=ensureTC(),cv=ui.cv||'shop',sel=ui.tcs??0,uniq=Object.keys(K.own).length,tot=Object.values(K.own).reduce((a,b)=>a+b,0),sealed=K.sealed.reduce((a,b)=>a+b,0);
+  const head=`<div class="card"><div class="row"><div class="grow"><h3>Craydons trading cards</h3><p class="sub">6 sets · 600 cards + 30 Classics · prices move every 10 seconds</p></div></div>
+  <div class="stats"><div class="stat"><small>Collection value</small><b>${fmt(cardsValue())}</b></div><div class="stat"><small>Unique cards</small><b>${uniq}/${TCN}</b></div><div class="stat"><small>Sealed packs</small><b>${sealed}</b></div></div></div>
+  <div class="seg">${[['shop','Packs'],['market','Market'],['track','Tracker']].map(([k,n])=>`<button class="${cv===k?'on':''}" data-act="cview" data-v="${k}">${n}</button>`).join('')}</div>`;
+  const setChips=(withClassic)=>`<div class="chips scroll">${SETS.map(s=>`<button class="${sel===s.id?'on':''}" data-act="tcset" data-v="${s.id}">${s.name}</button>`).join('')}${withClassic?`<button class="${sel===-1?'on':''}" data-act="tcset" data-v="-1">♛ Classics</button>`:''}</div>`;
+  if(cv==='shop'){const s=sel<0?0:sel,st=SETS[s],n=K.sealed[s];
+    const prod=(kind,name,desc,price,packs)=>`<div class="card prod"><div class="prodart">${packArt(s,kind==='pack'?70:96,kind)}</div><div class="grow"><h3>${name}</h3><p class="sub">${desc}</p><button class="btn btn2" style="margin-top:8px" data-act="tcbuy" data-k="${kind}" ${S.cash<price?'disabled':''}><span>Buy · ${packs} pack${packs>1?'s':''}</span>${fmt(price)}</button></div></div>`;
+    return head+setChips(false)+`<div class="card setban" style="--c1:${st.c[0]};--c2:${st.c[1]}"><div class="grow"><small>Set ${s+1} of 6</small><h3>${st.name}</h3><p class="sub">80 cards + 20 full-art extras. Featuring ${FEAT[s].map(e=>crOf(e,4).n).join(' and ')}.</p></div>
+    <div class="sealed"><b>${n}</b><small>sealed</small></div></div>
+    <div class="card row"><div class="grow"><h3>Rip packs</h3><p class="sub">Every pack: 5 commons, 3 uncommons, a reverse slot and a rare slot with a chance of holo, ultra, secret gold or special illustration.</p></div></div>
+    <div class="ripbar"><button class="btn" data-act="rip" ${n<1?'disabled':''}>Rip a pack</button><button class="btn ghost" data-act="ripall" ${n<1?'disabled':''}>Rip all ${n||''}</button></div>
+    ${prod('pack','Booster pack','10 cards.',PACK_PRICE(s),1)}${prod('bundle','Booster bundle','6 packs, about 7% cheaper than singles.',BUNDLE_PRICE(s),6)}${prod('box','Booster box','36 packs, about 11% cheaper than singles.',BOX_PRICE(s),36)}`}
+  if(cv==='market'){const rr=ui.tcr||'all',list=(sel===-1?TC.filter(c=>c.set===-1):setCards(sel)).filter(c=>rr==='all'||c.r===rr),pg=ui.tcp||1,show=list.slice(0,pg*24);
+    const rars=sel===-1?['all']:['all','C','U','R','H','X','S','I'];
+    return head+setChips(true)+(rars.length>1?`<div class="chips scroll">${rars.map(k=>`<button class="${rr===k?'on':''}" data-act="tcrar" data-v="${k}">${k==='all'?'All':RAR2[k].n}</button>`).join('')}</div>`:'')+
+    `<div class="cgrid">${show.map(tileHTML).join('')}</div>${list.length>show.length?`<button class="btn ghost" style="width:100%" data-act="tcmore">Show more (${list.length-show.length} left)</button>`:''}`}
+  /* tracker */
+  const rows=[...SETS.map(s=>({id:s.id,name:s.name,cards:setCards(s.id)})),{id:-1,name:'♛ Classics',cards:TC.filter(c=>c.set===-1)}];
+  const cur=rows.find(r=>r.id===sel)||rows[0],flt=ui.tcf||'all';
+  return head+`<div class="card"><h3>Collection tracker</h3><div class="list">${rows.map(r=>{const have=r.cards.filter(c=>ownedN(c.i)).length,val=r.cards.reduce((a,c)=>a+ownedN(c.i)*K.p[c.i],0);
+    return `<button class="li trow ${r.id===cur.id?'on':''}" data-act="tcset" data-v="${r.id}"><div class="grow"><b>${r.name}</b><small>${have}/${r.cards.length} cards · ${fmt(val)}</small><div class="bar mini"><i style="width:${have/r.cards.length*100}%"></i></div></div><span class="tag">${Math.round(have/r.cards.length*100)}%</span></button>`}).join('')}</div></div>
+  <div class="card"><div class="row"><div class="grow"><h3>${cur.name} binder</h3><p class="sub">Tap any slot to view the card. Gold slots are full arts.</p></div></div>
+  <div class="chips" style="margin-top:8px">${[['all','All'],['have','Owned'],['miss','Missing']].map(([k,n])=>`<button class="${flt===k?'on':''}" data-act="tcflt" data-v="${k}">${n}</button>`).join('')}</div>
+  <div class="binder">${cur.cards.filter(c=>flt==='all'||(flt==='have')===!!ownedN(c.i)).map(c=>{const o=ownedN(c.i),[a,b]=ELS[c.cr.el],x='XSIK'.includes(c.r);
+    return `<button class="slotb ${o?'have':''} ${x?'xa':''}" data-act="tcard" data-i="${c.i}" style="--a:${a};--b:${b}"><span>${c.set===-1?'C'+String(c.num).padStart(2,'0'):String(c.num).padStart(3,'0')}</span><small>${o?(o>1?'×'+o:RAR2[c.r].sym):c.cr.n}</small></button>`}).join('')}</div></div>`;
 }
-function sheetCard(i){
-  const K=ensureCards(),cd=CARDS[i],p=K.p[i],o=K.own[i],left=K.left[i],sell=p*.9,unl=left===null;
-  return `<div class="bigcard">${cardSvg(i,220)}</div><h3 style="text-align:center;margin-top:10px">${cd.c.n} · ${RAR[cd.r].n}</h3>
-  <div class="stats"><div class="stat"><small>Market price</small><b>${fmt(p)}</b></div><div class="stat"><small>You own</small><b>${o}</b></div><div class="stat"><small>${unl?'Supply':'Copies left'}</small><b>${unl?'Open':left}</b></div></div>
-  <div class="row" style="margin:10px 0"><div class="grow"><p class="sub">Price history</p></div>${spark(K.h[i])}</div>
-  <p class="sub">Sell price is 90% of market (${fmt(sell)} each). Hold a button to repeat.</p>
-  <div class="trade">${[1,10].map(q=>`<button class="btn" data-act="cbuy" data-i="${i}" data-q="${q}" ${S.cash<p||(!unl&&left<1)?'disabled':''}>Buy ${q}</button>`).join('')}${[1,9999].map(q=>`<button class="btn sell" data-act="csell" data-i="${i}" data-q="${q}" ${o<1?'disabled':''}>Sell ${q===1?1:'all'}</button>`).join('')}</div>
+function sheetTC(i){
+  const K=ensureTC(),c=TC[i],p=K.p[i],o=ownedN(i),l=leftN(i),unl=l===null,ch=(p/K.q[i]-1)*100;
+  return `<div class="bigcard">${tcSvg(c,240)}</div><h3 style="text-align:center;margin-top:10px">${c.cr.n} · ${RAR2[c.r].n}</h3><p class="sub" style="text-align:center">${c.set===-1?'Classic · C'+String(c.num).padStart(2,'0')+'/30':SETS[c.set].name+' · '+String(c.num).padStart(3,'0')+'/080'}</p>
+  <div class="stats" style="margin-top:10px"><div class="stat"><small>Market price</small><b>${fmt(p)}</b><small class="${ch>=0?'upc':'dnc'}">${ch>=0?'▲':'▼'} ${Math.abs(ch).toFixed(1)}%</small></div><div class="stat"><small>You own</small><b>${o}</b></div><div class="stat"><small>${unl?'Supply':'Copies left'}</small><b>${unl?'Open':l}</b></div></div>
+  <p class="sub" style="margin:8px 0">Selling pays 90% of market (${fmt(p*.9)} each). Hold a button to repeat.</p>
+  <div class="trade">${[1,10].map(q=>`<button class="btn" data-act="cbuy" data-i="${i}" data-q="${q}" ${S.cash<p||(!unl&&l<1)?'disabled':''}>Buy ${q}</button>`).join('')}${[1,9999].map(q=>`<button class="btn sell" data-act="csell" data-i="${i}" data-q="${q}" ${o<1?'disabled':''}>Sell ${q===1?1:'all'}</button>`).join('')}</div>
   <button class="btn ghost" style="width:100%;margin-top:12px" data-act="close">Close</button>`;
 }
-function openPack(pk){
-  const K=ensureCards(),got=[];
-  for(let n=0;n<5;n++){let rr=Math.random()*100,rar=null;for(const[k,v]of Object.entries(pk.w)){if((rr-=v)<=0){rar=k;break}}rar=rar||Object.keys(pk.w)[0];
-    const order='CURHXS',start=order.indexOf(rar);let pick=null;
-    for(let t=start;t>=0&&!pick;t--){const pool=CARDS.filter(c=>c.r===order[t]&&(K.left[c.i]===null||K.left[c.i]>0));if(pool.length)pick=pool[Math.floor(Math.random()*pool.length)]}
-    if(!pick)continue;K.own[pick.i]++;if(K.left[pick.i]!==null)K.left[pick.i]--;got.push(pick.i)}
-  return got;
+function sheetRip(){
+  const R=ui.sheet,K=ensureTC(),s=R.set;
+  if(R.stage==='sealed')return `<div class="ripwrap"><p class="sub" style="text-align:center">${SETS[s].name} · ${K.sealed[s]} sealed</p><button class="packbtn" data-act="ripopen" aria-label="Rip the pack open">${packArt(s,170,'pack')}<span class="tear"></span></button><p style="text-align:center;font-weight:600;margin:12px 0 0">Tap the pack to rip it open</p><button class="btn ghost" style="width:100%;margin-top:12px" data-act="close">Close</button></div>`;
+  if(R.stage==='reveal'){const i=R.cards[R.idx],c=TC[i],hit='HXSI'.includes(c.r);
+    return `<div class="ripwrap"><p class="sub" style="text-align:center">Card ${R.idx+1} of ${R.cards.length}</p><button class="revcard ${hit?'hit':''}" data-act="ripnext" style="--g:${RAR2[c.r].c}" aria-label="Next card">${tcSvg(c,230)}</button><h3 style="text-align:center;margin-top:10px">${c.cr.n} <span style="color:${RAR2[c.r].c}">${RAR2[c.r].sym} ${RAR2[c.r].n}</span></h3><p class="sub" style="text-align:center">${fmt(K.p[i])} · tap the card for the next one</p>
+    <button class="btn ghost" style="width:100%;margin-top:10px" data-act="ripskip">Skip to summary</button></div>`}
+  const cards=R.cards,val=cards.reduce((a,i)=>a+K.p[i],0),best=cards.slice().sort((a,b)=>K.p[b]-K.p[a]).slice(0,R.many?12:10);
+  return `<h3 style="text-align:center">${R.many?R.many+' packs ripped':'Pack ripped'}</h3><p class="sub" style="text-align:center;margin:4px 0 10px">${cards.length} cards worth ${fmt(val)} at market price${R.many?' · your best pulls':''}</p>
+  <div class="packgrid">${best.map((i,n)=>`<div style="animation-delay:${n*.05}s">${tcSvg(TC[i],110)}<small style="color:${RAR2[TC[i].r].c}">${RAR2[TC[i].r].n}</small><small>${fmt(K.p[i])}</small></div>`).join('')}</div>
+  <div class="ripbar" style="margin-top:14px"><button class="btn" data-act="rip" ${K.sealed[s]<1?'disabled':''}>Rip next (${K.sealed[s]})</button><button class="btn ghost" data-act="close">Done</button></div>`;
 }
 
 /* ---------- render ---------- */
@@ -1036,9 +1264,8 @@ function render(){
 function renderSheet(){
   const el=$('#sheet');if(!ui.sheet){el.hidden=true;el.dataset.k='';return}
   el.hidden=false;
-  if(ui.sheet.t==='card'||ui.sheet.t==='cpack'){const K=ensureCards(),i=ui.sheet.i,key=ui.sheet.t==='card'?'c'+i+'|'+K.p[i]+'|'+K.own[i]+'|'+(S.cash>=K.p[i]):'p'+ui.sheet.got.join(',');if(el.dataset.k===key)return;el.dataset.k=key}
-  if(ui.sheet.t==='card'){$('#sheetBody').innerHTML=sheetCard(ui.sheet.i);return}
-  if(ui.sheet.t==='cpack'){const g=ui.sheet.got,K=ensureCards(),val=g.reduce((a,i)=>a+K.p[i],0);$('#sheetBody').innerHTML=`<h3 style="text-align:center">${esc(ui.sheet.name)} opened</h3><p class="sub" style="text-align:center;margin:4px 0 10px">5 cards worth ${fmt(val)} at market price</p><div class="packgrid">${g.map((i,n)=>`<div style="animation-delay:${n*.12}s">${cardSvg(i)}<small>${RAR[CARDS[i].r].n}</small></div>`).join('')}</div><button class="btn" style="width:100%;margin-top:14px" data-act="close">Add to collection</button>`;return}
+  if(ui.sheet.t==='tcard'){const K=ensureTC(),i=ui.sheet.i,key='c'+i+'|'+K.p[i]+'|'+ownedN(i)+'|'+(S.cash>=K.p[i]);if(el.dataset.k===key)return;el.dataset.k=key;$('#sheetBody').innerHTML=sheetTC(i);return}
+  if(ui.sheet.t==='rip'){const key='r'+ui.sheet.stage+ui.sheet.idx+'|'+ui.sheet.cards.length+'|'+S.tc.sealed[ui.sheet.set];if(el.dataset.k===key)return;el.dataset.k=key;$('#sheetBody').innerHTML=sheetRip();return}
   if(ui.sheet.t==='buy'){const b=ui.sheet;$('#sheetBody').innerHTML=`<div style="text-align:center;padding:6px 4px"><div style="width:64px;height:64px;border-radius:50%;background:var(--up);display:grid;place-items:center;margin:0 auto 12px"><svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><h3 style="font-size:22px">Purchase successful</h3><p style="margin:10px 0 4px"><b>${esc(b.name)}</b> · ${b.price}</p><p class="sub">You got ${esc(b.msg)}.</p><p class="sub" style="margin-top:10px;font-size:11.5px">Test mode: no payment was taken.</p><button class="btn" style="width:100%;margin-top:16px" data-act="close">Done</button></div>`;return}
   if(ui.sheet.t==='ad'){const a=ui.sheet,b=a.biz;$('#sheetBody').innerHTML=`<div style="text-align:center"><p class="sub">Advertisement</p><div style="background:var(--soft);border-radius:18px;padding:22px 12px;margin:10px 0">${ART[b]}<h3 style="font-size:26px;margin-top:8px">${BIZNAME[b]}</h3><p class="sub">${AD_LINES[b]}</p></div>
     ${a.done?`<button class="btn" style="width:100%" data-act="claimAd">Claim +${BOOST_TPS} taps/sec for 1 minute</button>`:`<div class="bar"><i id="adBar" style="width:0;transition:none"></i></div><p class="sub" style="margin-top:8px">Reward in <b id="adCd">15</b>s</p><button class="btn ghost" style="width:100%;margin-top:6px" data-act="close">Close and skip reward</button>`}</div>`;return}
@@ -1113,12 +1340,20 @@ const A={
     else{const k=-f,u=f===-1?C.own[i]:C.own[i]*k,v=u*p;C.own[i]-=u;C.cost[i]-=C.cost[i]*(f===-1?1:k);if(f===-1){C.own[i]=0;C.cost[i]=0}S.cash+=v;toast('Sold for '+fmt(v))}render()},
   buyAuto:()=>{const a=S.auto;if(a<AUTO.length&&spend(AUTO[a][2])){S.auto++;toast(AUTO[a][0]+' hired');render()}},
   offPro:()=>{if(S.offlinePro)return;S.offlinePro=true;toast('Full offline earnings unlocked');render()},
-  cview:d=>{ui.cv=d.v;render()},
-  crar:d=>{ui.cr=d.v;render()},
-  card:d=>{ui.sheet={t:'card',i:+d.i};renderSheet()},
-  cbuy:d=>{const K=ensureCards(),i=+d.i,p=K.p[i],left=K.left[i];let q=Math.min(+d.q,Math.floor(S.cash/p),left===null?1e9:left);if(q<1)return toast(left===0?'Sold out':'Not enough cash');S.cash-=q*p;K.own[i]+=q;if(left!==null)K.left[i]-=q;toast('Bought '+q+'× '+CARDS[i].c.n);renderSheet();if(ui.view==='cards')render()},
-  csell:d=>{const K=ensureCards(),i=+d.i,q=Math.min(+d.q,K.own[i]);if(q<1)return;const v=q*K.p[i]*.9;K.own[i]-=q;if(K.left[i]!==null)K.left[i]+=q;S.cash+=v;toast('Sold '+q+'× '+CARDS[i].c.n+' for '+fmt(v));renderSheet();if(ui.view==='cards')render()},
-  cpack:d=>{const pk=PACKS2.find(x=>x.id===d.id);if(!pk)return;if(spend(pk.price)){const got=openPack(pk);ui.sheet={t:'cpack',name:pk.name,got};render()}},
+  cview:d=>{ui.cv=d.v;ui.tcp=1;render()},
+  tcset:d=>{ui.tcs=+d.v;ui.tcp=1;render()},
+  tcrar:d=>{ui.tcr=d.v;ui.tcp=1;render()},
+  tcflt:d=>{ui.tcf=d.v;render()},
+  tcmore:()=>{ui.tcp=(ui.tcp||1)+1;render()},
+  tcard:d=>{ui.sheet={t:'tcard',i:+d.i};renderSheet()},
+  cbuy:d=>{const K=ensureTC(),i=+d.i,p=K.p[i],l=leftN(i);let q=Math.min(+d.q,Math.floor(S.cash/p),l===null?1e9:l);if(q<1)return toast(l===0?'Sold out':'Not enough cash');S.cash-=q*p;addCard(i,q);toast('Bought '+q+'× '+TC[i].cr.n);renderSheet();if(ui.view==='cards')render()},
+  csell:d=>{const K=ensureTC(),i=+d.i,q=Math.min(+d.q,ownedN(i));if(q<1)return;const v=q*K.p[i]*.9;removeCard(i,q);S.cash+=v;toast('Sold '+q+'× '+TC[i].cr.n+' for '+fmt(v));renderSheet();if(ui.view==='cards')render()},
+  tcbuy:d=>{const K=ensureTC(),s=ui.tcs<0?0:(ui.tcs||0),k=d.k,price=k==='pack'?PACK_PRICE(s):k==='bundle'?BUNDLE_PRICE(s):BOX_PRICE(s),n=k==='pack'?1:k==='bundle'?6:36;if(spend(price)){K.sealed[s]+=n;toast('Added '+n+' sealed pack'+(n>1?'s':'')+' of '+SETS[s].name);render()}},
+  rip:()=>{const K=ensureTC(),s=ui.sheet&&ui.sheet.t==='rip'?ui.sheet.set:(ui.tcs<0?0:(ui.tcs||0));if(K.sealed[s]<1)return toast('No sealed packs');ui.sheet={t:'rip',set:s,stage:'sealed',cards:[],idx:0};renderSheet()},
+  ripopen:()=>{const R=ui.sheet,K=ensureTC();if(!R||R.stage!=='sealed'||K.sealed[R.set]<1)return;K.sealed[R.set]--;const b=document.querySelector('.packbtn');if(b)b.classList.add('torn');setTimeout(()=>{R.cards=rollPack(R.set).sort((a,b)=>'CURHXSI'.indexOf(TC[a].r)-'CURHXSI'.indexOf(TC[b].r));R.stage='reveal';R.idx=0;save();renderSheet();if(ui.view==='cards')render()},450)},
+  ripnext:()=>{const R=ui.sheet;if(!R||R.stage!=='reveal')return;if(R.idx<R.cards.length-1){R.idx++}else R.stage='done';renderSheet()},
+  ripskip:()=>{const R=ui.sheet;if(R){R.stage='done';renderSheet()}},
+  ripall:()=>{const K=ensureTC(),s=ui.tcs<0?0:(ui.tcs||0),n=K.sealed[s];if(n<1)return;let cards=[];for(let k=0;k<n;k++)cards=cards.concat(rollPack(s));K.sealed[s]=0;ui.sheet={t:'rip',set:s,stage:'done',cards,idx:0,many:n};render()},
   iap:d=>{const it=IAPS.find(x=>x.id===d.id);if(!it||(it.one&&iapOwned(it)))return;if(it.can&&it.can())return toast(it.can());if(!S.iap)S.iap={};const msg=it.grant();if(it.one)S.iap[it.id]=true;ui.sheet={t:'buy',name:it.name,price:it.price,msg};render()},
   pack:d=>{const[n,v]=PACKS[+d.i];S.cash+=v;toast(n+': +'+fmt(v));render()},
   askReset:()=>{ui.sheet={t:'reset'};renderSheet()},
@@ -1132,7 +1367,7 @@ const A={
 document.addEventListener('input',e=>{if(e.target.id==='meName'){S.me.name=e.target.value.slice(0,18);save()}});
 document.addEventListener('change',e=>{if(e.target.id==='meName')render()});
 /* hold-to-repeat on upgrade and trade buttons */
-const HOLD=new Set(['cbuy','csell','upTap','line','tob','pup','buySlot','buyAuto','trade','ctrade','buyProp']);
+const HOLD=new Set(['tcbuy','cbuy','csell','upTap','line','tob','pup','buySlot','buyAuto','trade','ctrade','buyProp']);
 let hold=null,eatClick=false;
 const holdSel=d=>'[data-act="'+d.act+'"]'+['b','i','q','f'].filter(k=>d[k]!=null).map(k=>'[data-'+k+'="'+d[k]+'"]').join('');
 function stopHold(){if(!hold)return;clearTimeout(hold.t);if(hold.fired){eatClick=true;setTimeout(()=>eatClick=false,350)}const b=document.querySelector(holdSel(hold.d));if(b)b.classList.remove('holding');hold=null;save()}
@@ -1180,7 +1415,7 @@ const loop=setInterval(()=>{
 </script>
 <script>
 /* auto-update: when a newer version is on GitHub, reload into it (progress is kept) */
-(function(){const BUILD='1795668085';
+(function(){const BUILD='1795668785';
  async function check(){try{const t=await fetch(location.pathname+'?check='+Date.now(),{cache:'no-store'}).then(r=>r.text());const m=t.match(/const BUILD='(\d+)'/);if(m&&m[1]!==BUILD)location.replace(location.pathname+'?v='+m[1])}catch(e){}}
  addEventListener('load',()=>setTimeout(check,1500));document.addEventListener('visibilitychange',()=>{if(!document.hidden)check()});setInterval(check,300000);
 })();
