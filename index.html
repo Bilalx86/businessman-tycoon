@@ -220,6 +220,7 @@ tr.me td{color:var(--brand)}
 .slotb.have{border:0;background:linear-gradient(160deg,var(--b),var(--a));color:#111;box-shadow:inset 0 0 0 1px #fff5}.slotb.xa{border-color:#f0b90b88}.slotb.have.xa{box-shadow:inset 0 0 0 2px #f0b90b}
 .trow{border:0;background:none;width:100%;text-align:left;border-radius:8px;padding:10px 6px}.trow.on{background:var(--soft)}
 @media(prefers-reduced-motion:reduce){.packbtn,.revcard,.packbtn.torn svg{animation:none}}
+.emptypk{width:110px;height:154px;margin:4px auto 12px;border-radius:12px;border:2px dashed var(--line);display:grid;place-items:center;font-size:48px;color:var(--mute)}
 </style>
 </head>
 <body>
@@ -1172,15 +1173,26 @@ function tickCards(){if(!S.tc)return;const K=S.tc;K.q=K.p.slice();K.p=K.p.map((p
 const cardsValue=()=>{if(!S.tc)return 0;let v=0;for(const k in S.tc.own)v+=S.tc.own[k]*S.tc.p[k];return v};
 const ownedN=i=>S.tc&&S.tc.own[i]||0;
 const leftN=i=>S.tc&&S.tc.left[i]!=null?S.tc.left[i]:null;
-function addCard(i,q=1){const K=S.tc;K.own[i]=(K.own[i]||0)+q;if(K.left[i]!=null)K.left[i]-=q}
-function removeCard(i,q=1){const K=S.tc;K.own[i]-=q;if(K.own[i]<=0)delete K.own[i];if(K.left[i]!=null)K.left[i]+=q}
+function addCard(i,q=1,pack=false){const K=S.tc;K.own[i]=(K.own[i]||0)+q;if(pack&&K.left[i]!=null)K.left[i]-=q}
+function removeCard(i,q=1){const K=S.tc;K.own[i]-=q;if(K.own[i]<=0)delete K.own[i]}
 /* pack contents: 5 common, 3 uncommon, 1 reverse slot, 1 rare slot */
 function rollPack(s){
   const pool=r=>setCards(s).filter(c=>c.r===r&&(leftN(c.i)===null||leftN(c.i)>0)),pick=r=>{const order='CURHXSI';for(let t=order.indexOf(r);t>=0;t--){const p=pool(order[t]);if(p.length)return p[Math.floor(Math.random()*p.length)]}return null};
   const roll=w=>{let x=Math.random()*100;for(const[k,v]of Object.entries(w)){if((x-=v)<=0)return k}return Object.keys(w)[0]};
   const slots=['C','C','C','C','C','U','U','U',roll({C:50,U:35,R:15}),roll({R:72,H:22,X:4.5,S:1.2,I:.3})];
-  return slots.map(r=>{const c=pick(r);if(c)addCard(c.i);return c?c.i:null}).filter(x=>x!==null);
+  return slots.map(r=>{const c=pick(r);if(c)addCard(c.i,1,true);return c?c.i:null}).filter(x=>x!==null);
 }
+const BUYX=1.5,CLS_PRICE={pack:1e7,bundle:1e8,box:1e9},CLS_N={pack:1,bundle:10,box:100};
+const sealedOf=s=>s===-1?(S.tc.sealedK||0):S.tc.sealed[s];
+const addSealed=(s,n)=>{if(s===-1)S.tc.sealedK=(S.tc.sealedK||0)+n;else S.tc.sealed[s]+=n};
+function rollClassic(){if(Math.random()>=.1)return[];const pool=TC.filter(c=>c.set===-1&&leftN(c.i)>0);if(!pool.length)return[];const c=pool[Math.floor(Math.random()*pool.length)];addCard(c.i,1,true);return[c.i]}
+function classicArt(w=120,kind='pack'){const id='kp'+(++TCID),g=`<defs><linearGradient id="${id}g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff3c2"/><stop offset=".35" stop-color="#e9b92f"/><stop offset=".6" stop-color="#fff0a8"/><stop offset="1" stop-color="#7a5200"/></linearGradient></defs>`;
+  const rays=(cx,cy,R)=>Array.from({length:24},(_,k)=>`<path d="M${cx} ${cy}L${cx+R*Math.cos(k/24*6.283)} ${cy+R*Math.sin(k/24*6.283)}L${cx+R*Math.cos((k+.5)/24*6.283)} ${cy+R*Math.sin((k+.5)/24*6.283)}Z" fill="#e9b92f" opacity=".18"/>`).join('');
+  if(kind==='pack')return `<svg viewBox="0 0 120 200" width="${w}" height="${w*200/120}" aria-hidden="true">${g}<rect width="120" height="200" rx="6" fill="#111"/><rect x="4" y="4" width="112" height="192" rx="4" fill="none" stroke="url(#${id}g)" stroke-width="3"/>${rays(60,100,140)}<rect x="0" y="0" width="120" height="14" fill="url(#${id}g)"/><rect x="0" y="186" width="120" height="14" fill="url(#${id}g)"/>
+    <text x="60" y="78" font-size="40" text-anchor="middle" fill="url(#${id}g)" font-family="Georgia,serif">♛</text><text x="60" y="108" font-size="15" font-weight="700" text-anchor="middle" fill="url(#${id}g)" font-family="Georgia,serif">CLASSIC</text><text x="60" y="122" font-size="7" text-anchor="middle" fill="#e9c46a" letter-spacing="2" font-family="IBM Plex Sans,sans-serif">CRAYDONS · 1ST EDITION</text>
+    <rect x="16" y="150" width="88" height="22" rx="4" fill="url(#${id}g)"/><text x="60" y="164" font-size="7.5" font-weight="700" text-anchor="middle" fill="#3a2a00" font-family="IBM Plex Sans,sans-serif">10% CLASSIC CHANCE</text><rect width="120" height="200" fill="#fff" opacity=".0" class="shine"/></svg>`;
+  return `<svg viewBox="0 0 160 140" width="${w}" height="${w*140/160}" aria-hidden="true">${g}<path d="M14 36L80 18L146 36V118L80 136L14 118Z" fill="#1a1a1a"/><path d="M14 36L80 54V136L14 118Z" fill="#111"/><path d="M80 54L146 36V118L80 136Z" fill="#222"/><path d="M14 36L80 18L146 36L80 54Z" fill="url(#${id}g)"/>
+    <text x="46" y="96" font-size="26" text-anchor="middle" fill="url(#${id}g)" font-family="Georgia,serif" transform="skewY(15) translate(0 -14)">♛</text><text x="112" y="88" font-size="10" font-weight="700" text-anchor="middle" fill="url(#${id}g)" font-family="Georgia,serif" transform="skewY(-15) translate(0 30)">CLASSIC</text><text x="112" y="100" font-size="7" text-anchor="middle" fill="#e9c46a" font-family="IBM Plex Sans,sans-serif" transform="skewY(-15) translate(0 30)">${kind==='bundle'?'10 PACKS':'100 PACKS'}</text></svg>`}
 /* ---------- product art ---------- */
 function packArt(s,w=120,kind='pack'){
   const st=SETS[s],[c1,c2]=st.c,feat=crOf(FEAT[s][0],4),id='pk'+(++TCID),art=craySvg2(feat,s,id+'c');
@@ -1202,16 +1214,21 @@ function packArt(s,w=120,kind='pack'){
 }
 /* ---------- views ---------- */
 function tileHTML(c){const K=S.tc,p=K.p[c.i],ch=(p/K.q[c.i]-1)*100,o=ownedN(c.i),l=leftN(c.i);
-  return `<button class="ctile" data-act="tcard" data-i="${c.i}">${tcSvg(c,240)}<span class="cname">${c.cr.n}${o?`<em>×${o}</em>`:''}</span><span class="cmeta"><b class="money">${fmt(p)}</b><small class="${ch>=0?'upc':'dnc'}">${ch>=0?'▲':'▼'}${Math.abs(ch).toFixed(1)}%</small></span><span class="csup">${RAR2[c.r].n}${l!==null?` · ${l} left`:''}</span></button>`}
+  return `<button class="ctile" data-act="tcard" data-i="${c.i}">${tcSvg(c,240)}<span class="cname">${c.cr.n}${o?`<em>×${o}</em>`:''}</span><span class="cmeta"><b class="money">${fmt(p*BUYX)}</b><small class="${ch>=0?'upc':'dnc'}">${ch>=0?'▲':'▼'}${Math.abs(ch).toFixed(1)}%</small></span><span class="csup">${RAR2[c.r].n}${l!==null?` · ${l} in packs`:''}</span></button>`}
 function vCards(){
-  const K=ensureTC(),cv=ui.cv||'shop',sel=ui.tcs??0,uniq=Object.keys(K.own).length,tot=Object.values(K.own).reduce((a,b)=>a+b,0),sealed=K.sealed.reduce((a,b)=>a+b,0);
+  const K=ensureTC(),cv=ui.cv||'shop',sel=ui.tcs??0,uniq=Object.keys(K.own).length,tot=Object.values(K.own).reduce((a,b)=>a+b,0),sealed=K.sealed.reduce((a,b)=>a+b,0)+(K.sealedK||0);
   const head=`<div class="card"><div class="row"><div class="grow"><h3>Craydons trading cards</h3><p class="sub">6 sets · 600 cards + 30 Classics · prices move every 10 seconds</p></div></div>
   <div class="stats"><div class="stat"><small>Collection value</small><b>${fmt(cardsValue())}</b></div><div class="stat"><small>Unique cards</small><b>${uniq}/${TCN}</b></div><div class="stat"><small>Sealed packs</small><b>${sealed}</b></div></div></div>
   <div class="seg">${[['shop','Packs'],['market','Market'],['track','Tracker']].map(([k,n])=>`<button class="${cv===k?'on':''}" data-act="cview" data-v="${k}">${n}</button>`).join('')}</div>`;
   const setChips=(withClassic)=>`<div class="chips scroll">${SETS.map(s=>`<button class="${sel===s.id?'on':''}" data-act="tcset" data-v="${s.id}">${s.name}</button>`).join('')}${withClassic?`<button class="${sel===-1?'on':''}" data-act="tcset" data-v="-1">♛ Classics</button>`:''}</div>`;
+  if(cv==='shop'&&sel===-1){const n=sealedOf(-1),left=TC.filter(c=>c.set===-1&&leftN(c.i)>0).length;
+    const prod=(kind,name,desc)=>`<div class="card prod"><div class="prodart">${classicArt(kind==='pack'?70:96,kind)}</div><div class="grow"><h3>${name}</h3><p class="sub">${desc}</p><button class="btn btn2" style="margin-top:8px" data-act="tcbuy" data-k="${kind}" ${S.cash<CLS_PRICE[kind]?'disabled':''}><span>Buy · ${CLS_N[kind]} pack${CLS_N[kind]>1?'s':''}</span>${fmt(CLS_PRICE[kind])}</button></div></div>`;
+    return head+setChips(true)+`<div class="card setban" style="--c1:#7a5200;--c2:#e9b92f"><div class="grow"><small>Chase packs</small><h3>♛ Classic packs</h3><p class="sub">Each pack has a 10% chance of a Classic worth $1B–$2B, and a 90% chance of nothing. ${left} of 30 Classics still in packs.</p></div><div class="sealed"><b>${n}</b><small>sealed</small></div></div>
+    <div class="ripbar"><button class="btn" data-act="rip" ${n<1?'disabled':''}>Rip a pack</button><button class="btn ghost" data-act="ripall" ${n<1?'disabled':''}>Rip all ${n||''}</button></div>
+    ${prod('pack','Classic pack','1 pack.')}${prod('bundle','Classic bundle','10 packs.')}${prod('box','Classic box','100 packs.')}`}
   if(cv==='shop'){const s=sel<0?0:sel,st=SETS[s],n=K.sealed[s];
     const prod=(kind,name,desc,price,packs)=>`<div class="card prod"><div class="prodart">${packArt(s,kind==='pack'?70:96,kind)}</div><div class="grow"><h3>${name}</h3><p class="sub">${desc}</p><button class="btn btn2" style="margin-top:8px" data-act="tcbuy" data-k="${kind}" ${S.cash<price?'disabled':''}><span>Buy · ${packs} pack${packs>1?'s':''}</span>${fmt(price)}</button></div></div>`;
-    return head+setChips(false)+`<div class="card setban" style="--c1:${st.c[0]};--c2:${st.c[1]}"><div class="grow"><small>Set ${s+1} of 6</small><h3>${st.name}</h3><p class="sub">80 cards + 20 full-art extras. Featuring ${FEAT[s].map(e=>crOf(e,4).n).join(' and ')}.</p></div>
+    return head+setChips(true)+`<div class="card setban" style="--c1:${st.c[0]};--c2:${st.c[1]}"><div class="grow"><small>Set ${s+1} of 6</small><h3>${st.name}</h3><p class="sub">80 cards + 20 full-art extras. Featuring ${FEAT[s].map(e=>crOf(e,4).n).join(' and ')}.</p></div>
     <div class="sealed"><b>${n}</b><small>sealed</small></div></div>
     <div class="card row"><div class="grow"><h3>Rip packs</h3><p class="sub">Every pack: 5 commons, 3 uncommons, a reverse slot and a rare slot with a chance of holo, ultra, secret gold or special illustration.</p></div></div>
     <div class="ripbar"><button class="btn" data-act="rip" ${n<1?'disabled':''}>Rip a pack</button><button class="btn ghost" data-act="ripall" ${n<1?'disabled':''}>Rip all ${n||''}</button></div>
@@ -1233,21 +1250,23 @@ function vCards(){
 function sheetTC(i){
   const K=ensureTC(),c=TC[i],p=K.p[i],o=ownedN(i),l=leftN(i),unl=l===null,ch=(p/K.q[i]-1)*100;
   return `<div class="bigcard">${tcSvg(c,240)}</div><h3 style="text-align:center;margin-top:10px">${c.cr.n} · ${RAR2[c.r].n}</h3><p class="sub" style="text-align:center">${c.set===-1?'Classic · C'+String(c.num).padStart(2,'0')+'/30':SETS[c.set].name+' · '+String(c.num).padStart(3,'0')+'/080'}</p>
-  <div class="stats" style="margin-top:10px"><div class="stat"><small>Market price</small><b>${fmt(p)}</b><small class="${ch>=0?'upc':'dnc'}">${ch>=0?'▲':'▼'} ${Math.abs(ch).toFixed(1)}%</small></div><div class="stat"><small>You own</small><b>${o}</b></div><div class="stat"><small>${unl?'Supply':'Copies left'}</small><b>${unl?'Open':l}</b></div></div>
-  <p class="sub" style="margin:8px 0">Selling pays 90% of market (${fmt(p*.9)} each). Hold a button to repeat.</p>
-  <div class="trade">${[1,10].map(q=>`<button class="btn" data-act="cbuy" data-i="${i}" data-q="${q}" ${S.cash<p||(!unl&&l<1)?'disabled':''}>Buy ${q}</button>`).join('')}${[1,9999].map(q=>`<button class="btn sell" data-act="csell" data-i="${i}" data-q="${q}" ${o<1?'disabled':''}>Sell ${q===1?1:'all'}</button>`).join('')}</div>
+  <div class="stats" style="margin-top:10px"><div class="stat"><small>Market price</small><b>${fmt(p)}</b><small class="${ch>=0?'upc':'dnc'}">${ch>=0?'▲':'▼'} ${Math.abs(ch).toFixed(1)}%</small></div><div class="stat"><small>You own</small><b>${o}</b></div><div class="stat"><small>${unl?'Pack supply':'Left in packs'}</small><b>${unl?'Open':l}</b></div></div>
+  <div class="stats"><div class="stat"><small>Buy price (150%)</small><b>${fmt(p*BUYX)}</b></div><div class="stat"><small>Sell price (90%)</small><b>${fmt(p*.9)}</b></div><div class="stat"><small>Your value</small><b>${fmt(o*p)}</b></div></div>
+  <p class="sub" style="margin:8px 0">Every card can be bought from the market at 150% of its price. Hold a button to repeat.</p>
+  <div class="trade">${[1,10].map(q=>`<button class="btn" data-act="cbuy" data-i="${i}" data-q="${q}" ${S.cash<p*BUYX?'disabled':''}>Buy ${q}</button>`).join('')}${[1,9999].map(q=>`<button class="btn sell" data-act="csell" data-i="${i}" data-q="${q}" ${o<1?'disabled':''}>Sell ${q===1?1:'all'}</button>`).join('')}</div>
   <button class="btn ghost" style="width:100%;margin-top:12px" data-act="close">Close</button>`;
 }
 function sheetRip(){
   const R=ui.sheet,K=ensureTC(),s=R.set;
-  if(R.stage==='sealed')return `<div class="ripwrap"><p class="sub" style="text-align:center">${SETS[s].name} · ${K.sealed[s]} sealed</p><button class="packbtn" data-act="ripopen" aria-label="Rip the pack open">${packArt(s,170,'pack')}<span class="tear"></span></button><p style="text-align:center;font-weight:600;margin:12px 0 0">Tap the pack to rip it open</p><button class="btn ghost" style="width:100%;margin-top:12px" data-act="close">Close</button></div>`;
+  if(R.stage==='sealed')return `<div class="ripwrap"><p class="sub" style="text-align:center">${s===-1?'Classic pack':SETS[s].name} · ${sealedOf(s)} sealed</p><button class="packbtn" data-act="ripopen" aria-label="Rip the pack open">${s===-1?classicArt(170,'pack'):packArt(s,170,'pack')}<span class="tear"></span></button><p style="text-align:center;font-weight:600;margin:12px 0 0">Tap the pack to rip it open</p><button class="btn ghost" style="width:100%;margin-top:12px" data-act="close">Close</button></div>`;
   if(R.stage==='reveal'){const i=R.cards[R.idx],c=TC[i],hit='HXSI'.includes(c.r);
     return `<div class="ripwrap"><p class="sub" style="text-align:center">Card ${R.idx+1} of ${R.cards.length}</p><button class="revcard ${hit?'hit':''}" data-act="ripnext" style="--g:${RAR2[c.r].c}" aria-label="Next card">${tcSvg(c,230)}</button><h3 style="text-align:center;margin-top:10px">${c.cr.n} <span style="color:${RAR2[c.r].c}">${RAR2[c.r].sym} ${RAR2[c.r].n}</span></h3><p class="sub" style="text-align:center">${fmt(K.p[i])} · tap the card for the next one</p>
     <button class="btn ghost" style="width:100%;margin-top:10px" data-act="ripskip">Skip to summary</button></div>`}
   const cards=R.cards,val=cards.reduce((a,i)=>a+K.p[i],0),best=cards.slice().sort((a,b)=>K.p[b]-K.p[a]).slice(0,R.many?12:10);
+  if(!cards.length)return `<div class="ripwrap"><div class="emptypk">${s===-1?'♛':'∅'}</div><h3 style="text-align:center">${R.many?'No Classics in '+R.many+' packs':'No Classic this time'}</h3><p class="sub" style="text-align:center;margin:6px 0 14px">Each Classic pack has a 10% chance. Better luck on the next one.</p><div class="ripbar"><button class="btn" data-act="rip" ${sealedOf(s)<1?'disabled':''}>Rip next (${sealedOf(s)})</button><button class="btn ghost" data-act="close">Done</button></div></div>`;
   return `<h3 style="text-align:center">${R.many?R.many+' packs ripped':'Pack ripped'}</h3><p class="sub" style="text-align:center;margin:4px 0 10px">${cards.length} cards worth ${fmt(val)} at market price${R.many?' · your best pulls':''}</p>
   <div class="packgrid">${best.map((i,n)=>`<div style="animation-delay:${n*.05}s">${tcSvg(TC[i],110)}<small style="color:${RAR2[TC[i].r].c}">${RAR2[TC[i].r].n}</small><small>${fmt(K.p[i])}</small></div>`).join('')}</div>
-  <div class="ripbar" style="margin-top:14px"><button class="btn" data-act="rip" ${K.sealed[s]<1?'disabled':''}>Rip next (${K.sealed[s]})</button><button class="btn ghost" data-act="close">Done</button></div>`;
+  <div class="ripbar" style="margin-top:14px"><button class="btn" data-act="rip" ${sealedOf(s)<1?'disabled':''}>Rip next (${sealedOf(s)})</button><button class="btn ghost" data-act="close">Done</button></div>`;
 }
 
 /* ---------- render ---------- */
@@ -1265,7 +1284,7 @@ function renderSheet(){
   const el=$('#sheet');if(!ui.sheet){el.hidden=true;el.dataset.k='';return}
   el.hidden=false;
   if(ui.sheet.t==='tcard'){const K=ensureTC(),i=ui.sheet.i,key='c'+i+'|'+K.p[i]+'|'+ownedN(i)+'|'+(S.cash>=K.p[i]);if(el.dataset.k===key)return;el.dataset.k=key;$('#sheetBody').innerHTML=sheetTC(i);return}
-  if(ui.sheet.t==='rip'){const key='r'+ui.sheet.stage+ui.sheet.idx+'|'+ui.sheet.cards.length+'|'+S.tc.sealed[ui.sheet.set];if(el.dataset.k===key)return;el.dataset.k=key;$('#sheetBody').innerHTML=sheetRip();return}
+  if(ui.sheet.t==='rip'){const key='r'+ui.sheet.stage+ui.sheet.idx+'|'+ui.sheet.cards.length+'|'+sealedOf(ui.sheet.set)+'|'+(ui.sheet.many||0);if(el.dataset.k===key)return;el.dataset.k=key;$('#sheetBody').innerHTML=sheetRip();return}
   if(ui.sheet.t==='buy'){const b=ui.sheet;$('#sheetBody').innerHTML=`<div style="text-align:center;padding:6px 4px"><div style="width:64px;height:64px;border-radius:50%;background:var(--up);display:grid;place-items:center;margin:0 auto 12px"><svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><h3 style="font-size:22px">Purchase successful</h3><p style="margin:10px 0 4px"><b>${esc(b.name)}</b> · ${b.price}</p><p class="sub">You got ${esc(b.msg)}.</p><p class="sub" style="margin-top:10px;font-size:11.5px">Test mode: no payment was taken.</p><button class="btn" style="width:100%;margin-top:16px" data-act="close">Done</button></div>`;return}
   if(ui.sheet.t==='ad'){const a=ui.sheet,b=a.biz;$('#sheetBody').innerHTML=`<div style="text-align:center"><p class="sub">Advertisement</p><div style="background:var(--soft);border-radius:18px;padding:22px 12px;margin:10px 0">${ART[b]}<h3 style="font-size:26px;margin-top:8px">${BIZNAME[b]}</h3><p class="sub">${AD_LINES[b]}</p></div>
     ${a.done?`<button class="btn" style="width:100%" data-act="claimAd">Claim +${BOOST_TPS} taps/sec for 1 minute</button>`:`<div class="bar"><i id="adBar" style="width:0;transition:none"></i></div><p class="sub" style="margin-top:8px">Reward in <b id="adCd">15</b>s</p><button class="btn ghost" style="width:100%;margin-top:6px" data-act="close">Close and skip reward</button>`}</div>`;return}
@@ -1346,14 +1365,14 @@ const A={
   tcflt:d=>{ui.tcf=d.v;render()},
   tcmore:()=>{ui.tcp=(ui.tcp||1)+1;render()},
   tcard:d=>{ui.sheet={t:'tcard',i:+d.i};renderSheet()},
-  cbuy:d=>{const K=ensureTC(),i=+d.i,p=K.p[i],l=leftN(i);let q=Math.min(+d.q,Math.floor(S.cash/p),l===null?1e9:l);if(q<1)return toast(l===0?'Sold out':'Not enough cash');S.cash-=q*p;addCard(i,q);toast('Bought '+q+'× '+TC[i].cr.n);renderSheet();if(ui.view==='cards')render()},
+  cbuy:d=>{const K=ensureTC(),i=+d.i,p=K.p[i]*BUYX;let q=Math.min(+d.q,Math.floor(S.cash/p));if(q<1)return toast('Not enough cash');S.cash-=q*p;addCard(i,q);toast('Bought '+q+'× '+TC[i].cr.n);renderSheet();if(ui.view==='cards')render()},
   csell:d=>{const K=ensureTC(),i=+d.i,q=Math.min(+d.q,ownedN(i));if(q<1)return;const v=q*K.p[i]*.9;removeCard(i,q);S.cash+=v;toast('Sold '+q+'× '+TC[i].cr.n+' for '+fmt(v));renderSheet();if(ui.view==='cards')render()},
-  tcbuy:d=>{const K=ensureTC(),s=ui.tcs<0?0:(ui.tcs||0),k=d.k,price=k==='pack'?PACK_PRICE(s):k==='bundle'?BUNDLE_PRICE(s):BOX_PRICE(s),n=k==='pack'?1:k==='bundle'?6:36;if(spend(price)){K.sealed[s]+=n;toast('Added '+n+' sealed pack'+(n>1?'s':'')+' of '+SETS[s].name);render()}},
-  rip:()=>{const K=ensureTC(),s=ui.sheet&&ui.sheet.t==='rip'?ui.sheet.set:(ui.tcs<0?0:(ui.tcs||0));if(K.sealed[s]<1)return toast('No sealed packs');ui.sheet={t:'rip',set:s,stage:'sealed',cards:[],idx:0};renderSheet()},
-  ripopen:()=>{const R=ui.sheet,K=ensureTC();if(!R||R.stage!=='sealed'||K.sealed[R.set]<1)return;K.sealed[R.set]--;const b=document.querySelector('.packbtn');if(b)b.classList.add('torn');setTimeout(()=>{R.cards=rollPack(R.set).sort((a,b)=>'CURHXSI'.indexOf(TC[a].r)-'CURHXSI'.indexOf(TC[b].r));R.stage='reveal';R.idx=0;save();renderSheet();if(ui.view==='cards')render()},450)},
+  tcbuy:d=>{const K=ensureTC(),s=ui.tcs===-1?-1:(ui.tcs||0),k=d.k,cl=s===-1,price=cl?CLS_PRICE[k]:k==='pack'?PACK_PRICE(s):k==='bundle'?BUNDLE_PRICE(s):BOX_PRICE(s),n=cl?CLS_N[k]:k==='pack'?1:k==='bundle'?6:36;if(spend(price)){addSealed(s,n);toast('Added '+n+' sealed '+(cl?'Classic ':'')+'pack'+(n>1?'s':'')+(cl?'':' of '+SETS[s].name));render()}},
+  rip:()=>{const K=ensureTC(),s=ui.sheet&&ui.sheet.t==='rip'?ui.sheet.set:(ui.tcs===-1?-1:(ui.tcs||0));if(sealedOf(s)<1)return toast('No sealed packs');ui.sheet={t:'rip',set:s,stage:'sealed',cards:[],idx:0};renderSheet()},
+  ripopen:()=>{const R=ui.sheet,K=ensureTC();if(!R||R.stage!=='sealed'||sealedOf(R.set)<1)return;addSealed(R.set,-1);const b=document.querySelector('.packbtn');if(b)b.classList.add('torn');setTimeout(()=>{R.cards=(R.set===-1?rollClassic():rollPack(R.set)).sort((a,b)=>'CURHXSI'.indexOf(TC[a].r)-'CURHXSI'.indexOf(TC[b].r));R.stage=R.cards.length?'reveal':'done';R.idx=0;save();renderSheet();if(ui.view==='cards')render()},450)},
   ripnext:()=>{const R=ui.sheet;if(!R||R.stage!=='reveal')return;if(R.idx<R.cards.length-1){R.idx++}else R.stage='done';renderSheet()},
   ripskip:()=>{const R=ui.sheet;if(R){R.stage='done';renderSheet()}},
-  ripall:()=>{const K=ensureTC(),s=ui.tcs<0?0:(ui.tcs||0),n=K.sealed[s];if(n<1)return;let cards=[];for(let k=0;k<n;k++)cards=cards.concat(rollPack(s));K.sealed[s]=0;ui.sheet={t:'rip',set:s,stage:'done',cards,idx:0,many:n};render()},
+  ripall:()=>{const K=ensureTC(),s=ui.tcs===-1?-1:(ui.tcs||0),n=sealedOf(s);if(n<1)return;let cards=[];for(let k=0;k<n;k++)cards=cards.concat(s===-1?rollClassic():rollPack(s));addSealed(s,-n);ui.sheet={t:'rip',set:s,stage:'done',cards,idx:0,many:n};render()},
   iap:d=>{const it=IAPS.find(x=>x.id===d.id);if(!it||(it.one&&iapOwned(it)))return;if(it.can&&it.can())return toast(it.can());if(!S.iap)S.iap={};const msg=it.grant();if(it.one)S.iap[it.id]=true;ui.sheet={t:'buy',name:it.name,price:it.price,msg};render()},
   pack:d=>{const[n,v]=PACKS[+d.i];S.cash+=v;toast(n+': +'+fmt(v));render()},
   askReset:()=>{ui.sheet={t:'reset'};renderSheet()},
@@ -1415,7 +1434,7 @@ const loop=setInterval(()=>{
 </script>
 <script>
 /* auto-update: when a newer version is on GitHub, reload into it (progress is kept) */
-(function(){const BUILD='1795668785';
+(function(){const BUILD='1795669164';
  async function check(){try{const t=await fetch(location.pathname+'?check='+Date.now(),{cache:'no-store'}).then(r=>r.text());const m=t.match(/const BUILD='(\d+)'/);if(m&&m[1]!==BUILD)location.replace(location.pathname+'?v='+m[1])}catch(e){}}
  addEventListener('load',()=>setTimeout(check,1500));document.addEventListener('visibilitychange',()=>{if(!document.hidden)check()});setInterval(check,300000);
 })();
