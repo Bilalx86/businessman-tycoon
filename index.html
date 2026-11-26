@@ -111,7 +111,7 @@ td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}tr.me td{font-weigh
 .panel .stats{margin:0 0 10px}.panel .stat{background:var(--card)}
 .trade{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin-top:6px}.trade .btn{padding:0 4px;font-size:13px}
 .chips{display:flex;gap:6px;margin-bottom:6px}.chips button{border:1px solid var(--line);background:var(--card);border-radius:20px;padding:0 14px;min-height:36px;font-size:13px;font-weight:600}.chips .on{background:var(--ink);color:var(--bg)}
-.nav{position:fixed;bottom:0;left:0;right:0;z-index:6;background:var(--card);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(6,minmax(0,1fr));padding:6px max(8px,calc(50vw - 310px)) calc(6px + env(safe-area-inset-bottom))}
+.nav{position:fixed;bottom:0;left:0;right:0;z-index:6;background:var(--card);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(7,minmax(0,1fr));padding:6px max(8px,calc(50vw - 310px)) calc(6px + env(safe-area-inset-bottom))}
 .nav button{border:0;background:none;display:grid;justify-items:center;gap:2px;font-size:12px;font-weight:600;color:var(--mute);min-height:52px;border-radius:12px}
 .nav svg{width:24px;height:24px}.nav .on{color:var(--brand)}
 .sheet{position:fixed;inset:0;z-index:10;display:grid;align-items:end}.sheet[hidden]{display:none}
@@ -189,6 +189,20 @@ tr.me td{color:var(--brand)}
 .btn2{display:grid;justify-items:center;line-height:1.15;min-width:86px;padding:6px 12px}.btn2 span{font-size:11px;font-weight:500;opacity:.75}
 .flights span{background:var(--soft);border-radius:6px}
 .coin:focus-visible,.btn:focus-visible,.seg button:focus-visible,.nav button:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+.nav button{font-size:10.5px}.nav svg{width:22px;height:22px}
+.cgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}@media(min-width:520px){.cgrid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.ctile{border:0;background:var(--card);border-radius:12px;padding:8px;display:grid;gap:4px;text-align:left}.ctile svg{width:100%;height:auto;display:block;border-radius:8px}
+.cname{font-weight:600;font-size:14px;display:flex;justify-content:space-between;gap:6px}.cname em{font-style:normal;color:var(--brand);font-size:12px}
+.cmeta{display:flex;justify-content:space-between;align-items:center}.cmeta b{font-size:14px}.cmeta small{font-size:11.5px;font-weight:600}.csup{font-size:11px;color:var(--mute)}
+.bigcard{display:grid;place-items:center;perspective:600px}.bigcard svg{border-radius:12px;box-shadow:0 12px 30px #0008;animation:tilt 6s ease-in-out infinite alternate}
+@keyframes tilt{from{transform:rotateY(-10deg)}to{transform:rotateY(10deg)}}
+.shine{animation:sh 3s ease-in-out infinite alternate}@keyframes sh{from{transform:translateX(-50px)}to{transform:translateX(50px)}}
+.ctile .shine{animation:none}
+.pack3{width:58px;height:80px;flex:none;border-radius:8px;background:linear-gradient(150deg,var(--pc),#111 120%);display:grid;place-items:center;align-content:center;gap:2px;color:#fff;box-shadow:inset 0 0 0 2px #fff3}.pack3 span{font-size:7.5px;letter-spacing:.06em;opacity:.8}.pack3 b{font-size:12px}
+.packgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.packgrid div{text-align:center;animation:pop .45s both}.packgrid svg{width:100%;height:auto;border-radius:6px}.packgrid small{font-size:11px;color:var(--mute)}
+@keyframes pop{from{transform:scale(.7) rotateY(80deg)}to{transform:none}}
+.chips.scroll{flex-wrap:nowrap;padding-bottom:2px}.chips.scroll button{flex:none;white-space:nowrap}
+@media(prefers-reduced-motion:reduce){.bigcard svg,.shine,.packgrid div{animation:none}}
 </style>
 </head>
 <body>
@@ -210,6 +224,7 @@ tr.me td{color:var(--brand)}
   <button data-act="nav" data-v="biz"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 13h18"/></svg>Business</button>
   <button data-act="nav" data-v="prop"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V9l7-5 7 5v12M10 21v-5h4v5"/></svg>Property</button>
   <button data-act="nav" data-v="markets"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17l6-6 4 4 8-8M15 7h6v6"/></svg>Markets</button>
+  <button data-act="nav" data-v="cards"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="11" height="15" rx="2"/><path d="M9 3.5l9.5 2.5a2 2 0 0 1 1.4 2.4l-3 11"/></svg>Cards</button>
   <button data-act="nav" data-v="you"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg>You</button>
   <button data-act="nav" data-v="shop"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 8h16l-1.5 12h-13zM8 8a4 4 0 0 1 8 0"/></svg>Shop</button>
 </nav>
@@ -322,7 +337,7 @@ const assets=()=>{let v=0;
   if(S.team.own){v+=BIZ.team;S.team.roster.forEach(p=>v+=p.cost)}
   S.props.forEach((o,i)=>{if(o){v+=PROPS[i].price;for(let u=0;u<S.pu[i];u++)v+=puCost(i,u)}});
   S.st.own.forEach((o,i)=>v+=o*S.st.p[i]);S.cr.own.forEach((o,i)=>v+=o*S.cr.p[i]);
-  Object.keys(S.own).forEach(id=>{if(ITEMS[id])v+=ITEMS[id].price});return v};
+  Object.keys(S.own).forEach(id=>{if(ITEMS[id])v+=ITEMS[id].price});v+=cardsValue();return v};
 const netWorth=()=>S.cash+assets();
 const richList=()=>RICH.map(x=>({...x})).concat([{n:S.me.name||'You',ind:'Businessman Tycoon',w:netWorth(),me:true}]).sort((a,b)=>b.w-a.w);
 const earn=g=>{S.cash+=g;S.earned+=g};
@@ -347,7 +362,7 @@ function playRound(t){
 const standings=t=>Object.entries(t.tb).map(([n,[w,l]])=>({n,w,l})).sort((a,b)=>b.w-a.w||t.seed[b.n]-t.seed[a.n]);
 function processTour(now){
   let ch=false,runs=0,won=0,titles=0,last=null;
-  while(S.team.tour&&runs<480){const t=S.team.tour;
+  while(S.team.tour&&runs<45){const t=S.team.tour;
     while(t.round<ROUNDS&&now>=t.start+(t.round+1)*TOUR_MS/ROUNDS){playRound(t);ch=true}
     if(t.round<ROUNDS)break;
     const st=standings(t),place=st.findIndex(x=>x.n===ME)+1,me=t.tb[ME];
@@ -356,6 +371,7 @@ function processTour(now){
     S.team.tour=null;ch=true;runs++;won+=prize;
     if(S.team.auto&&S.team.autoOn)startTour(t.start+TOUR_MS,true);
   }
+  if(S.team.tour&&S.team.tour.round===0&&S.team.tour.start+TOUR_MS<now)S.team.tour.start=now;
   if(runs===1)toast(last.place===1?'Champions! You won '+fmt(last.prize):'Finished #'+last.place+' — prize '+fmt(last.prize));
   else if(runs>1)toast(runs+' tournaments played · '+titles+' titles · '+fmt(won)+' in prizes');
   return ch;
@@ -365,6 +381,7 @@ function processTour(now){
 function tickStocks(){
   S.st.p=S.st.p.map((p,i)=>{const b=STOCKS[i].base;let n=p*(1+(Math.random()-.5)*.1+.04*Math.log(b/p));return Math.max(b*.2,Math.min(b*5,n))});
   S.st.h.forEach((h,i)=>{h.push(S.st.p[i]);if(h.length>40)h.shift()});
+  tickCards();
   const o=S.oil;o.p=Math.max(30,Math.min(200,o.p*(1+(Math.random()-.5)*.08+.05*Math.log(80/o.p))));o.h.push(o.p);if(o.h.length>40)o.h.shift();
 }
 function tickCrypto(){
@@ -520,7 +537,7 @@ function vTeam(){
   const ros=T.roster.slice().sort((a,b)=>b.r-a.r);
   return `<div class="card"><div class="row"><div class="grow"><h3>Sydney Tycoons</h3><p class="sub">${T.titles} titles · ${T.played} tournaments · avg rating ${avgRating().toFixed(1)}</p></div><div style="text-align:right"><div class="big">${Math.round(p*100)}%</div><small class="sub">win chance</small></div></div><div class="bar" style="margin-top:10px"><i style="width:${p*100}%"></i></div></div>
   ${tour}
-  <div class="card row"><div class="mono" style="background:var(--brand);color:var(--brandInk)">AUTO</div><div class="grow"><h3>Auto-start tournaments</h3><p class="sub">${T.auto?(T.autoOn?'On: a new tournament starts the moment one ends, even while you’re away (up to 12 hours).':'Off: tap to switch it back on.'):'Starts the next tournament automatically as soon as one finishes. One-off purchase.'}</p></div>${T.auto?`<button class="btn ${T.autoOn?'':'ghost'}" data-act="autoTour">${T.autoOn?'On':'Off'}</button>`:`<button class="btn" data-act="buyAutoTour" ${S.cash<AUTO_TOUR?'disabled':''}>${fmt(AUTO_TOUR)}</button>`}</div>
+  <div class="card row"><div class="mono" style="background:var(--brand);color:var(--brandInk)">AUTO</div><div class="grow"><h3>Auto-start tournaments</h3><p class="sub">${T.auto?(T.autoOn?'On: a new tournament starts the moment one ends, even while you’re away (up to 1 hour).':'Off: tap to switch it back on.'):'Starts the next tournament automatically as soon as one finishes. One-off purchase.'}</p></div>${T.auto?`<button class="btn ${T.autoOn?'':'ghost'}" data-act="autoTour">${T.autoOn?'On':'Off'}</button>`:`<button class="btn" data-act="buyAutoTour" ${S.cash<AUTO_TOUR?'disabled':''}>${fmt(AUTO_TOUR)}</button>`}</div>
   <div class="card"><h3>Roster <span class="sub">${full}/11</span></h3><div class="list">${ros.map(pl=>`<div class="li"><div class="rt ${rClass(pl.r)}">${pl.r}</div><div class="grow"><b>${pl.name}</b><small>${pl.pos}</small></div><button class="btn ghost" data-act="release" data-id="${pl.id}">${pl.cost?'Sell '+fmt(pl.cost/2):'Release'}</button></div>`).join('')}${full<11?`<div class="li"><div class="rt r1">—</div><div class="grow"><b>Open spot</b><small>Sign a player below</small></div></div>`.repeat(11-full):''}</div></div>
   <div class="card"><h3>Transfer market</h3><p class="sub">Selling a signed player returns 50% of their fee.</p><div class="list">${PLAYERS.map(pl=>{const own=T.roster.some(x=>x.id===pl.id);
     return `<div class="li"><div class="rt ${rClass(pl.r)}">${pl.r}</div><div class="grow"><b>${pl.name}</b><small class="money">${pl.pos} · ${fmt(pl.cost)}</small></div>${own?'<span class="tag">Signed</span>':`<button class="btn" data-act="sign" data-id="${pl.id}" ${full>=11||S.cash<pl.cost?'disabled':''}>${full>=11?'Roster full':'Sign'}</button>`}</div>`}).join('')}</div></div>`;
@@ -916,11 +933,100 @@ function buildFigure(){
     if(k==='crown'){add(new T.CylinderGeometry(.112,.108,.05,24,1,true),M(hw.col,{m:.9,r:.22,ds:1}),[0,.13,0],[-.06,0,0],[1,1,1.05],hd);for(let j=0;j<8;j++){const a=Math.PI*2*j/8;add(new T.ConeGeometry(.018,.06,8),cm,[Math.sin(a)*.11,.185,Math.cos(a)*.115],[0,0,0],[1,1,1],hd);add(sph(.009,10,8),M(hw.gem?['#c0263b','#2f63c8','#1f9a5a','#ffffff'][j%4]:'#c0263b',{r:.1,m:.2,e:'#220000',ei:.1}),[Math.sin(a)*.113,.125,Math.cos(a)*.118],[0,0,0],[1,1,1],hd)}}}
 }
 
+/* ---------- Craydons trading cards ---------- */
+const ELS={Ember:['#ff6b35','#ffd23f','#ffb27a','#7a1f0f'],Tide:['#2f80ed','#7ad0ff','#a9dcff','#0b2f66'],Bloom:['#3fae5a','#b6e388','#d6f5b0','#123d1d'],Volt:['#f5c518','#fff3a0','#fff0a8','#5a4300'],Stone:['#8d6e53','#c9b28a','#e1d2b4','#3a2a1c'],Frost:['#6cc7ea','#e8f8ff','#dff4ff','#1a4d66'],Shade:['#6b4fa0','#c7a8ff','#8f78b8','#1a1030'],Gale:['#5fbfae','#e4fbf7','#c8f2ea','#164a42']};
+const CRAY={Ember:['Cindlet','Pyropup','Blazwing','Magmaw','Flarion'],Tide:['Puddlo','Ripplefin','Spraybill','Torrentusk','Abyssurge'],Bloom:['Sproutle','Thornip','Petalwing','Mossmaw','Verdragon'],Volt:['Zapkit','Joltpaw','Sparkbeak','Ohmhorn','Thundrake'],Stone:['Pebblet','Bouldog','Cragwing','Quarrox','Granitan'],Frost:['Flurrup','Icicub','Glaciowl','Frostusk','Blizzarde'],Shade:['Gloomit','Duskpaw','Murkmoth','Phantusk','Noctalon'],Gale:['Breezlet','Gustpup','Zephwing','Cyclonox','Skyraith']};
+const CRAYS=[];Object.entries(CRAY).forEach(([el,ns],e)=>ns.forEach((n,f)=>CRAYS.push({n,el,f,k:e*5+f})));
+const RAR={C:{n:'Common',c:'#9aa3ad',sup:null,vol:.03},U:{n:'Uncommon',c:'#3fae5a',sup:null,vol:.035},R:{n:'Rare',c:'#2f80ed',sup:500,vol:.04},H:{n:'Holo rare',c:'#a970ff',sup:100,vol:.045},X:{n:'Ultra full art',c:'#ff4fa3',sup:20,vol:.05},S:{n:'Secret gold',c:'#f0b90b',sup:5,vol:.05},F:{n:'Founder Edition 1/1',c:'#f0b90b',sup:1,vol:.03}};
+const CARDS=(()=>{const a=[],els=Object.keys(CRAY),cr=(el,f)=>CRAYS.find(c=>c.el===el&&c.f===f),rnd=(i,lo,hi)=>nice(lo*Math.pow(hi/lo,((i*37)%101)/100));
+  els.forEach((el,e)=>[0,1,2].forEach(f=>a.push({c:cr(el,f),r:'C',base:rnd(a.length,1,5)})));
+  els.forEach((el,e)=>[3,4].forEach(f=>a.push({c:cr(el,f),r:'U',base:rnd(a.length,8,25)})));
+  els.forEach((el,e)=>[2,3,4].forEach(f=>a.push({c:cr(el,f),r:'R',base:rnd(a.length,50,400)})));
+  els.forEach((el,e)=>[3,4].forEach(f=>a.push({c:cr(el,f),r:'H',base:rnd(a.length,1000,8000)})));
+  els.forEach(el=>a.push({c:cr(el,4),r:'X',base:rnd(a.length,40000,150000)}));['Ember','Tide','Shade','Gale'].forEach(el=>a.push({c:cr(el,3),r:'X',base:rnd(a.length,20000,60000)}));
+  els.filter(el=>el!=='Volt').forEach(el=>a.push({c:cr(el,4),r:'S',base:rnd(a.length,400000,2000000)}));
+  a.push({c:cr('Volt',4),r:'F',base:10000000});
+  return a.map((x,i)=>({...x,i,pwr:30+x.c.f*25+'CURHXSF'.indexOf(x.r)*15+((i*7)%10)}))})();
+const freshCards=()=>({own:CARDS.map(()=>0),p:CARDS.map(c=>c.base),h:CARDS.map(c=>[c.base]),left:CARDS.map(c=>RAR[c.r].sup)});
+function tickCards(){if(!S.cards)return;S.cards.p=S.cards.p.map((p,i)=>{const b=CARDS[i].base,v=RAR[CARDS[i].r].vol;let n=p*(1+(Math.random()-.5)*2*v+.05*Math.log(b/p));return Math.max(b*.3,Math.min(b*4,n))});S.cards.h.forEach((h,i)=>{h.push(S.cards.p[i]);if(h.length>30)h.shift()})}
+const cardsValue=()=>S.cards?S.cards.own.reduce((a,o,i)=>a+o*S.cards.p[i],0):0;
+/* original creature art: element palette + body form + element features */
+function craySvg(c){
+  const [a,b,l,d]=ELS[c.el],k=c.k,f=c.f,sd=(n)=>((k*9301+n*49297)%233280)/233280;
+  const eye=(x,y,r=5,glow)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="#fff"/><circle cx="${x+r*.2}" cy="${y+r*.1}" r="${r*.62}" fill="${glow||'#1b1b1b'}"/><circle cx="${x-r*.15}" cy="${y-r*.3}" r="${r*.25}" fill="#fff"/>`;
+  const glow=c.el==='Shade'?'#c7a8ff':null;let s='';
+  const top=[[50,33],[70,26],[50,30],[50,27],[71,17]][f],tail=[[30,62],[22,44],[34,62],[24,50],[16,60]][f];
+  const deco=(x,y,sc=1)=>({Ember:`<path d="M${x} ${y-14*sc}C${x+8*sc} ${y-6*sc} ${x+6*sc} ${y+2*sc} ${x} ${y+3*sc}C${x-6*sc} ${y+2*sc} ${x-8*sc} ${y-6*sc} ${x} ${y-14*sc}Z" fill="${b}"/><path d="M${x} ${y-7*sc}C${x+4*sc} ${y-2*sc} ${x+3*sc} ${y+2*sc} ${x} ${y+2*sc}C${x-3*sc} ${y+2*sc} ${x-4*sc} ${y-2*sc} ${x} ${y-7*sc}Z" fill="#fff6"/>`,
+    Tide:`<path d="M${x-6*sc} ${y+2*sc}Q${x} ${y-14*sc} ${x+9*sc} ${y-10*sc}Q${x+4*sc} ${y-2*sc} ${x+6*sc} ${y+2*sc}Z" fill="${b}"/>`,
+    Bloom:`<ellipse cx="${x-4*sc}" cy="${y-6*sc}" rx="${4*sc}" ry="${9*sc}" fill="${b}" transform="rotate(-30 ${x-4*sc} ${y-6*sc})"/><ellipse cx="${x+4*sc}" cy="${y-6*sc}" rx="${4*sc}" ry="${9*sc}" fill="${l}" transform="rotate(30 ${x+4*sc} ${y-6*sc})"/><circle cx="${x}" cy="${y}" r="${2.5*sc}" fill="#ff7aa8"/>`,
+    Volt:`<path d="M${x-2*sc} ${y-16*sc}L${x+6*sc} ${y-6*sc}L${x+1*sc} ${y-5*sc}L${x+5*sc} ${y+3*sc}L${x-6*sc} ${y-8*sc}L${x-1*sc} ${y-9*sc}Z" fill="${b}" stroke="${d}" stroke-width=".8"/>`,
+    Stone:`<path d="M${x-8*sc} ${y+2*sc}L${x-5*sc} ${y-8*sc}L${x+1*sc} ${y-11*sc}L${x+8*sc} ${y-4*sc}L${x+6*sc} ${y+2*sc}Z" fill="${l}" stroke="${d}" stroke-width=".8"/>`,
+    Frost:`<path d="M${x} ${y-15*sc}L${x+3*sc} ${y}L${x-3*sc} ${y}Z M${x-7*sc} ${y-9*sc}L${x+1*sc} ${y}L${x-3*sc} ${y+1*sc}Z M${x+7*sc} ${y-9*sc}L${x+3*sc} ${y+1*sc}L${x-1*sc} ${y}Z" fill="${b}" stroke="#fff" stroke-width=".6"/>`,
+    Shade:`<path d="M${x} ${y}C${x-10*sc} ${y-6*sc} ${x+2*sc} ${y-14*sc} ${x+8*sc} ${y-12*sc}C${x} ${y-10*sc} ${x+4*sc} ${y-4*sc} ${x} ${y}Z" fill="${b}" opacity=".85"/>`,
+    Gale:`<path d="M${x-8*sc} ${y}Q${x-6*sc} ${y-12*sc} ${x+4*sc} ${y-12*sc}Q${x+10*sc} ${y-10*sc} ${x+6*sc} ${y-5*sc}Q${x+2*sc} ${y-2*sc} ${x-1*sc} ${y-6*sc}" fill="none" stroke="${b}" stroke-width="${2.6*sc}" stroke-linecap="round"/>`})[c.el];
+  const pat=(cx,cy,rx,ry)=>k%3===0?[0,1,2].map(j=>`<circle cx="${cx-rx*.4+j*rx*.4}" cy="${cy-ry*.3+(j%2)*ry*.35}" r="${Math.max(1.5,rx*.12)}" fill="${d}" opacity=".35"/>`).join(''):k%3===1?[0,1].map(j=>`<path d="M${cx-rx*.6} ${cy-ry*.2+j*ry*.35}Q${cx} ${cy-ry*.45+j*ry*.35} ${cx+rx*.6} ${cy-ry*.2+j*ry*.35}" stroke="${d}" stroke-width="1.6" fill="none" opacity=".35"/>`).join(''):'';
+  const shadow=`<ellipse cx="50" cy="74" rx="${[18,26,16,28,30][f]}" ry="3.5" fill="#0004"/>`;
+  if(f===0){s=shadow+`<ellipse cx="42" cy="70" rx="6" ry="3.5" fill="${d}"/><ellipse cx="58" cy="70" rx="6" ry="3.5" fill="${d}"/><ellipse cx="50" cy="53" rx="20" ry="18" fill="${a}"/><ellipse cx="50" cy="59" rx="12" ry="9" fill="${l}"/>`+pat(50,50,20,18)+deco(top[0],top[1],.9)+eye(43,48,5.5,glow)+eye(57,48,5.5,glow)+`<path d="M47 57Q50 60 53 57" stroke="${d}" stroke-width="1.5" fill="none" stroke-linecap="round"/><ellipse cx="38" cy="55" rx="3" ry="1.8" fill="#ff8a8a" opacity=".5"/><ellipse cx="62" cy="55" rx="3" ry="1.8" fill="#ff8a8a" opacity=".5"/>`}
+  if(f===1){s=shadow+`<path d="M28 50Q14 46 ${tail[0]} ${tail[1]}" stroke="${a}" stroke-width="5" fill="none" stroke-linecap="round"/>`+deco(tail[0],tail[1]+2,.7)+[[32,0],[42,1],[56,0],[64,1]].map(([x,j])=>`<rect x="${x}" y="56" width="7" height="15" rx="3.5" fill="${j?a:tint(a,.85)}"/>`).join('')+`<ellipse cx="48" cy="54" rx="24" ry="13" fill="${a}"/><ellipse cx="48" cy="59" rx="15" ry="6" fill="${l}"/>`+pat(46,52,22,12)+`<path d="M62 32L66 16L72 30Z M74 30L80 15L82 32Z" fill="${tint(a,.85)}"/><circle cx="71" cy="40" r="13" fill="${a}"/><ellipse cx="76" cy="46" rx="7" ry="5" fill="${l}"/>`+deco(top[0],top[1]-4,.65)+eye(67,38,4,glow)+eye(77,38,4,glow)+`<circle cx="80" cy="45" r="1.6" fill="${d}"/>`}
+  if(f===2){s=shadow+`<path d="M36 48Q10 30 8 52Q22 50 36 60Z" fill="${tint(a,.85)}"/><path d="M64 48Q90 30 92 52Q78 50 64 60Z" fill="${tint(a,.85)}"/><path d="M14 46L28 50M12 52L28 55" stroke="${l}" stroke-width="1.4"/><path d="M86 46L72 50M88 52L72 55" stroke="${l}" stroke-width="1.4"/><ellipse cx="50" cy="52" rx="16" ry="19" fill="${a}"/><ellipse cx="50" cy="58" rx="10" ry="11" fill="${l}"/>`+pat(50,48,15,17)+deco(top[0],top[1],.8)+eye(44,44,4.5,glow)+eye(56,44,4.5,glow)+`<path d="M46 50L54 50L50 57Z" fill="${b}" stroke="${d}" stroke-width=".8"/><path d="M44 70V74M56 70V74" stroke="${d}" stroke-width="2.5" stroke-linecap="round"/>`}
+  if(f===3){s=shadow+`<ellipse cx="25" cy="54" rx="8" ry="13" fill="${tint(a,.85)}" transform="rotate(20 25 54)"/><ellipse cx="75" cy="54" rx="8" ry="13" fill="${tint(a,.85)}" transform="rotate(-20 75 54)"/><rect x="36" y="62" width="11" height="12" rx="4" fill="${d}"/><rect x="53" y="62" width="11" height="12" rx="4" fill="${d}"/><ellipse cx="50" cy="50" rx="25" ry="22" fill="${a}"/><ellipse cx="50" cy="57" rx="16" ry="12" fill="${l}"/>`+pat(50,46,24,20)+`<path d="M33 32L28 16L40 28Z M67 32L72 16L60 28Z" fill="${b}" stroke="${d}" stroke-width=".8"/>`+deco(top[0],top[1]+2,1.1)+eye(42,41,4.6,glow)+eye(58,41,4.6,glow)+`<path d="M36 35L46 38M64 35L54 38" stroke="${d}" stroke-width="2" stroke-linecap="round"/><path d="M42 52Q50 58 58 52" stroke="${d}" stroke-width="2" fill="none"/><path d="M45 53L46 57L48 54M55 53L54 57L52 54" fill="#fff"/>`}
+  if(f===4){s=shadow+`<path d="M40 44Q20 10 4 26Q18 30 22 46Z" fill="${tint(a,.8)}"/><path d="M54 42Q66 6 88 14Q76 24 66 44Z" fill="${tint(a,.75)}"/><path d="M10 24L24 40M80 14L66 38" stroke="${l}" stroke-width="1.4"/><path d="M30 60Q8 70 ${tail[0]} ${tail[1]}" stroke="${a}" stroke-width="7" fill="none" stroke-linecap="round"/>`+deco(tail[0]-2,tail[1]+1,.8)+`<rect x="34" y="60" width="9" height="13" rx="4" fill="${d}"/><rect x="50" y="60" width="9" height="13" rx="4" fill="${d}"/><ellipse cx="46" cy="55" rx="20" ry="14" fill="${a}"/><ellipse cx="46" cy="59" rx="13" ry="7" fill="${l}"/>`+pat(46,52,18,12)+`<path d="M56 50Q62 36 68 30" stroke="${a}" stroke-width="11" fill="none" stroke-linecap="round"/><ellipse cx="71" cy="26" rx="12" ry="9" fill="${a}"/><ellipse cx="79" cy="30" rx="6" ry="4" fill="${l}"/><path d="M64 20L60 8L68 18Z M72 18L74 6L78 18Z" fill="${b}" stroke="${d}" stroke-width=".8"/>`+deco(top[0]-6,top[1]-1,.55)+eye(73,24,3.8,glow)+`<circle cx="83" cy="29" r="1.3" fill="${d}"/>`}
+  return s;
+}
+function cardSvg(i,w=126){
+  const cd=CARDS[i],c=cd.c,R=RAR[cd.r],[a,b,l,d]=ELS[c.el],id='cg'+i+'_'+Math.floor(Math.random()*1e6),full=cd.r==='X'||cd.r==='S'||cd.r==='F';
+  const frame=cd.r==='F'?'#111':cd.r==='S'?'url(#'+id+'g)':R.c,inner=cd.r==='F'?'#0b0b0b':'#1c1f26';
+  const stars='★'.repeat('CURHXSF'.indexOf(cd.r)+1);
+  return `<svg viewBox="0 0 126 176" width="${w}" height="${w*176/126}" role="img" aria-label="${c.n} ${R.n} card"><defs><linearGradient id="${id}b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${l}"/><stop offset="1" stop-color="${a}"/></linearGradient><linearGradient id="${id}g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff3b8"/><stop offset=".5" stop-color="#f0b90b"/><stop offset="1" stop-color="#a87412"/></linearGradient><linearGradient id="${id}h" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff7ad9" stop-opacity=".0"/><stop offset=".3" stop-color="#7ad0ff" stop-opacity=".45"/><stop offset=".5" stop-color="#b6ff7a" stop-opacity=".35"/><stop offset=".7" stop-color="#ffd23f" stop-opacity=".45"/><stop offset="1" stop-color="#ff7ad9" stop-opacity="0"/></linearGradient><clipPath id="${id}c"><rect x="${full?6:11}" y="${full?6:24}" width="${full?114:104}" height="${full?164:80}" rx="${full?6:3}"/></clipPath></defs>
+  <rect width="126" height="176" rx="9" fill="${frame}"/>${cd.r==='F'?`<rect x="2" y="2" width="122" height="172" rx="8" fill="none" stroke="url(#${id}g)" stroke-width="2"/>`:''}<rect x="6" y="6" width="114" height="164" rx="6" fill="${inner}"/>
+  <g clip-path="url(#${id}c)"><rect x="0" y="0" width="126" height="176" fill="url(#${id}b)"/>${cd.r==='S'||cd.r==='F'?`<rect width="126" height="176" fill="url(#${id}g)" opacity=".35"/>`:''}<circle cx="${30+sdOf(i)*60}" cy="40" r="40" fill="#fff" opacity=".12"/>
+  <g transform="${full?'translate(3 40) scale(1.2)':'translate(13 24)'}">${craySvg(c)}</g>${'HXSF'.includes(cd.r)?`<rect class="shine" width="126" height="176" fill="url(#${id}h)"/>`:''}</g>
+  <rect x="${full?10:11}" y="${full?10:9}" width="${full?106:104}" height="13" rx="3" fill="${full?'#000a':'transparent'}"/>
+  <text x="14" y="19" font-size="9.5" font-weight="700" fill="#fff" font-family="IBM Plex Sans,sans-serif">${c.n}</text><text x="112" y="19" font-size="7.5" font-weight="600" text-anchor="end" fill="${b}" font-family="IBM Plex Sans,sans-serif">PWR ${cd.pwr}</text>
+  ${full?'':`<rect x="11" y="108" width="104" height="40" rx="3" fill="#0003"/><text x="15" y="120" font-size="7" fill="#c9ced6" font-family="IBM Plex Sans,sans-serif">${c.el} Craydon · Form ${c.f+1}</text><text x="15" y="131" font-size="6.5" fill="#8a92a0" font-family="IBM Plex Sans,sans-serif">${['Hatchling','Scout','Flyer','Brute','Legend'][c.f]} of the ${c.el} clan</text><text x="15" y="142" font-size="7" fill="${R.c}" font-family="IBM Plex Sans,sans-serif">${stars}</text>`}
+  ${cd.r==='F'?`<rect x="10" y="134" width="106" height="20" rx="3" fill="#000c"/><text x="63" y="147" font-size="8.5" font-weight="700" text-anchor="middle" fill="url(#${id}g)" font-family="IBM Plex Sans,sans-serif">FOUNDER EDITION · 1/1</text>`:full?`<rect x="10" y="146" width="106" height="12" rx="3" fill="#000a"/><text x="14" y="155" font-size="7" fill="${R.c}" font-family="IBM Plex Sans,sans-serif">${stars} ${R.n}</text>`:''}
+  <text x="14" y="${full?166:162}" font-size="6.5" fill="${full?'#fffc':'#8a92a0'}" font-family="IBM Plex Sans,sans-serif">${R.n}</text><text x="112" y="${full?166:162}" font-size="6.5" text-anchor="end" fill="${full?'#fffc':'#8a92a0'}" font-family="IBM Plex Sans,sans-serif">#${String(i+1).padStart(3,'0')}/100</text></svg>`;
+}
+function sdOf(i){return((i*7919)%97)/97}
+
+const ensureCards=()=>{if(!S.cards)S.cards=freshCards();return S.cards};
+const PACKS2=[{id:'basic',name:'Starter booster',price:250,col:'#2f80ed',w:{C:70,U:22,R:6.5,H:1.3,X:.2}},{id:'premium',name:'Premium booster',price:250000,col:'#a970ff',w:{U:30,R:40,H:20,X:8.5,S:1.5}},{id:'elite',name:'Elite booster',price:25000000,col:'#f0b90b',w:{R:20,H:45,X:27,S:8}}];
+function vCards(){
+  const K=ensureCards(),uniq=K.own.filter(o=>o>0).length,tot=K.own.reduce((a,b)=>a+b,0),cv=ui.cv||'market',cr=ui.cr||'all';
+  const tabs=[['market','Market'],['coll','My collection'],['packs','Boosters']];
+  const chips=['all','C','U','R','H','X','S','F'];
+  const head=`<div class="card"><div class="row"><div class="grow"><h3>Craydons trading cards</h3><p class="sub">40 Craydons · 100 cards · prices move every 10 seconds</p></div></div>
+  <div class="stats"><div class="stat"><small>Collection value</small><b>${fmt(cardsValue())}</b></div><div class="stat"><small>Unique cards</small><b>${uniq}/100</b></div><div class="stat"><small>Cards owned</small><b>${tot}</b></div></div></div>
+  <div class="seg">${tabs.map(([k,n])=>`<button class="${cv===k?'on':''}" data-act="cview" data-v="${k}">${n}</button>`).join('')}</div>`;
+  if(cv==='packs')return head+PACKS2.map(pk=>`<div class="card row"><div class="pack3" style="--pc:${pk.col}"><span>CRAYDONS</span><b>${pk.name.split(' ')[0]}</b></div><div class="grow"><h3>${pk.name}</h3><p class="sub">5 cards. Odds: ${Object.entries(pk.w).map(([k,v])=>`${RAR[k].n} ${v}%`).join(' · ')}</p></div><button class="btn btn2" data-act="cpack" data-id="${pk.id}" ${S.cash<pk.price?'disabled':''}><span>Open</span>${fmt(pk.price)}</button></div>`).join('');
+  const list=CARDS.filter((c,i)=>(cr==='all'||c.r===cr)&&(cv==='market'||K.own[i]>0));
+  return head+`<div class="chips scroll" style="overflow-x:auto">${chips.map(k=>`<button class="${cr===k?'on':''}" data-act="crar" data-v="${k}">${k==='all'?'All':RAR[k].n}</button>`).join('')}</div>
+  ${list.length?`<div class="cgrid">${list.map(cd=>{const i=cd.i,p=K.p[i],hh=K.h[i],prev=hh.length>1?hh[hh.length-2]:p,ch=(p/prev-1)*100,left=K.left[i];
+    return `<button class="ctile" data-act="card" data-i="${i}">${cardSvg(i)}<span class="cname">${cd.c.n}${K.own[i]?`<em>×${K.own[i]}</em>`:''}</span><span class="cmeta"><b class="money">${fmt(p)}</b><small class="${ch>=0?'upc':'dnc'}">${ch>=0?'▲':'▼'}${Math.abs(ch).toFixed(1)}%</small></span><span class="csup">${RAR[cd.r].n}${left!==null?` · ${left} left`:''}</span></button>`}).join('')}</div>`:`<div class="card"><p class="sub">${cv==='coll'?'No cards here yet. Buy from the market or open a booster.':'No cards match.'}</p></div>`}`;
+}
+function sheetCard(i){
+  const K=ensureCards(),cd=CARDS[i],p=K.p[i],o=K.own[i],left=K.left[i],sell=p*.9,unl=left===null;
+  return `<div class="bigcard">${cardSvg(i,220)}</div><h3 style="text-align:center;margin-top:10px">${cd.c.n} · ${RAR[cd.r].n}</h3>
+  <div class="stats"><div class="stat"><small>Market price</small><b>${fmt(p)}</b></div><div class="stat"><small>You own</small><b>${o}</b></div><div class="stat"><small>${unl?'Supply':'Copies left'}</small><b>${unl?'Open':left}</b></div></div>
+  <div class="row" style="margin:10px 0"><div class="grow"><p class="sub">Price history</p></div>${spark(K.h[i])}</div>
+  <p class="sub">Sell price is 90% of market (${fmt(sell)} each). Hold a button to repeat.</p>
+  <div class="trade">${[1,10].map(q=>`<button class="btn" data-act="cbuy" data-i="${i}" data-q="${q}" ${S.cash<p||(!unl&&left<1)?'disabled':''}>Buy ${q}</button>`).join('')}${[1,9999].map(q=>`<button class="btn sell" data-act="csell" data-i="${i}" data-q="${q}" ${o<1?'disabled':''}>Sell ${q===1?1:'all'}</button>`).join('')}</div>
+  <button class="btn ghost" style="width:100%;margin-top:12px" data-act="close">Close</button>`;
+}
+function openPack(pk){
+  const K=ensureCards(),got=[];
+  for(let n=0;n<5;n++){let rr=Math.random()*100,rar=null;for(const[k,v]of Object.entries(pk.w)){if((rr-=v)<=0){rar=k;break}}rar=rar||Object.keys(pk.w)[0];
+    const order='CURHXS',start=order.indexOf(rar);let pick=null;
+    for(let t=start;t>=0&&!pick;t--){const pool=CARDS.filter(c=>c.r===order[t]&&(K.left[c.i]===null||K.left[c.i]>0));if(pool.length)pick=pool[Math.floor(Math.random()*pool.length)]}
+    if(!pick)continue;K.own[pick.i]++;if(K.left[pick.i]!==null)K.left[pick.i]--;got.push(pick.i)}
+  return got;
+}
+
 /* ---------- render ---------- */
 const $=s=>document.querySelector(s);
 function render(){
   const tb=$('.tabs');if(tb)ui.tx[ui.view]=tb.scrollLeft;
-  $('#main').innerHTML=({home:vHome,biz:vBiz,prop:vProp,markets:vMarkets,shop:vShop,you:vYou})[ui.view]();
+  $('#main').innerHTML=({home:vHome,biz:vBiz,prop:vProp,markets:vMarkets,cards:vCards,shop:vShop,you:vYou})[ui.view]();
   document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===ui.view));
   const nt=$('.tabs');if(nt)nt.scrollLeft=ui.tx[ui.view]||0;
   $('#hdrAv').innerHTML=avatarSvg(26,1);const bt=document.querySelector('.brand');if(bt)bt.lastChild.textContent=S.iap&&S.iap.vip?' Businessman Tycoon · VIP':'Businessman Tycoon';
@@ -928,8 +1034,11 @@ function render(){
   renderSheet();header(Date.now());live(Date.now());
 }
 function renderSheet(){
-  const el=$('#sheet');if(!ui.sheet){el.hidden=true;return}
+  const el=$('#sheet');if(!ui.sheet){el.hidden=true;el.dataset.k='';return}
   el.hidden=false;
+  if(ui.sheet.t==='card'||ui.sheet.t==='cpack'){const K=ensureCards(),i=ui.sheet.i,key=ui.sheet.t==='card'?'c'+i+'|'+K.p[i]+'|'+K.own[i]+'|'+(S.cash>=K.p[i]):'p'+ui.sheet.got.join(',');if(el.dataset.k===key)return;el.dataset.k=key}
+  if(ui.sheet.t==='card'){$('#sheetBody').innerHTML=sheetCard(ui.sheet.i);return}
+  if(ui.sheet.t==='cpack'){const g=ui.sheet.got,K=ensureCards(),val=g.reduce((a,i)=>a+K.p[i],0);$('#sheetBody').innerHTML=`<h3 style="text-align:center">${esc(ui.sheet.name)} opened</h3><p class="sub" style="text-align:center;margin:4px 0 10px">5 cards worth ${fmt(val)} at market price</p><div class="packgrid">${g.map((i,n)=>`<div style="animation-delay:${n*.12}s">${cardSvg(i)}<small>${RAR[CARDS[i].r].n}</small></div>`).join('')}</div><button class="btn" style="width:100%;margin-top:14px" data-act="close">Add to collection</button>`;return}
   if(ui.sheet.t==='buy'){const b=ui.sheet;$('#sheetBody').innerHTML=`<div style="text-align:center;padding:6px 4px"><div style="width:64px;height:64px;border-radius:50%;background:var(--up);display:grid;place-items:center;margin:0 auto 12px"><svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><h3 style="font-size:22px">Purchase successful</h3><p style="margin:10px 0 4px"><b>${esc(b.name)}</b> · ${b.price}</p><p class="sub">You got ${esc(b.msg)}.</p><p class="sub" style="margin-top:10px;font-size:11.5px">Test mode: no payment was taken.</p><button class="btn" style="width:100%;margin-top:16px" data-act="close">Done</button></div>`;return}
   if(ui.sheet.t==='ad'){const a=ui.sheet,b=a.biz;$('#sheetBody').innerHTML=`<div style="text-align:center"><p class="sub">Advertisement</p><div style="background:var(--soft);border-radius:18px;padding:22px 12px;margin:10px 0">${ART[b]}<h3 style="font-size:26px;margin-top:8px">${BIZNAME[b]}</h3><p class="sub">${AD_LINES[b]}</p></div>
     ${a.done?`<button class="btn" style="width:100%" data-act="claimAd">Claim +${BOOST_TPS} taps/sec for 1 minute</button>`:`<div class="bar"><i id="adBar" style="width:0;transition:none"></i></div><p class="sub" style="margin-top:8px">Reward in <b id="adCd">15</b>s</p><button class="btn ghost" style="width:100%;margin-top:6px" data-act="close">Close and skip reward</button>`}</div>`;return}
@@ -1004,6 +1113,12 @@ const A={
     else{const k=-f,u=f===-1?C.own[i]:C.own[i]*k,v=u*p;C.own[i]-=u;C.cost[i]-=C.cost[i]*(f===-1?1:k);if(f===-1){C.own[i]=0;C.cost[i]=0}S.cash+=v;toast('Sold for '+fmt(v))}render()},
   buyAuto:()=>{const a=S.auto;if(a<AUTO.length&&spend(AUTO[a][2])){S.auto++;toast(AUTO[a][0]+' hired');render()}},
   offPro:()=>{if(S.offlinePro)return;S.offlinePro=true;toast('Full offline earnings unlocked');render()},
+  cview:d=>{ui.cv=d.v;render()},
+  crar:d=>{ui.cr=d.v;render()},
+  card:d=>{ui.sheet={t:'card',i:+d.i};renderSheet()},
+  cbuy:d=>{const K=ensureCards(),i=+d.i,p=K.p[i],left=K.left[i];let q=Math.min(+d.q,Math.floor(S.cash/p),left===null?1e9:left);if(q<1)return toast(left===0?'Sold out':'Not enough cash');S.cash-=q*p;K.own[i]+=q;if(left!==null)K.left[i]-=q;toast('Bought '+q+'× '+CARDS[i].c.n);renderSheet();if(ui.view==='cards')render()},
+  csell:d=>{const K=ensureCards(),i=+d.i,q=Math.min(+d.q,K.own[i]);if(q<1)return;const v=q*K.p[i]*.9;K.own[i]-=q;if(K.left[i]!==null)K.left[i]+=q;S.cash+=v;toast('Sold '+q+'× '+CARDS[i].c.n+' for '+fmt(v));renderSheet();if(ui.view==='cards')render()},
+  cpack:d=>{const pk=PACKS2.find(x=>x.id===d.id);if(!pk)return;if(spend(pk.price)){const got=openPack(pk);ui.sheet={t:'cpack',name:pk.name,got};render()}},
   iap:d=>{const it=IAPS.find(x=>x.id===d.id);if(!it||(it.one&&iapOwned(it)))return;if(it.can&&it.can())return toast(it.can());if(!S.iap)S.iap={};const msg=it.grant();if(it.one)S.iap[it.id]=true;ui.sheet={t:'buy',name:it.name,price:it.price,msg};render()},
   pack:d=>{const[n,v]=PACKS[+d.i];S.cash+=v;toast(n+': +'+fmt(v));render()},
   askReset:()=>{ui.sheet={t:'reset'};renderSheet()},
@@ -1017,7 +1132,7 @@ const A={
 document.addEventListener('input',e=>{if(e.target.id==='meName'){S.me.name=e.target.value.slice(0,18);save()}});
 document.addEventListener('change',e=>{if(e.target.id==='meName')render()});
 /* hold-to-repeat on upgrade and trade buttons */
-const HOLD=new Set(['upTap','line','tob','pup','buySlot','buyAuto','trade','ctrade','buyProp']);
+const HOLD=new Set(['cbuy','csell','upTap','line','tob','pup','buySlot','buyAuto','trade','ctrade','buyProp']);
 let hold=null,eatClick=false;
 const holdSel=d=>'[data-act="'+d.act+'"]'+['b','i','q','f'].filter(k=>d[k]!=null).map(k=>'[data-'+k+'="'+d[k]+'"]').join('');
 function stopHold(){if(!hold)return;clearTimeout(hold.t);if(hold.fired){eatClick=true;setTimeout(()=>eatClick=false,350)}const b=document.querySelector(holdSel(hold.d));if(b)b.classList.remove('holding');hold=null;save()}
@@ -1037,16 +1152,17 @@ document.addEventListener('click',e=>{if(eatClick){eatClick=false;return}const b
 
 /* ---------- loop ---------- */
 {const now=Date.now();
- let offG=0;if(S.nextPay<now){const n=Math.min(Math.floor((now-S.nextPay)/1000)+1,43200),g=income()/60*n*offRate();earn(g);offG+=n>2?g:0;S.nextPay=now+1000}
+ let offG=0;if(S.nextPay<now){const n=Math.min(Math.floor((now-S.nextPay)/1000)+1,3600),g=income()/60*n*offRate();earn(g);offG+=n>2?g:0;S.nextPay=now+1000}
  if(S.nextStock<now)S.nextStock=now+10000;if(S.nextCrypto<now)S.nextCrypto=now+5000;
- if(S.nextAuto<now){const s=Math.min(Math.floor((now-S.nextAuto)/1000),43200),bs=Math.max(0,Math.min(s,((S.boostUntil||0)-S.nextAuto)/1000)),g=((S.auto?AUTO[S.auto-1][1]:0)*s+BOOST_TPS*bs)*TAPV[S.tapLvl]*offRate();earn(g);offG+=s>2?g:0;S.nextAuto=now+1000}
+ if(S.nextAuto<now){const s=Math.min(Math.floor((now-S.nextAuto)/1000),3600),bs=Math.max(0,Math.min(s,((S.boostUntil||0)-S.nextAuto)/1000)),g=((S.auto?AUTO[S.auto-1][1]:0)*s+BOOST_TPS*bs)*TAPV[S.tapLvl]*offRate();earn(g);offG+=s>2?g:0;S.nextAuto=now+1000}
  if(offG>0)setTimeout(()=>toast('While you were away you earned '+fmt(offG)+offTxt()),400);
+ if(S.team.tour&&S.team.tour.start<now-3600000)S.team.tour.start=now-3600000;
  processTour(now);}
 render();
 /* earnings accrue continuously: every 5 ms of game time pays income/12000, drawn every screen frame */
 let lastAcc=Date.now();
 function accrue(){const now=Date.now(),dt=Math.min(now-lastAcc,5000);if(dt>=5){const steps=Math.floor(dt/5);earn(income()/12000*steps);lastAcc+=steps*5;$('#cash').textContent=cashText()}mapTick(now);requestAnimationFrame(accrue)}
-document.addEventListener('visibilitychange',()=>{if(!document.hidden){const now=Date.now(),gap=now-lastAcc;if(gap>5000){const ms=Math.min(gap,43200000),g=(income()/60000*ms+(S.auto?AUTO[S.auto-1][1]:0)*TAPV[S.tapLvl]*ms/1000)*offRate();earn(g);S.nextAuto=now+1000;if(g>0)toast('While you were away you earned '+fmt(g)+offTxt())}lastAcc=now}});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden){const now=Date.now(),gap=now-lastAcc;if(gap>5000){const ms=Math.min(gap,3600000),g=(income()/60000*ms+(S.auto?AUTO[S.auto-1][1]:0)*TAPV[S.tapLvl]*ms/1000)*offRate();earn(g);S.nextAuto=now+1000;if(g>0)toast('While you were away you earned '+fmt(g)+offTxt())}lastAcc=now}});
 requestAnimationFrame(accrue);
 let tapSaves=0;
 const loop=setInterval(()=>{
@@ -1056,7 +1172,7 @@ const loop=setInterval(()=>{
   if(now>=S.nextCrypto){tickCrypto();S.nextCrypto=now+5000;st=true}
   if(now>=S.nextAuto){S.nextAuto=now+1000;const t=autoTps();if(t){const v=t*TAPV[S.tapLvl];earn(v);const z=$('#tapzone');if(z){const f=document.createElement('span');f.className='float';f.textContent='+'+fmt(v);f.style.left=(z.clientWidth/2+(Math.random()*120-60))+'px';f.style.top=(z.clientHeight/2-40)+'px';z.appendChild(f);setTimeout(()=>f.remove(),800);const u=$('#upTap button');if(u)u.disabled=S.cash<TAPC[S.tapLvl]}}}
   if(processTour(now))ch=true;
-  if(ch||(st&&(ui.view==='markets'||(ui.view==='biz'&&ui.biz==='oil')))){refresh();save()}else if(pending)refresh();
+  if(ch||(st&&(ui.view==='markets'||ui.view==='cards'||(ui.view==='biz'&&ui.biz==='oil')))){refresh();save()}else if(pending)refresh();
   header(now);live(now);
   if(++tapSaves%10===0)save();
 },250);
@@ -1064,7 +1180,7 @@ const loop=setInterval(()=>{
 </script>
 <script>
 /* auto-update: when a newer version is on GitHub, reload into it (progress is kept) */
-(function(){const BUILD='1795662838';
+(function(){const BUILD='1795668085';
  async function check(){try{const t=await fetch(location.pathname+'?check='+Date.now(),{cache:'no-store'}).then(r=>r.text());const m=t.match(/const BUILD='(\d+)'/);if(m&&m[1]!==BUILD)location.replace(location.pathname+'?v='+m[1])}catch(e){}}
  addEventListener('load',()=>setTimeout(check,1500));document.addEventListener('visibilitychange',()=>{if(!document.hidden)check()});setInterval(check,300000);
 })();
