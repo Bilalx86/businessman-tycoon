@@ -244,7 +244,9 @@ const aCost=(b,i,l)=>nice(LINES[b].lines[i][1]*AG**l);const aNext=(b,i,l)=>lInc(
 const TOBMAX=25;const tobCost=n=>nice(2000*1.15**n);const tobInc=n=>tobCost(n)*0.2;
 const TOBP=[['Rolling papers','Feather'],['Rolling papers','Kestrel'],['Rolling papers','Origami'],['Pre-rolls','Harbour Rolls'],['Pre-rolls','Ember'],['Pre-rolls','Dusk'],['Cigarettes','Corsa'],['Cigarettes','Ridgeway'],['Cigarettes','Brighton'],['Cigarettes','Sterling'],['Vapes','Cloudline'],['Vapes','Nimbus'],['Vapes','Volt Vapor'],['Vapes','Mistral']].map(([c,b],k)=>({c,b,cost:nice(1500*1.75**k)}));
 const TOBC={'Rolling papers':'#c98a3d','Pre-rolls':'#8a4a1f','Cigarettes':'#4a5563','Vapes':'#3b6fd8'};
-const tobMult=()=>{const n=S.tob.p.filter(Boolean).length;return(1+0.05*n)*(n===TOBP.length?3:1)};
+/* brand bonuses grow with each brand; the full chain with every brand stocked earns about $500K/min */
+const TOBB=TOBP.map((_,k)=>(k+1)*0.95713/105);const pct=x=>(x*100).toFixed(1).replace(/\.0$/,'')+'%';
+const tobMult=()=>{const n=S.tob.p.filter(Boolean).length;return(1+S.tob.p.reduce((a,o,k)=>a+(o?TOBB[k]:0),0))*(n===TOBP.length?3:1)};
 const PU=[['Fresh paint',.1],['New kitchen',.2],['Pool & garden',.35],['Luxury fit-out',.5]];
 const puCost=(i,u)=>nice(PROPS[i].price*PU[u][1]);
 const propRent=i=>PROPS[i].rent*(1+0.2*S.pu[i]);
@@ -498,9 +500,9 @@ function vTob(){
   const n=T.n,m=tobMult(),got=T.p.filter(Boolean).length,all=got===TOBP.length;
   return `<div class="card row"><div class="grow"><h3>Corner Leaf Tobacconists</h3><p class="sub">${n} of ${TOBMAX} stores open · products ×${m.toFixed(2)} · hold to keep opening</p></div><span class="tag money">${pm(inc.tob())}</span></div>
   ${n<TOBMAX?`<div class="card row"><div class="mono" style="background:#8a4a1f">${n+1}</div><div class="grow"><b>Next store: ${SUBS[n]}</b><small class="sub money" style="display:block">+${pm(tobInc(n)*m)}</small></div><button class="btn" data-act="tob" ${S.cash<tobCost(n)?'disabled':''}>Open ${fmt(tobCost(n))}</button></div>`:'<div class="card"><h3>Every store is open</h3><p class="sub">Your chain covers all 25 suburbs.</p></div>'}
-  <div class="card"><div class="row"><div class="grow"><h3>Product range</h3><p class="sub">Each brand adds 5% to every store's income. Stock all ${TOBP.length} and the whole chain earns ×3.</p></div><div style="text-align:right"><div class="big" style="font-size:32px">×${m.toFixed(2)}</div><small class="sub">${got}/${TOBP.length} stocked</small></div></div>
+  <div class="card"><div class="row"><div class="grow"><h3>Product range</h3><p class="sub">Each brand boosts every store's income, and pricier brands boost more. Stock all ${TOBP.length} and the whole chain earns ×3. A fully maxed chain makes about $500K/min.</p></div><div style="text-align:right"><div class="big" style="font-size:32px">×${m.toFixed(2)}</div><small class="sub">${got}/${TOBP.length} stocked</small></div></div>
   <div class="bar" style="margin-top:10px"><i style="width:${got/TOBP.length*100}%;${all?'background:var(--gold)':''}"></i></div>
-  <div class="list" style="margin-top:6px">${TOBP.map((p,k)=>`<div class="li"><div class="mono" style="background:${TOBC[p.c]}">${p.b.slice(0,2).toUpperCase()}</div><div class="grow"><b>${p.b}</b><small class="money">${p.c} · +5% all stores</small></div>${T.p[k]?'<span class="tag">Stocked</span>':`<button class="btn" data-act="tp" data-i="${k}" ${S.cash<p.cost?'disabled':''}>Stock ${fmt(p.cost)}</button>`}</div>`).join('')}</div></div>
+  <div class="list" style="margin-top:6px">${TOBP.map((p,k)=>`<div class="li"><div class="mono" style="background:${TOBC[p.c]}">${p.b.slice(0,2).toUpperCase()}</div><div class="grow"><b>${p.b}</b><small class="money">${p.c} · +${pct(TOBB[k])} all stores</small></div>${T.p[k]?'<span class="tag">Stocked</span>':`<button class="btn" data-act="tp" data-i="${k}" ${S.cash<p.cost?'disabled':''}>Stock ${fmt(p.cost)}</button>`}</div>`).join('')}</div></div>
   ${n?`<div class="card"><h3>Your stores</h3><div class="list">${Array.from({length:n},(_,k)=>`<div class="li"><div class="mono" style="background:#6b3f12">${k+1}</div><div class="grow"><b>${SUBS[k]}</b><small class="money">${pm(tobInc(k)*m)}</small></div></div>`).reverse().join('')}</div></div>`:''}`;
 }
 function vTeam(){
@@ -874,7 +876,7 @@ const A={
   buyCar:d=>{const b=d.b,F=FLEET[b],i=+d.i,k=+d.k,cur=S[b].cars[i],cost=F.types[k][1]-(cur>=0?F.types[cur][1]/2:0);if(spend(cost)){S[b].cars[i]=k;ui.sheet=null;toast(F.types[k][0]+' '+F.verb);render()}},
   buySlot:d=>{const b=d.b,F=FLEET[b],e=S[b].cars.length-F.base;if(e<F.extra.length&&spend(F.extra[e])){S[b].cars.push(-1);render()}},
   line:d=>{const b=d.b,i=+d.i,l=S[b].lv[i];if(l<AMAX&&spend(aCost(b,i,l))){S[b].lv[i]++;render()}},
-  tp:d=>{const k=+d.i;if(!S.tob.p[k]&&spend(TOBP[k].cost)){S.tob.p[k]=true;const all=S.tob.p.every(Boolean);toast(all?'Full range stocked — tobacco income ×3!':TOBP[k].b+' stocked: +5% across all stores');render()}},
+  tp:d=>{const k=+d.i;if(!S.tob.p[k]&&spend(TOBP[k].cost)){S.tob.p[k]=true;const all=S.tob.p.every(Boolean);toast(all?'Full range stocked — tobacco income ×3!':TOBP[k].b+' stocked: +'+pct(TOBB[k])+' across all stores');render()}},
   pup:d=>{const i=+d.i,u=S.pu[i];if(S.props[i]&&u<4&&spend(puCost(i,u))){S.pu[i]++;render()}},
   you:d=>{ui.you=d.v;render()},
   wear3:d=>{const it=ITEMS[d.id];if(!it||!S.own[it.id])return;S.me[it.slot]=it.id;render()},
