@@ -288,7 +288,7 @@ const PLAYERS=PN.map((name,i)=>{const r=i<19?Math.round(52+i*(97-52)/18):99;retu
 const POS11=['QB','RB','WR','WR','TE','OL','OL','DL','LB','CB','S'];
 const ME='Sydney Tycoons';
 const AI=['Perth Pioneers','Adelaide Arrows','Darwin Drifters','Hobart Hawks','Canberra Comets','Gold Coast Gulls','Newcastle Ironmen','Wollongong Waves','Cairns Crocs','Geelong Gales','Brisbane Bluebirds','Auckland Albatross'];
-const TOUR_MS=600000,ROUNDS=9;
+const TOUR_MS=90000,ROUNDS=9,AUTO_TOUR=1e6;
 
 /* ---------- state ---------- */
 const starters=()=>POS11.map((p,i)=>({id:'s'+i,name:'Rookie '+(i+1),pos:p,r:50,cost:0}));
@@ -327,11 +327,11 @@ const winChance=()=>{const r=S.team.roster;const avg=r.reduce((a,p)=>a+p.r,0)/11
 const avgRating=()=>S.team.roster.length?S.team.roster.reduce((a,p)=>a+p.r,0)/S.team.roster.length:0;
 
 /* ---------- tournament ---------- */
-function startTour(){
-  if(S.team.tour)return;if(S.team.roster.length<11)return toast('You need 11 players to enter');
+function startTour(at,quiet){
+  if(S.team.tour)return;if(S.team.roster.length<11){if(!quiet)toast('You need 11 players to enter');return}
   const opps=shuffle(AI).slice(0,9),tb={},seed={};
   [ME,...opps].forEach(n=>{tb[n]=[0,0];seed[n]=Math.random()});
-  S.team.tour={start:Date.now(),opps,tb,seed,res:[],round:0};toast('Tournament started — 9 matches over 10 minutes');
+  S.team.tour={start:at||Date.now(),opps,tb,seed,res:[],round:0};if(!quiet)toast('Tournament started: 9 matches, 10 seconds each');
 }
 function playRound(t){
   const opp=t.opps[t.round],win=Math.random()<winChance();
@@ -342,14 +342,18 @@ function playRound(t){
 }
 const standings=t=>Object.entries(t.tb).map(([n,[w,l]])=>({n,w,l})).sort((a,b)=>b.w-a.w||t.seed[b.n]-t.seed[a.n]);
 function processTour(now){
-  const t=S.team.tour;if(!t)return false;let ch=false;
-  while(t.round<ROUNDS&&now>=t.start+(t.round+1)*TOUR_MS/ROUNDS){playRound(t);ch=true}
-  if(t.round>=ROUNDS){
+  let ch=false,runs=0,won=0,titles=0,last=null;
+  while(S.team.tour&&runs<480){const t=S.team.tour;
+    while(t.round<ROUNDS&&now>=t.start+(t.round+1)*TOUR_MS/ROUNDS){playRound(t);ch=true}
+    if(t.round<ROUNDS)break;
     const st=standings(t),place=st.findIndex(x=>x.n===ME)+1,me=t.tb[ME];
     const prize=me[0]*60000+([3000000,1200000,500000][place-1]||0);
-    earn(prize);S.team.last={place,w:me[0],l:me[1],prize};S.team.played++;if(place===1)S.team.titles++;
-    S.team.tour=null;toast(place===1?'Champions! You won '+fmt(prize):'Finished #'+place+' — prize '+fmt(prize));ch=true;
+    earn(prize);S.team.last=last={place,w:me[0],l:me[1],prize};S.team.played++;if(place===1){S.team.titles++;titles++}
+    S.team.tour=null;ch=true;runs++;won+=prize;
+    if(S.team.auto&&S.team.autoOn)startTour(t.start+TOUR_MS,true);
   }
+  if(runs===1)toast(last.place===1?'Champions! You won '+fmt(last.prize):'Finished #'+last.place+' — prize '+fmt(last.prize));
+  else if(runs>1)toast(runs+' tournaments played · '+titles+' titles · '+fmt(won)+' in prizes');
   return ch;
 }
 
@@ -508,10 +512,11 @@ function vTeam(){
     <div class="res">${t.res.map(r=>`<span class="${r.w?'w':'l'}">${r.w?'W':'L'} vs ${r.o.split(' ')[0]}</span>`).join('')||'<span class="sub">First match coming up…</span>'}</div>
     <table><thead><tr><th>#</th><th>Team</th><th class="n">W</th><th class="n">L</th></tr></thead><tbody>${st.map((x,i)=>`<tr class="${x.n===ME?'me':''}"><td>${i+1}</td><td>${x.n}</td><td class="n">${x.w}</td><td class="n">${x.l}</td></tr>`).join('')}</tbody></table>
     <p class="sub" style="margin-top:8px">Prizes: $60K per win, plus $3M for 1st, $1.2M for 2nd, $500K for 3rd.</p></div>`})():
-    `<div class="card row"><div class="grow"><h3>Tournament</h3><p class="sub">${T.last?`Last: #${T.last.place} (${T.last.w}–${T.last.l}), won ${fmt(T.last.prize)}`:'10 teams, 9 matches, 10 minutes. $60K per win, $3M to the champion.'}</p></div><button class="btn" data-act="startTour" ${full<11?'disabled':''}>${full<11?'Need 11':'Start'}</button></div>`;
+    `<div class="card row"><div class="grow"><h3>Tournament</h3><p class="sub">${T.last?`Last: #${T.last.place} (${T.last.w}–${T.last.l}), won ${fmt(T.last.prize)}`:'10 teams, 9 matches, 10 seconds each. $60K per win, $3M to the champion.'}</p></div><button class="btn" data-act="startTour" ${full<11?'disabled':''}>${full<11?'Need 11':'Start'}</button></div>`;
   const ros=T.roster.slice().sort((a,b)=>b.r-a.r);
   return `<div class="card"><div class="row"><div class="grow"><h3>Sydney Tycoons</h3><p class="sub">${T.titles} titles · ${T.played} tournaments · avg rating ${avgRating().toFixed(1)}</p></div><div style="text-align:right"><div class="big">${Math.round(p*100)}%</div><small class="sub">win chance</small></div></div><div class="bar" style="margin-top:10px"><i style="width:${p*100}%"></i></div></div>
   ${tour}
+  <div class="card row"><div class="mono" style="background:var(--brand);color:var(--brandInk)">AUTO</div><div class="grow"><h3>Auto-start tournaments</h3><p class="sub">${T.auto?(T.autoOn?'On: a new tournament starts the moment one ends, even while you’re away (up to 12 hours).':'Off: tap to switch it back on.'):'Starts the next tournament automatically as soon as one finishes. One-off purchase.'}</p></div>${T.auto?`<button class="btn ${T.autoOn?'':'ghost'}" data-act="autoTour">${T.autoOn?'On':'Off'}</button>`:`<button class="btn" data-act="buyAutoTour" ${S.cash<AUTO_TOUR?'disabled':''}>${fmt(AUTO_TOUR)}</button>`}</div>
   <div class="card"><h3>Roster <span class="sub">${full}/11</span></h3><div class="list">${ros.map(pl=>`<div class="li"><div class="rt ${rClass(pl.r)}">${pl.r}</div><div class="grow"><b>${pl.name}</b><small>${pl.pos}</small></div><button class="btn ghost" data-act="release" data-id="${pl.id}">${pl.cost?'Sell '+fmt(pl.cost/2):'Release'}</button></div>`).join('')}${full<11?`<div class="li"><div class="rt r1">—</div><div class="grow"><b>Open spot</b><small>Sign a player below</small></div></div>`.repeat(11-full):''}</div></div>
   <div class="card"><h3>Transfer market</h3><p class="sub">Selling a signed player returns 50% of their fee.</p><div class="list">${PLAYERS.map(pl=>{const own=T.roster.some(x=>x.id===pl.id);
     return `<div class="li"><div class="rt ${rClass(pl.r)}">${pl.r}</div><div class="grow"><b>${pl.name}</b><small class="money">${pl.pos} · ${fmt(pl.cost)}</small></div>${own?'<span class="tag">Signed</span>':`<button class="btn" data-act="sign" data-id="${pl.id}" ${full>=11||S.cash<pl.cost?'disabled':''}>${full>=11?'Roster full':'Sign'}</button>`}</div>`}).join('')}</div></div>`;
@@ -882,6 +887,8 @@ const A={
   release:d=>{const T=S.team,p=T.roster.find(x=>x.id===d.id);if(!p)return;earn(p.cost/2);T.roster=T.roster.filter(x=>x.id!==d.id);toast(p.cost?'Sold '+p.name+' for '+fmt(p.cost/2):p.name+' released');render()},
   sign:d=>{const T=S.team,p=PLAYERS.find(x=>x.id===d.id);if(T.roster.length>=11)return toast('Roster full — release someone first');if(spend(p.cost)){T.roster.push({...p});toast('Signed '+p.name+' ('+p.r+')');render()}},
   startTour:()=>{startTour();render()},
+  buyAutoTour:()=>{if(S.team.auto)return;if(spend(AUTO_TOUR)){S.team.auto=true;S.team.autoOn=true;if(!S.team.tour)startTour(0,true);toast('Auto-start on: tournaments now run back to back');render()}},
+  autoTour:()=>{S.team.autoOn=!S.team.autoOn;if(S.team.autoOn&&!S.team.tour)startTour(0,true);toast(S.team.autoOn?'Auto-start on':'Auto-start off');render()},
   buyProp:d=>{const i=+d.i;if(!S.props[i]&&spend(PROPS[i].price)){S.props[i]=true;toast('Bought '+PROPS[i].name+', '+PROPS[i].sub);render()}},
   filter:d=>{ui.filter=d.v;render()},
   stk:d=>{ui.open=ui.open===+d.i?-1:+d.i;render()},
