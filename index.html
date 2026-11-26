@@ -185,6 +185,8 @@ tr.me td{color:var(--brand)}
 .sheet-card{background:var(--card);border-radius:16px 16px 0 0}
 .pk{background:var(--soft);border-radius:10px}
 .pips i.on{background:var(--brand)}
+.li small.nx{color:var(--up);font-weight:500}
+.btn2{display:grid;justify-items:center;line-height:1.15;min-width:86px;padding:6px 12px}.btn2 span{font-size:11px;font-weight:500;opacity:.75}
 .flights span{background:var(--soft);border-radius:6px}
 .coin:focus-visible,.btn:focus-visible,.seg button:focus-visible,.nav button:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
 </style>
@@ -485,7 +487,7 @@ function vLines(b){
   let oil='';if(b==='oil'){const h=T.h,ch=h.length>1?(T.p/h[h.length-2]-1)*100:0;oil=`<div class="card row"><div class="grow"><h3>Oil price</h3><p class="sub">Your rigs earn ${Math.round(T.p/80*100)}% of their base rate right now</p></div>${spark(h)}<span class="px">${fmt(T.p)}/bbl<small class="${ch>=0?'upc':'dnc'}">${ch>=0?'▲':'▼'} ${Math.abs(ch).toFixed(1)}%</small></span></div>`}
   return `<div class="card row"><div class="grow"><h3>${C.title}</h3><p class="sub">${open} of ${n} ${C.unit}s open · ${T.lv.reduce((a,c)=>a+c,0)} total levels · hold a button to keep upgrading</p></div><span class="tag money">${pm(linesInc(b))}</span></div>${oil}
   <div class="card"><div class="list">${C.lines.map(([nm,base,c],i)=>{const l=T.lv[i],cost=aCost(b,i,l);
-    return `<div class="li"><div class="mono" style="background:${c}">${nm.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase()}</div><div class="grow"><b>${nm}</b><small class="money">${l?`Level ${l}/${AMAX} · ${pm(aTot(b,i,l))}`:'Closed'}${l<AMAX?` · next +${pm(aNext(b,i,l))}`:''}</small><div class="bar mini"><i style="width:${l/AMAX*100}%"></i></div></div>${l>=AMAX?'<span class="tag">Maxed</span>':`<button class="btn" data-act="line" data-b="${b}" data-i="${i}" ${S.cash<cost?'disabled':''}>${l?'Upgrade':'Open'} ${fmt(cost)}</button>`}</div>`}).join('')}</div></div>`;
+    return `<div class="li"><div class="mono" style="background:${c}">${nm.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase()}</div><div class="grow"><b>${nm}</b><small>${l?`Level ${l}/${AMAX} · ${pm(aTot(b,i,l))}`:'Closed'}</small>${l<AMAX?`<small class="nx">Next upgrade +${pm(aNext(b,i,l))}</small>`:''}<div class="bar mini"><i style="width:${l/AMAX*100}%"></i></div></div>${l>=AMAX?'<span class="tag">Maxed</span>':`<button class="btn btn2" data-act="line" data-b="${b}" data-i="${i}" ${S.cash<cost?'disabled':''}><span>${l?'Upgrade':'Open'}</span>${fmt(cost)}</button>`}</div>`}).join('')}</div></div>`;
 }
 function vTob(){
   const T=S.tob;if(!T.own)return lockCard('tob');
