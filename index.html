@@ -246,7 +246,7 @@ tr.me td{color:var(--brand)}
 .coinfx{position:absolute;bottom:30%;z-index:3;pointer-events:none;animation:coin 1.4s cubic-bezier(.2,.6,.4,1) forwards}@keyframes coin{0%{transform:translate(0,0) scale(.4)}60%{transform:translate(var(--dx),var(--dy)) scale(1) rotate(200deg)}100%{transform:translate(var(--dx),calc(var(--dy) + 260px)) rotate(360deg);opacity:0}}
 .ptab summary{cursor:pointer;font-weight:600}.ptgrid{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;align-items:center;margin:10px 0}.ptgrid span{display:flex;align-items:center;gap:2px;font-size:12px;color:var(--mute)}.ptgrid b{text-align:right}
 .felt{background:radial-gradient(ellipse at 50% 30%,#1f7a4a,#0d4a2b 70%,#08311c);border-radius:20px;padding:14px;box-shadow:inset 0 0 0 4px #5a3a1a,inset 0 0 0 6px #c8921a,inset 0 0 40px #0006;min-height:250px}
-.tlabel{color:#e8f5ec;font-weight:600;font-size:14px;margin:4px 0 6px;text-shadow:0 1px 2px #0008}.tmsg{color:#e8f5ec;text-align:center;margin:12px 0 4px;font-size:14px}.tmsg.big{font-size:18px;font-weight:700;animation:fadein .4s both}.tmsg.w{color:#7dffb0}.tmsg.l{color:#ffb0b8}
+.tlabel{color:#e8f5ec;font-weight:600;font-size:14px;margin:4px 0 6px;text-shadow:0 1px 2px #0008}.tmsg{color:#e8f5ec;text-align:center;margin:12px 0 4px;font-size:14px}.tmsg.big{font-size:18px;font-weight:700;animation:fadein .4s both}.tmsg.gw{color:#7dffb0}.tmsg.gl{color:#ff8a96}.thmsg{color:var(--ink)}.thmsg.gw{color:var(--up)}.thmsg.gl{color:var(--red)}
 @keyframes fadein{from{transform:scale(.9)}to{transform:none}}
 .hand{display:flex;gap:6px;min-height:92px;flex-wrap:wrap}.bacrow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .pcard{width:62px;height:88px;border-radius:7px;background:linear-gradient(160deg,#fff,#f1efe8);box-shadow:0 3px 8px #0007,inset 0 0 0 1px #0002;position:relative;color:#151515;flex:none;font-family:Georgia,serif}
@@ -260,6 +260,24 @@ tr.me td{color:var(--brand)}
 .vpc.held .pcard{transform:translateY(-8px);box-shadow:0 0 0 2px #ffe27a,0 6px 14px #0008}.vpc.held small{color:#ffe27a}
 .hbtn{margin-left:auto;border:0;background:var(--soft);color:var(--ink);border-radius:8px;width:34px;height:30px;display:grid;place-items:center}.hbtn svg{width:18px;height:18px}
 @media(prefers-reduced-motion:reduce){.bulbs i,.pcard.deal,.coinfx,.winsym svg,.lever.pull .stick{animation:none}}
+#start{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:20px;background:radial-gradient(circle at 50% 30%,#2a240c,#0b0e11 70%);transition:opacity .45s}#start.bye{opacity:0}
+.st-card{width:min(420px,100%);text-align:center;display:grid;gap:10px;justify-items:center}.st-card h1{font:700 32px/1.1 "IBM Plex Sans",system-ui,sans-serif;color:#eaecef;margin-top:4px}.st-card p{color:#848e9c;margin:0 0 8px;max-width:34ch}
+.st-card label{color:#eaecef;font-weight:600;font-size:14px;justify-self:start}.st-card .inp{background:#1e2329;color:#eaecef;border:1px solid #2b3139;font-size:17px;padding:14px}.st-card .btn{width:100%;min-height:52px;font-size:16px}.st-card small{color:#5e6673;font-size:12px}
+.st-coin{width:120px;height:120px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 34% 28%,#fff3b8,#f0b90b 45%,#c99400);box-shadow:inset 0 -8px 0 #0002,inset 0 0 0 9px #fff3,0 14px 40px #f0b90b55;animation:float 3s ease-in-out infinite}.st-coin span{font:700 64px Georgia,serif;color:#7a5200}
+@keyframes float{50%{transform:translateY(-8px)}}.shake{animation:shake .4s}@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.lockic{font-size:34px;margin-bottom:4px}
+.ptable{padding:4px 0}.pt-felt{position:relative;height:480px;border-radius:200px/120px;background:radial-gradient(ellipse at 50% 40%,#1f7a4a,#0d4a2b 70%,#08311c);box-shadow:inset 0 0 0 6px #5a3a1a,inset 0 0 0 9px #c8921a,inset 0 0 50px #0007,0 10px 24px #0008}
+.pseat{position:absolute;display:grid;justify-items:center;gap:2px;width:110px;text-align:center;transition:opacity .3s}.pseat b{font-size:12px;color:#fff;text-shadow:0 1px 2px #000}.pseat small{font-size:11px;color:#ffe27a;min-height:14px;text-shadow:0 1px 2px #000}
+.pseat.s-you{left:50%;bottom:8px;transform:translateX(-50%)}.pseat.s-left{left:6px;top:11%}.pseat.s-top{left:50%;top:8px;transform:translateX(-50%)}.pseat.s-right{right:6px;top:11%}
+.pseat.out{opacity:.45}.pseat.turn .pav{box-shadow:0 0 0 3px #ffe27a,0 0 16px #ffe27a}.pseat.won .pav{box-shadow:0 0 0 3px #0ecb81,0 0 22px #0ecb81}
+.pav{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:700;font-size:14px;overflow:hidden;border:2px solid #fff6}.pav svg{width:40px;height:40px}
+.pcards{display:flex;gap:3px}.pseat .pcard{width:34px;height:48px;border-radius:4px}.pseat .pcard .ci b{font-size:10px}.pseat .pcard .ci i{font-size:8px}.pseat .pcard .pip{font-size:16px}.pseat .pcard .face{inset:9px 6px}.pseat .pcard .face b{font-size:11px}.pseat .pcard .face i{font-size:8px}.pseat .pcard .ci.br{display:none}
+.pseat.s-you .pcard{width:52px;height:74px}.pseat.s-you .pcard .ci b{font-size:13px}.pseat.s-you .pcard .pip{font-size:26px}.pseat.s-you .pcard .ci.br{display:grid}.pseat.s-you .pcard .face{inset:13px 9px}.pseat.s-you .pcard .face b{font-size:17px}
+.pbet{position:absolute;font:700 11px "IBM Plex Sans",sans-serif;background:#000a;color:#ffe27a;border-radius:10px;padding:2px 7px;white-space:nowrap}.pseat.s-you .pbet{top:-22px}.pseat.s-left .pbet{bottom:-22px}.pseat.s-right .pbet{bottom:-22px}.pseat.s-top .pbet{bottom:-22px}
+.dbtn{position:absolute;top:0;right:14px;width:20px;height:20px;border-radius:50%;background:#fff;color:#111;font:800 11px/20px sans-serif;box-shadow:0 2px 4px #0008}
+.phand{position:absolute;bottom:-18px;font-size:10.5px;font-weight:700;color:#fff;background:#0ecb81;border-radius:8px;padding:1px 6px;white-space:nowrap}.pseat.s-you .phand{bottom:auto;top:12px;left:calc(50% + 26px)}
+.pt-center{position:absolute;left:50%;top:51%;transform:translate(-50%,-50%);display:grid;justify-items:center;gap:8px;width:86%}.board{display:flex;gap:4px;justify-content:center}.board .pcard{width:44px;height:62px;border-radius:5px}.board .pcard .ci b{font-size:12px}.board .pcard .pip{font-size:22px}.board .pcard .ci.br{display:none}.board .pcard .face{inset:11px 7px}.board .pcard .face b{font-size:14px}
+.pcard.slotc{background:transparent;box-shadow:inset 0 0 0 1.5px #ffffff33}.pot{color:#fff;font-size:13px;background:#0007;border-radius:12px;padding:3px 12px}.pot b{color:#ffe27a}
 </style>
 </head>
 <body>
@@ -397,7 +415,7 @@ const assets=()=>{let v=0;
   S.st.own.forEach((o,i)=>v+=o*S.st.p[i]);S.cr.own.forEach((o,i)=>v+=o*S.cr.p[i]);
   Object.keys(S.own).forEach(id=>{if(ITEMS[id])v+=ITEMS[id].price});v+=cardsValue();return v};
 const netWorth=()=>S.cash+assets();
-const richList=()=>RICH.map(x=>({...x})).concat([{n:S.me.name||'You',ind:'Businessman Tycoon',w:netWorth(),me:true}]).sort((a,b)=>b.w-a.w);
+const richList=()=>RICH.map(x=>({...x})).concat([{n:S.me.name||'You',ind:S.empire||'Businessman Tycoon',w:netWorth(),me:true}]).sort((a,b)=>b.w-a.w);
 const earn=g=>{S.cash+=g;S.earned+=g};
 const spend=c=>{if(S.cash<c){toast('Not enough cash');return false}S.cash-=c;return true};
 const winChance=()=>{const r=S.team.roster;const avg=r.reduce((a,p)=>a+p.r,0)/11;return Math.max(.05,Math.min(.95,.5+(avg-50)/49*.45))};
@@ -1392,7 +1410,7 @@ function vBJ(){const B=G.bj;
   const play=B.stage==='play',ps=B.ps,ds=B.ds;B.ps=B.p.length;B.ds=B.dl.length;
   return `<div class="felt"><p class="tlabel">Dealer ${play?'':`· ${bjVal(B.dl)}`}</p><div class="hand">${handRow(B.dl,ds,play?1:-1)}</div>
   <p class="tlabel">You · ${bjVal(B.p)} · bet ${fmt(B.bet)}</p><div class="hand">${handRow(B.p,ps)}</div>
-  ${B.stage==='done'?`<p class="tmsg big ${B.pay>B.bet?'w':B.pay===B.bet?'':'l'}">${B.msg}${B.pay?' · '+fmt(B.pay):''}</p>`:''}</div>
+  ${B.stage==='done'?`<p class="tmsg big ${B.pay>B.bet?'gw':B.pay===B.bet?'':'gl'}">${B.msg}${B.pay?' · '+fmt(B.pay):''}</p>`:''}</div>
   <div class="gbtns">${play?`<button class="btn" data-act="bjhit">Hit</button><button class="btn ghost" data-act="bjstand">Stand</button><button class="btn ghost" data-act="bjdouble" ${B.p.length!==2||S.cash<B.bet?'disabled':''}>Double</button>`:`<button class="btn" data-act="bjdeal">Deal again</button>`}</div>`}
 /* ---------- baccarat ---------- */
 const bacV=c=>c.r===0?1:c.r>=9?0:c.r+1,bacT=h=>h.reduce((a,c)=>a+bacV(c),0)%10;
@@ -1404,35 +1422,96 @@ function bacDeal(side){if(!betOk())return;const bet=G.bet;S.cash-=bet;const d=sh
   if(pay)earn(pay);gstat(pay,bet);G.bac={P,Bk,pt,bt,res,side,bet,pay};save();drawGame()}
 function vBac(){const R=G.bac;
   return `<div class="felt bacfelt">${R?`<div class="bacrow"><div><p class="tlabel">Player · ${R.pt}</p><div class="hand">${handRow(R.P,0)}</div></div><div><p class="tlabel">Banker · ${R.bt}</p><div class="hand">${R.Bk.map((c,k)=>pcard(c,{cls:'deal',st:`animation-delay:${(k+R.P.length)*.18}s`})).join('')}</div></div></div>
-  <p class="tmsg big ${R.pay>R.bet?'w':R.pay===R.bet?'':'l'}" style="animation-delay:${(R.P.length+R.Bk.length)*.18}s">${R.res==='tie'?'Tie':R.res==='player'?'Player wins':'Banker wins'} · ${R.pay>R.bet?'you won '+fmt(R.pay):R.pay===R.bet?'bet returned':'you lost '+fmt(R.bet)}</p>`:`<p class="tmsg">Pick a side to deal. Player pays 1:1 · Banker pays 0.95:1 · Tie pays 8:1</p>`}</div>
+  <p class="tmsg big ${R.pay>R.bet?'gw':R.pay===R.bet?'':'gl'}" style="animation-delay:${(R.P.length+R.Bk.length)*.18}s">${R.res==='tie'?'Tie':R.res==='player'?'Player wins':'Banker wins'} · ${R.pay>R.bet?'you won '+fmt(R.pay):R.pay===R.bet?'bet returned':'you lost '+fmt(R.bet)}</p>`:`<p class="tmsg">Pick a side to deal. Player pays 1:1 · Banker pays 0.95:1 · Tie pays 8:1</p>`}</div>
   <div class="gbtns three"><button class="btn" data-act="bac" data-v="player"><span>Player</span></button><button class="btn" data-act="bac" data-v="banker"><span>Banker</span></button><button class="btn ghost" data-act="bac" data-v="tie"><span>Tie 8:1</span></button></div>`}
-/* ---------- video poker: Jacks or Better ---------- */
-const VPT=[['Royal flush',800],['Straight flush',50],['Four of a kind',25],['Full house',9],['Flush',6],['Straight',4],['Three of a kind',3],['Two pair',2],['Jacks or better',1]];
-function vpEval(h){const rs=h.map(c=>c.r===0?14:c.r+1).sort((a,b)=>a-b),fl=h.every(c=>c.s===h[0].s),cnt={};rs.forEach(r=>cnt[r]=(cnt[r]||0)+1);const g=Object.values(cnt).sort((a,b)=>b-a);
-  const uniq=[...new Set(rs)],st=uniq.length===5&&(rs[4]-rs[0]===4||rs.join()==='2,3,4,5,14');
-  if(st&&fl)return rs[0]===10?0:1;if(g[0]===4)return 2;if(g[0]===3&&g[1]===2)return 3;if(fl)return 4;if(st)return 5;if(g[0]===3)return 6;if(g[0]===2&&g[1]===2)return 7;
-  if(g[0]===2){const pr=+Object.keys(cnt).find(k=>cnt[k]===2);if(pr>=11)return 8}return -1}
-function vpDeal(){if(!betOk())return;const bet=G.bet;S.cash-=bet;const d=shoe(1);G.vp={d,h:[d.pop(),d.pop(),d.pop(),d.pop(),d.pop()],hold:[0,0,0,0,0],stage:'hold',bet,fresh:[1,1,1,1,1]};drawGame()}
-function vpDraw(){const V=G.vp;if(!V||V.stage!=='hold')return;V.fresh=V.hold.map(x=>x?0:1);V.h=V.h.map((c,k)=>V.hold[k]?c:V.d.pop());const e=vpEval(V.h);V.res=e;V.pay=e>=0?V.bet*VPT[e][1]:0;if(V.pay)earn(V.pay);gstat(V.pay,V.bet);V.stage='done';save();drawGame()}
-function vVP(){const V=G.vp;
-  const tbl=`<div class="vpt">${VPT.map(([n,m],k)=>`<span class="${V&&V.stage==='done'&&V.res===k?'on':''}">${n}</span><b class="${V&&V.stage==='done'&&V.res===k?'on':''}">${m}×</b>`).join('')}</div>`;
-  if(!V)return tbl+`<div class="felt"><p class="tmsg">Deal five cards, tap the ones to hold, then draw.</p></div><div class="gbtns"><button class="btn" data-act="vpdeal">Deal</button></div>`;
-  const h=V.h.map((c,k)=>`<button class="vpc ${V.hold[k]?'held':''}" data-act="vphold" data-i="${k}" ${V.stage!=='hold'?'disabled':''}>${pcard(c,{cls:V.fresh[k]?'deal':'',st:V.fresh[k]?`animation-delay:${k*.1}s`:''})}<small>${V.hold[k]?'HELD':V.stage==='hold'?'tap to hold':''}</small></button>`).join('');
-  V.fresh=[0,0,0,0,0];
-  return tbl+`<div class="felt"><div class="hand vp">${h}</div>${V.stage==='done'?`<p class="tmsg big ${V.pay>V.bet?'w':V.pay===V.bet?'':'l'}">${V.res>=0?VPT[V.res][0]+' · '+fmt(V.pay):'No win'}</p>`:''}</div>
-  <div class="gbtns">${V.stage==='hold'?`<button class="btn" data-act="vpdraw">Draw</button>`:`<button class="btn" data-act="vpdeal">Deal again</button>`}</div>`}
+/* ---------- Texas Hold'em vs 3 computer players (limit betting, blinds from your bet) ---------- */
+const HNAMES=['High card','Pair','Two pair','Three of a kind','Straight','Flush','Full house','Four of a kind','Straight flush'];
+const rv=c=>c.r===0?14:c.r+1;
+function score5(cs){const rs=cs.map(rv).sort((a,b)=>b-a),fl=cs.every(c=>c.s===cs[0].s),cnt={};rs.forEach(r=>cnt[r]=(cnt[r]||0)+1);
+  const grp=Object.entries(cnt).map(([r,n])=>[+n,+r]).sort((a,b)=>b[0]-a[0]||b[1]-a[1]);const u=[...new Set(rs)];
+  let st=0;if(u.length===5){if(u[0]-u[4]===4)st=u[0];else if(u.join()==='14,5,4,3,2')st=5}
+  if(st&&fl)return[8,st];if(grp[0][0]===4)return[7,grp[0][1],grp[1][1]];if(grp[0][0]===3&&grp[1][0]===2)return[6,grp[0][1],grp[1][1]];
+  if(fl)return[5,...rs];if(st)return[4,st];if(grp[0][0]===3)return[3,grp[0][1],...grp.slice(1).map(g=>g[1])];
+  if(grp[0][0]===2&&grp[1][0]===2)return[2,grp[0][1],grp[1][1],grp[2][1]];if(grp[0][0]===2)return[1,grp[0][1],...grp.slice(1).map(g=>g[1])];return[0,...rs]}
+const cmpS=(a,b)=>{for(let i=0;i<Math.max(a.length,b.length);i++){const d=(a[i]||0)-(b[i]||0);if(d)return d}return 0};
+function best7(cs){let best=null;const n=cs.length;for(let a=0;a<n;a++)for(let b=a+1;b<n;b++){const five=cs.filter((_,k)=>k!==a&&k!==b);if(five.length!==5)continue;const s=score5(five);if(!best||cmpS(s,best)>0)best=s}return best||score5(cs)}
+const BOTS=[{name:'Ace Rivera',c:'#2f63c8',style:.05},{name:'Big Lou',c:'#c0263b',style:.14},{name:'Mona Chen',c:'#6b4fa0',style:.09}];
+function thStrength(p,board){const h=p.cards;
+  if(!board.length){const a=rv(h[0]),b=rv(h[1]),hi=Math.max(a,b),lo=Math.min(a,b);if(a===b)return .52+hi/30;return (hi+lo)/28*.68+(h[0].s===h[1].s?.06:0)+(hi-lo<=2?.04:0)}
+  const mine=best7([...h,...board]),bd=board.length>=5?score5(board):[board.length>=3?(new Set(board.map(rv)).size<board.length?1:0):0];
+  if(mine[0]<=bd[0]&&mine[0]<2)return .18+(Math.max(rv(h[0]),rv(h[1]))/70);
+  return [.12+mine[1]/70,.38+mine[1]/38,.7,.8,.86,.9,.95,.98,1][mine[0]]}
+function thNew(){
+  if(!betOk())return;const B=G.bet,prevBtn=G.th?G.th.btn:Math.floor(Math.random()*4),d=shoe(1);
+  const T={d,B,btn:(prevBtn+1)%4,board:[],pot:0,street:0,curBet:0,raises:0,msg:'',done:false,mine:0,seen:0,
+    seats:[{name:'You',you:1},...BOTS.map(b=>({...b,bot:1}))].map(p=>({...p,cards:[d.pop(),d.pop()],folded:false,in:0,acted:false,act:''}))};
+  G.th=T;const sb=(T.btn+1)%4,bb=(T.btn+2)%4;thPut(sb,B/2,'Small blind');thPut(bb,B,'Big blind');T.curBet=B;T.seats[sb].acted=false;T.seats[bb].acted=false;
+  T.cur=(T.btn+3)%4;drawGame();thRun();
+}
+function thPut(i,amt,label){const T=G.th,p=T.seats[i];if(p.you){amt=Math.min(amt,S.cash);S.cash-=amt;T.mine+=amt}p.in+=amt;T.pot+=amt;if(label)p.act=label}
+const thActive=()=>G.th.seats.filter(p=>!p.folded);
+function thNext(){const T=G.th;for(let k=1;k<=4;k++){const i=(T.cur+k)%4,p=T.seats[i];if(!p.folded&&(!p.acted||p.in<T.curBet)){T.cur=i;return true}}return false}
+function thNeeds(i){const T=G.th,p=T.seats[i];return !p.folded&&(!p.acted||p.in<T.curBet)}
+function thAct(i,kind){const T=G.th,p=T.seats[i],step=T.street>=2?T.B*2:T.B,toCall=T.curBet-p.in;
+  if(kind==='fold'){p.folded=true;p.act='Fold'}
+  else if(kind==='call'){if(toCall>0){thPut(i,toCall);p.act='Call '+fmt(T.curBet)}else p.act='Check'}
+  else if(kind==='raise'){const target=T.curBet+step;thPut(i,target-p.in);T.curBet=target;T.raises++;p.act=(toCall>0?'Raise to ':'Bet ')+fmt(target);T.seats.forEach((q,k)=>{if(k!==i)q.acted=false})}
+  p.acted=true;T.msg=(p.you?'You':p.name)+': '+p.act;
+  if(thActive().length===1)return thFinish();
+  if(!thNext())thStreet();
+}
+function thStreet(){const T=G.th;T.seats.forEach(p=>{p.in=0;p.acted=false;if(!p.folded)p.act=''});T.curBet=0;T.raises=0;T.street++;
+  if(T.street===1)T.board.push(T.d.pop(),T.d.pop(),T.d.pop());else if(T.street<=3)T.board.push(T.d.pop());else return thFinish(true);
+  T.cur=T.btn;if(!thNext())thStreet()}
+function thFinish(show){const T=G.th,act=thActive();T.done=true;let win=[];
+  if(act.length===1){win=[act[0]];T.res=(act[0].you?'You':act[0].name)+' win'+(act[0].you?'':'s')+' '+fmt(T.pot)+' · everyone else folded'}
+  else{while(T.board.length<5)T.board.push(T.d.pop());act.forEach(p=>p.sc=best7([...p.cards,...T.board]));const top=act.reduce((m,p)=>cmpS(p.sc,m)>0?p.sc:m,act[0].sc);win=act.filter(p=>cmpS(p.sc,top)===0);
+    T.res=(win.length>1?'Split pot':win.map(p=>p.you?'You win':p.name+' wins').join(''))+' with '+HNAMES[top[0]]+' · '+fmt(T.pot);T.show=true}
+  const share=T.pot/win.length;T.win=win.map(p=>p.name);const youWin=win.some(p=>p.you)?share:0;if(youWin)earn(youWin);gstat(youWin,T.mine);T.youWin=youWin;save()}
+function thRun(){const T=G.th;if(!T||T.done){drawGame();return}
+  const p=T.seats[T.cur];
+  if(p.you&&!p.folded){drawGame();return}
+  const youOut=T.seats[0].folded;
+  setTimeout(()=>{if(G.th!==T||T.done)return;const s=thStrength(p,T.board)+(Math.random()-.5)*.16,toCall=T.curBet-p.in,bluff=Math.random()<p.style;let k;
+    if(toCall<=0)k=(s>.62||bluff)&&T.raises<4?'raise':'call';
+    else k=s>.78&&T.raises<4&&Math.random()<.6?'raise':(s>.33||bluff||(toCall<=T.B/2&&s>.2))?'call':'fold';
+    thAct(T.cur,k);if(G.game==='th')drawGame();thRun()},youOut?60:650)}
+function thYou(kind){const T=G.th;if(!T||T.done||T.cur!==0)return;const toCall=T.curBet-T.seats[0].in,step=T.street>=2?T.B*2:T.B;
+  const need=kind==='call'?toCall:kind==='raise'?toCall+step:0;if(need>S.cash){toast('Not enough cash');return}thAct(0,kind);drawGame();thRun()}
+function vTH(){const T=G.th;
+  if(!T)return `<div class="ptable"><div class="pt-felt"><div class="pt-center"><p class="tmsg">Texas Hold'em against 3 players. Your bet sets the big blind. Limit betting: raises are 1× the blind before the turn and 2× after.</p></div></div></div><div class="gbtns"><button class="btn" data-act="thnew">Deal a hand</button></div>`;
+  const pos=['s-you','s-left','s-top','s-right'],toCall=T.curBet-T.seats[0].in,step=T.street>=2?T.B*2:T.B,yourTurn=!T.done&&T.cur===0&&!T.seats[0].folded;
+  const seat=(p,i)=>`<div class="pseat ${pos[i]} ${p.folded?'out':''} ${!T.done&&T.cur===i?'turn':''} ${T.done&&T.win&&T.win.includes(p.name)?'won':''}"><div class="pav" style="background:${p.you?'var(--brand)':p.c}">${p.you?avatarSvg(40,1):p.name.split(' ').map(w=>w[0]).join('')}</div><b>${p.you?(S.me.name||'You'):p.name}</b><small>${p.act||'&nbsp;'}</small>
+    <div class="pcards">${p.cards.map((c,k)=>pcard(c,{hidden:!p.you&&!(T.show&&!p.folded),cls:(p.you&&T.seen<2)?'deal':'',st:p.you?`animation-delay:${k*.15}s`:''})).join('')}</div>${p.in?`<span class="pbet">${fmt(p.in)}</span>`:''}${T.btn===i?'<span class="dbtn">D</span>':''}${T.show&&!p.folded&&p.sc?`<span class="phand">${HNAMES[p.sc[0]]}</span>`:''}</div>`;
+  const seen=T.seen;T.seen=99;const bseen=T.bseen||0;T.bseen=T.board.length;
+  return `<div class="ptable"><div class="pt-felt">${T.seats.map(seat).join('')}<div class="pt-center"><div class="board">${[0,1,2,3,4].map(k=>T.board[k]?pcard(T.board[k],{cls:k>=bseen?'deal':'',st:k>=bseen?`animation-delay:${(k-bseen)*.15}s`:''}):'<div class="pcard slotc"></div>').join('')}</div><div class="pot">Pot <b>${fmt(T.pot)}</b></div></div></div></div>
+  <p class="tmsg big thmsg ${T.done?(T.youWin>T.mine?'gw':T.youWin?'':'gl'):''}">${T.done?T.res:yourTurn?`Your turn · ${toCall>0?fmt(toCall)+' to call':'check or bet'}`:T.msg||'Dealing…'}</p>
+  <div class="gbtns">${T.done?`<button class="btn" data-act="thnew">Deal next hand</button>`:yourTurn?`<button class="btn ghost" data-act="thfold">Fold</button><button class="btn" data-act="thcall">${toCall>0?'Call '+fmt(toCall):'Check'}</button><button class="btn" data-act="thraise" ${T.raises>=4||S.cash<toCall+step?'disabled':''}>${toCall>0?'Raise':'Bet'} ${fmt(T.curBet+step)}</button>`:`<button class="btn ghost" disabled>Waiting for players…</button>`}</div>`;
+}
+
 /* ---------- casino tab ---------- */
 function betBar(){return `<div class="betbar"><button class="btn ghost" data-act="betdn" aria-label="Lower bet">−</button><div class="betv"><small>Bet</small><b class="money">${fmt(G.bet)}</b></div><button class="btn ghost" data-act="betup" aria-label="Raise bet">+</button><button class="btn ghost" data-act="betmax">Max</button></div>`}
-function drawGame(){const g=$('#gamebox');if(!g)return;g.innerHTML=({slots:vSlots,bj:vBJ,bac:vBac,vp:vVP})[G.game]();const b=$('#betbox');if(b)b.innerHTML=betBar();const st=$('#gstats');if(st)st.innerHTML=gStats();header(Date.now())}
+function drawGame(){const g=$('#gamebox');if(!g)return;g.innerHTML=({slots:vSlots,bj:vBJ,bac:vBac,th:vTH})[G.game]();const b=$('#betbox');if(b)b.innerHTML=betBar();const st=$('#gstats');if(st)st.innerHTML=gStats();header(Date.now())}
 const gStats=()=>{const s=S.gs||{played:0,won:0,staked:0,best:0};return `<div class="stat"><small>Games played</small><b>${s.played}</b></div><div class="stat"><small>Net result</small><b class="${s.won-s.staked>=0?'upc':'dnc'}">${fmt(s.won-s.staked)}</b></div><div class="stat"><small>Best win</small><b>${fmt(s.best)}</b></div>`};
 function vPlay(){
   if(S.bet&&!G.init){G.bet=S.bet}G.init=1;
-  const tabs=[['slots','Slots'],['bj','Blackjack'],['bac','Baccarat'],['vp','Poker']];
+  const tabs=[['slots','Slots'],['bj','Blackjack'],['bac','Baccarat'],['th','Hold\'em']];
   return `<div class="card casinoban"><div class="grow"><h3>Tycoon Casino</h3><p class="sub">Play money only: bets use your game cash.</p></div><div class="chipstack">${['#c0263b','#2f63c8','#0d6b47','#e9b92f'].map((c,k)=>`<i style="background:${c};transform:translateY(${-k*5}px)"></i>`).join('')}</div></div>
   <div class="seg">${tabs.map(([k,n])=>`<button class="${G.game===k?'on':''}" data-act="game" data-v="${k}">${n}</button>`).join('')}</div>
-  <div id="betbox">${betBar()}</div><div id="gamebox">${({slots:vSlots,bj:vBJ,bac:vBac,vp:vVP})[G.game]()}</div>
+  <div id="betbox">${betBar()}</div><div id="gamebox">${({slots:vSlots,bj:vBJ,bac:vBac,th:vTH})[G.game]()}</div>
   <div class="card"><div class="stats" id="gstats" style="margin:0">${gStats()}</div></div>`;
 }
+
+/* ---------- owner password for test purchases (only a hash is stored here) ---------- */
+const PW_SHA='d513f55f3ad2358e9f958253a42763f020185756de802c58efa7765a91e8dd7e',PW_FNV='b3acee95';
+async function pwHash(t){try{if(crypto&&crypto.subtle){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(t));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}}catch(e){}let f=2166136261;for(const ch of t){f^=ch.charCodeAt(0);f=Math.imul(f,16777619)>>>0}return 'fnv:'+f.toString(16)}
+async function pwCheck(){const f=$('#pwIn'),m=$('#pwMsg');if(!f)return;const hsh=await pwHash(f.value);
+  if(hsh===PW_SHA||hsh==='fnv:'+PW_FNV){ui.owner=true;const id=ui.sheet&&ui.sheet.id;ui.sheet=null;renderSheet();toast('Owner unlocked for this session');if(id)A.iap({id})}
+  else{if(m)m.textContent='Wrong password. Purchases are locked during testing.';f.value='';f.focus()}}
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='pwIn')pwCheck();if(e.key==='Enter'&&e.target.id==='empIn')startEmpire()});
+/* ---------- start screen ---------- */
+function showStart(){if(S.empire)return;const el=document.createElement('div');el.id='start';el.innerHTML=`<div class="st-card"><div class="st-coin"><span>$</span></div><h1>Businessman Tycoon</h1><p>Build an empire from a single coin: taxis, oil rigs, airlines, casinos and a seat on the billionaires list.</p><label for="empIn">Name your business empire</label><input id="empIn" class="inp" maxlength="28" placeholder="e.g. Bilal Holdings" autocomplete="off"><button class="btn" id="empGo" data-act="empgo">Start my empire</button><small>Your progress saves on this device.</small></div>`;document.body.appendChild(el);setTimeout(()=>{const i=$('#empIn');if(i)i.focus()},300)}
+function startEmpire(){const i=$('#empIn');const n=(i&&i.value.trim())||'';if(!n){if(i){i.focus();i.classList.add('shake');setTimeout(()=>i.classList.remove('shake'),500)}return}S.empire=n.slice(0,28);save();const el=$('#start');if(el){el.classList.add('bye');setTimeout(()=>el.remove(),450)}render();toast('Welcome to '+S.empire+'. Tap the coin to earn your first dollar.')}
 
 /* ---------- render ---------- */
 const $=s=>document.querySelector(s);
@@ -1441,13 +1520,14 @@ function render(){
   $('#main').innerHTML=({home:vHome,biz:vBiz,prop:vProp,markets:vMarkets,cards:vCards,shop:vShop,you:vYou,play:vPlay})[ui.view]();
   document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===ui.view));
   const nt=$('.tabs');if(nt)nt.scrollLeft=ui.tx[ui.view]||0;
-  $('#hdrAv').innerHTML=avatarSvg(26,1);const bt=document.querySelector('.brand');if(bt)bt.children[1].textContent=S.iap&&S.iap.vip?'Businessman Tycoon · VIP':'Businessman Tycoon';
+  $('#hdrAv').innerHTML=avatarSvg(26,1);const bt=document.querySelector('.brand');if(bt)bt.children[1].textContent=(S.empire||'Businessman Tycoon')+(S.iap&&S.iap.vip?' · VIP':'');
   mountRoom();
   renderSheet();header(Date.now());live(Date.now());
 }
 function renderSheet(){
   const el=$('#sheet');if(!ui.sheet){el.hidden=true;el.dataset.k='';return}
   el.hidden=false;
+  if(ui.sheet.t==='pw'){if(el.dataset.k==='pw'+ui.sheet.id)return;el.dataset.k='pw'+ui.sheet.id;$('#sheetBody').innerHTML=`<div style="text-align:center"><div class="lockic"><svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="var(--brand)" stroke-width="2"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></div><h3>Owner password</h3><p class="sub" style="margin:6px 0 12px">Purchases in this test version are locked. Enter the owner password to continue.</p><input id="pwIn" class="inp" type="password" autocomplete="current-password" placeholder="Password" aria-label="Owner password"><p id="pwMsg" class="sub" style="color:var(--red);min-height:18px;margin:6px 0"></p><div class="ripbar"><button class="btn ghost" data-act="close">Cancel</button><button class="btn" data-act="pwgo">Unlock</button></div></div>`;return}
   if(ui.sheet.t==='tcard'){const K=ensureTC(),i=ui.sheet.i,key='c'+i+'|'+K.p[i]+'|'+ownedN(i)+'|'+(S.cash>=K.p[i]);if(el.dataset.k===key)return;el.dataset.k=key;$('#sheetBody').innerHTML=sheetTC(i);return}
   if(ui.sheet.t==='rip'){const key='r'+ui.sheet.stage+ui.sheet.idx+'|'+ui.sheet.cards.length+'|'+sealedOf(ui.sheet.set)+'|'+(ui.sheet.many||0);if(el.dataset.k===key)return;el.dataset.k=key;$('#sheetBody').innerHTML=sheetRip();return}
   if(ui.sheet.t==='buy'){const b=ui.sheet;$('#sheetBody').innerHTML=`<div style="text-align:center;padding:6px 4px"><div style="width:64px;height:64px;border-radius:50%;background:var(--up);display:grid;place-items:center;margin:0 auto 12px"><svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><h3 style="font-size:22px">Purchase successful</h3><p style="margin:10px 0 4px"><b>${esc(b.name)}</b> · ${b.price}</p><p class="sub">You got ${esc(b.msg)}.</p><p class="sub" style="margin-top:10px;font-size:11.5px">Test mode: no payment was taken.</p><button class="btn" style="width:100%;margin-top:16px" data-act="close">Done</button></div>`;return}
@@ -1539,19 +1619,20 @@ const A={
   ripnext:()=>{const R=ui.sheet;if(!R||R.stage!=='reveal')return;if(R.idx<R.cards.length-1){R.idx++}else R.stage='done';renderSheet()},
   ripskip:()=>{const R=ui.sheet;if(R){R.stage='done';renderSheet()}},
   ripall:()=>{const K=ensureTC(),s=ui.tcs===-1?-1:(ui.tcs||0),n=sealedOf(s);if(n<1)return;let cards=[];for(let k=0;k<n;k++)cards=cards.concat(s===-1?rollClassic():rollPack(s));addSealed(s,-n);ui.sheet={t:'rip',set:s,stage:'done',cards,idx:0,many:n};render()},
-  game:d=>{if(G.spinning)return;G.game=d.v;render()},
+  game:d=>{if(G.spinning)return;if(G.th&&!G.th.done&&G.game==='th'&&d.v!=='th')return toast('Finish this hand first');G.game=d.v;render()},
   spin:()=>{spin();return 'nosave'},
   betup:()=>{G.bet=BETS.find(b=>b>G.bet)||G.bet;S.bet=G.bet;drawGame()},
   betdn:()=>{G.bet=[...BETS].reverse().find(b=>b<G.bet)||BETS[0];S.bet=G.bet;drawGame()},
   betmax:()=>{G.bet=Math.max(10,Math.floor(S.cash));S.bet=G.bet;drawGame()},
   bjdeal:()=>bjDeal(),bjhit:()=>bjHit(),bjstand:()=>bjStand(),bjdouble:()=>bjDouble(),
   bac:d=>bacDeal(d.v),
-  vpdeal:()=>vpDeal(),vpdraw:()=>vpDraw(),
-  vphold:d=>{const V=G.vp;if(!V||V.stage!=='hold')return;V.hold[+d.i]^=1;drawGame()},
-  iap:d=>{const it=IAPS.find(x=>x.id===d.id);if(!it||(it.one&&iapOwned(it)))return;if(it.can&&it.can())return toast(it.can());if(!S.iap)S.iap={};const msg=it.grant();if(it.one)S.iap[it.id]=true;ui.sheet={t:'buy',name:it.name,price:it.price,msg};render()},
+  empgo:()=>startEmpire(),
+  thnew:()=>thNew(),thfold:()=>thYou('fold'),thcall:()=>thYou('call'),thraise:()=>thYou('raise'),
+  pwgo:()=>pwCheck(),
+  iap:d=>{const it=IAPS.find(x=>x.id===d.id);if(!it||(it.one&&iapOwned(it)))return;if(it.can&&it.can())return toast(it.can());if(!ui.owner){ui.sheet={t:'pw',id:it.id};renderSheet();setTimeout(()=>{const f=$('#pwIn');if(f)f.focus()},120);return}if(!S.iap)S.iap={};const msg=it.grant();if(it.one)S.iap[it.id]=true;ui.sheet={t:'buy',name:it.name,price:it.price,msg};render()},
   pack:d=>{const[n,v]=PACKS[+d.i];S.cash+=v;toast(n+': +'+fmt(v));render()},
   askReset:()=>{ui.sheet={t:'reset'};renderSheet()},
-  reset:()=>{S=fresh();ui.sheet=null;ui.view='home';ui.open=-1;ui.copen=-1;save();render();toast('Fresh start')},
+  reset:()=>{setTimeout(showStart,300);S=fresh();ui.sheet=null;ui.view='home';ui.open=-1;ui.copen=-1;save();render();toast('Fresh start')},
   watchAd:()=>{S.boostUntil=Math.max(Date.now(),S.boostUntil||0)+BOOST_MS;toast('Boost on: +'+BOOST_TPS+' taps/sec for 1 minute');live(Date.now())},
   /* testing: ads skipped for now — rename playAd back to watchAd to restore the 15-second ad */
   playAd:()=>{const ks=Object.keys(BIZNAME);ui.sheet={t:'ad',end:Date.now()+AD_MS,done:false,biz:ks[Math.floor(Math.random()*ks.length)]};renderSheet()},
@@ -1587,7 +1668,7 @@ document.addEventListener('click',e=>{if(eatClick){eatClick=false;return}const b
  if(offG>0)setTimeout(()=>toast('While you were away you earned '+fmt(offG)+offTxt()),400);
  if(S.team.tour&&S.team.tour.start<now-3600000)S.team.tour.start=now-3600000;
  processTour(now);}
-render();
+render();showStart();
 /* earnings accrue continuously: every 5 ms of game time pays income/12000, drawn every screen frame */
 let lastAcc=Date.now();
 function accrue(){const now=Date.now(),dt=Math.min(now-lastAcc,5000);if(dt>=5){const steps=Math.floor(dt/5);earn(income()/12000*steps);lastAcc+=steps*5;$('#cash').textContent=cashText()}mapTick(now);requestAnimationFrame(accrue)}
@@ -1609,7 +1690,7 @@ const loop=setInterval(()=>{
 </script>
 <script>
 /* auto-update: when a newer version is on GitHub, reload into it (progress is kept) */
-(function(){const BUILD='1795670351';
+(function(){const BUILD='1795693606';
  async function check(){try{const t=await fetch(location.pathname+'?check='+Date.now(),{cache:'no-store'}).then(r=>r.text());const m=t.match(/const BUILD='(\d+)'/);if(m&&m[1]!==BUILD)location.replace(location.pathname+'?v='+m[1])}catch(e){}}
  addEventListener('load',()=>setTimeout(check,1500));document.addEventListener('visibilitychange',()=>{if(!document.hidden)check()});setInterval(check,300000);
 })();
